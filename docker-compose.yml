@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  bizyeriz.webapi:
+    image: ${DOCKER_REGISTRY-}bizyerizwebapi
+    build:
+      context: .
+      dockerfile: src/Presentation/bizYeriz.WebApi/Dockerfile
+    environment:
+      - ConnectionStrings:DefaultConnection=Host=yerizDb;Port=5432;Database=drivers;Username=postgres;Password=postgres
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+
+  yerizDb:
+    image: postgres:latest
+    container_name: yerizDb
+    environment:
+      - POSTGRES_DB=drivers
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./ .containers/drivers-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
