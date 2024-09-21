@@ -1,5 +1,5 @@
 ﻿using bizYeriz.Domain.Entities.AuthEntities;
-using Core.Security.Hashing;
+using bizYeriz.Shared.Security;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;

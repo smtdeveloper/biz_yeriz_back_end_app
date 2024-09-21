@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core.Security\Core.Security.csproj" />
     <ProjectReference Include="..\..\Core\bizyeriz.Application\bizyeriz.Application.csproj" />
   </ItemGroup>
 
