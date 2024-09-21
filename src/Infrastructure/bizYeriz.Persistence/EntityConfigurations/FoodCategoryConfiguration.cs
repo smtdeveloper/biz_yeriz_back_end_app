@@ -7,6 +7,7 @@ public class FoodCategoryConfiguration : IEntityTypeConfiguration<FoodCategory>
 {
     public void Configure(EntityTypeBuilder<FoodCategory> builder)
     {
+
         builder.ToTable("FoodCategories").HasKey(fc => fc.Id);
 
         builder.Property(fc => fc.Id).HasColumnName("Id").IsRequired();
