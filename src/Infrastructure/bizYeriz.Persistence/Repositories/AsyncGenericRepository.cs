@@ -1,4 +1,6 @@
-﻿using bizyeriz.Application.Interfaces.Repositories;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using bizyeriz.Application.Interfaces.Repositories;
 using System.Linq.Expressions;
 
 namespace bizYeriz.Persistence.Repositories;
@@ -7,35 +9,42 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
 {
 
     protected readonly AppDbContext _context;
+    protected readonly IMapper _mapper; 
     private readonly DbSet<TEntity> _dbSet;
-    public AsyncGenericRepository(AppDbContext context)
+    public AsyncGenericRepository(AppDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
         _dbSet = _context.Set<TEntity>();
     }
 
 
-    public async Task AddAsync(TEntity entity)
+    public async Task AddAsync(TEntity entity ,CancellationToken cancellationToken)
     {
         await _dbSet.AddAsync(entity);
     }
 
-    public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
     {
         await _dbSet.AddRangeAsync(entities);
     }
 
-    public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
+    public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
     {
         return await _dbSet.AnyAsync(expression);
     }
 
-    public IQueryable<TEntity> GetAll()
+    public async Task<ICollection<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression, CancellationToken cancellationToken)
     {
-        return _dbSet.AsNoTracking().AsQueryable();
+        var result = _dbSet.AsQueryable();
+
+        if (expression != null)
+            result = result.Where(expression);
+
+        return await result.ToListAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetByIdAsync(TEntityId id)
+    public async Task<TEntity> GetByIdAsync(TEntityId id, CancellationToken cancellationToken)
     {
         return await _dbSet.FindAsync(id);
     }
@@ -64,4 +73,12 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
         _dbSet.UpdateRange(entities);   
     }
 
+    public async Task<ICollection<TResponse>> GetAllAsync<TResponse>(Expression<Func<TResponse, bool>>? exp, CancellationToken cancellationToken)
+    {
+        var query = _dbSet.AsNoTracking().AsQueryable().ProjectTo<TResponse>(_mapper.ConfigurationProvider);
+        if (exp is not null)
+            query = query.Where(exp);
+
+        return await query.ToListAsync(cancellationToken: cancellationToken);
+    }
 }

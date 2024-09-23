@@ -2,14 +2,14 @@
 
 namespace bizyeriz.Application.Interfaces.Repositories;
 
-public interface IAsyncGenericRepository<TEntity,TEntityId> where TEntity : class
+public interface IAsyncGenericRepository<TEntity, TEntityId> where TEntity : class
 {
-    Task<TEntity> GetByIdAsync(TEntityId id);
-    IQueryable<TEntity> GetAll();
-    IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression);
-    Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression);
-    Task AddAsync(TEntity entity);
-    Task AddRangeAsync(IEnumerable<TEntity> entities);
+    Task<TEntity> GetByIdAsync(TEntityId id, CancellationToken cancellationToken);
+    Task<ICollection<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression, CancellationToken cancellationToken);
+    Task<ICollection<TResponse>> GetAllAsync<TResponse>(Expression<Func<TResponse, bool>>? exp, CancellationToken cancellationToken);
+    Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
+    Task AddAsync(TEntity entity, CancellationToken cancellationToken);
+    Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
     void Update(TEntity entity);
     void UpdateRange(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);
