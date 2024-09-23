@@ -18,8 +18,9 @@ public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery,
 
     public async Task<GetAllCompaniesQueryResponse> Handle(GetAllCompaniesQuery request, CancellationToken cancellationToken)
     {
-        List<Company> companies =  _companyRepository.GetAll().ToListAsync();
-        var result =  _mapper.Map<GetAllCompaniesQueryResponse>(companies);  
-        return
+        var companies = await _companyRepository.GetAllAsync<GetAllCompaniesQueryResponse>(cancellationToken);
+        var result =  _mapper.Map<GetAllCompaniesQueryResponse>(companies);
+        return result;
     }
+
 }

@@ -11,6 +11,8 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
     protected readonly AppDbContext _context;
     protected readonly IMapper _mapper; 
     private readonly DbSet<TEntity> _dbSet;
+    private AppDbContext context;
+
     public AsyncGenericRepository(AppDbContext context, IMapper mapper)
     {
         _context = context;
@@ -18,6 +20,10 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
         _dbSet = _context.Set<TEntity>();
     }
 
+    public AsyncGenericRepository(AppDbContext context)
+    {
+        this.context = context;
+    }
 
     public async Task AddAsync(TEntity entity ,CancellationToken cancellationToken)
     {
@@ -34,15 +40,7 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
         return await _dbSet.AnyAsync(expression);
     }
 
-    public async Task<ICollection<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression, CancellationToken cancellationToken)
-    {
-        var result = _dbSet.AsQueryable();
 
-        if (expression != null)
-            result = result.Where(expression);
-
-        return await result.ToListAsync(cancellationToken);
-    }
 
     public async Task<TEntity> GetByIdAsync(TEntityId id, CancellationToken cancellationToken)
     {
@@ -73,11 +71,21 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
         _dbSet.UpdateRange(entities);   
     }
 
-    public async Task<ICollection<TResponse>> GetAllAsync<TResponse>(Expression<Func<TResponse, bool>>? exp, CancellationToken cancellationToken)
+    public async Task<ICollection<TEntity>> GetAllAsync(CancellationToken cancellationToken, Expression<Func<TEntity, bool>>? expression = null)
     {
-        var query = _dbSet.AsNoTracking().AsQueryable().ProjectTo<TResponse>(_mapper.ConfigurationProvider);
-        if (exp is not null)
-            query = query.Where(exp);
+        var result = _dbSet.AsQueryable();
+
+        if (expression != null)
+            result = result.Where(expression);
+
+        return await result.ToListAsync(cancellationToken);
+    }
+
+    public async Task<ICollection<TProjectionDto>> GetAllAsync<TProjectionDto>(CancellationToken cancellationToken, Expression<Func<TProjectionDto, bool>>? expression = null)
+    {
+        var query = _dbSet.AsQueryable().ProjectTo<TProjectionDto>(_mapper.ConfigurationProvider);
+        if (expression is not null)
+            query = query.Where(expression);
 
         return await query.ToListAsync(cancellationToken: cancellationToken);
     }
