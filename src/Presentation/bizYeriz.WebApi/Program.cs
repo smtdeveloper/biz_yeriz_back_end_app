@@ -1,6 +1,9 @@
+using bizyeriz.Application;
 using bizYeriz.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddApplicationRegistration();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
