@@ -1,5 +1,4 @@
 ﻿namespace bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
 
-internal class DeleteCompanyQuery
-{
-}
+public record DeleteCompanyQuery(Guid Id) : IRequest<DeleteCompanyQueryResponse>;
+

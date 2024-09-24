@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using bizyeriz.Application.Features.Companies.Commands.AddCompany;
+using bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
 using bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
 using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 using bizYeriz.Domain.Entities.CompanyEntities;
@@ -11,5 +13,7 @@ public class CompanyMappings : Profile
     {
         CreateMap<Company, GetCompanyByIdQueryResponse>().ReverseMap();
         CreateMap<Company, GetAllCompaniesQueryResponse>().ReverseMap();
+        CreateMap<Company, AddCompanyQueryResponse>().ReverseMap();
+        CreateMap<Company, DeleteCompanyQueryResponse>().ReverseMap();
     }
 }

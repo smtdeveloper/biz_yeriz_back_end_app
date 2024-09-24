@@ -57,9 +57,10 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
         _dbSet.RemoveRange(entities);
     }
 
-    public void Update(TEntity entity)
+    public async Task<TEntity> Update(TEntity entity)
     {
         _dbSet.Update(entity);
+        return entity;        
     }
 
     public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression)

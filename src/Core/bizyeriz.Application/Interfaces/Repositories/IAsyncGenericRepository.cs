@@ -10,7 +10,7 @@ public interface IAsyncGenericRepository<TEntity, TEntityId> where TEntity : cla
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
     Task AddAsync(TEntity entity, CancellationToken cancellationToken);
     Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
-    void Update(TEntity entity);
+    Task<TEntity> Update(TEntity entity);
     void UpdateRange(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);
     void RemoveRange(IEnumerable<TEntity> entities);
