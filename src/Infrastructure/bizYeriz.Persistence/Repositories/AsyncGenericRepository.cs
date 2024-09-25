@@ -25,9 +25,10 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
         this.context = context;
     }
 
-    public async Task AddAsync(TEntity entity ,CancellationToken cancellationToken)
+    public async Task<TEntity> AddAsync(TEntity entity ,CancellationToken cancellationToken)
     {
         await _dbSet.AddAsync(entity);
+        return entity;
     }
 
     public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)

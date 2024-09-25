@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using bizyeriz.Application.Interfaces.Repositories;
 
 namespace bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
