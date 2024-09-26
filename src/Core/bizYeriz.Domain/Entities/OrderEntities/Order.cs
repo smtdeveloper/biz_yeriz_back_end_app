@@ -4,8 +4,8 @@ public class Order : BaseEntity<int>
 {
     public Guid CustomerId { get; set; }
     public Guid CompanyId { get; set; }
-    public Guid CompanyCommentId { get; set; }
-    public Guid CustomerAddressId { get; set; }
+    public int CompanyCommentId { get; set; }
+    public int CustomerAddressId { get; set; }
 
     public string OrderStatus { get; set; } = default!; //Enum
     public decimal TotalAmount { get; set; }

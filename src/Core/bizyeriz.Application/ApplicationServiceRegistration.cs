@@ -5,13 +5,13 @@ namespace bizyeriz.Application;
 
 public static class ApplicationServiceRegistration
 {
-    public static void AddApplicationRegistration(this IServiceCollection services) 
+    public static void AddApplicationServices(this IServiceCollection services) 
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());            
         });
-
+       
     }
 }

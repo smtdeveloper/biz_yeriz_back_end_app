@@ -21,6 +21,11 @@ public class Food : BaseEntity<int>
 
     public virtual Company Company { get; set; }
 
+    public Food()
+    {
+        
+    }
+
     public Food(int id, string name, bool isActive, bool ısDelete)
     {
         Id = id;

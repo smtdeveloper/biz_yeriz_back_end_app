@@ -3,7 +3,8 @@ using bizYeriz.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationRegistration();
+
+builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
