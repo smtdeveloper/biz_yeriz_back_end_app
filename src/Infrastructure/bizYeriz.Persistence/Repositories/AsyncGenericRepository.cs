@@ -15,18 +15,24 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
 
     public AsyncGenericRepository(AppDbContext context, IMapper mapper)
     {
-        _context = context;
-        _mapper = mapper;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _dbSet = _context.Set<TEntity>();
     }
+
 
     public AsyncGenericRepository(AppDbContext context)
     {
         this.context = context;
     }
 
+
     public async Task<TEntity> AddAsync(TEntity entity ,CancellationToken cancellationToken)
     {
+        if (entity == null)
+        {
+            throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");
+        }
         await _dbSet.AddAsync(entity);
         return entity;
     }

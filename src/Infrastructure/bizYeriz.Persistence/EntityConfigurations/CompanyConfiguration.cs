@@ -21,9 +21,9 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 
         builder.Property(c => c.City).HasColumnName("City").IsRequired();
         builder.Property(c => c.District).HasColumnName("District").IsRequired();
-        builder.Property(c => c.Neighbarhood).HasColumnName("Neighbarhood").IsRequired();
+        builder.Property(c => c.Neighborhood).HasColumnName("Neighborhood").IsRequired();
         builder.Property(c => c.Street).HasColumnName("Street").IsRequired();
-        builder.Property(c => c.AddreesDetail).HasColumnName("AddreesDetail").IsRequired();
+        builder.Property(c => c.AddressDetail).HasColumnName("AddressDetail").IsRequired();
         builder.Property(c => c.MapUrl).HasColumnName("MapUrl").IsRequired();
         builder.Property(c => c.Lat).HasColumnName("Lat").IsRequired();
         builder.Property(c => c.Long).HasColumnName("Long").IsRequired();

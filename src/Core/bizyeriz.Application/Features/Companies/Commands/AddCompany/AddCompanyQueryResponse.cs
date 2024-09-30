@@ -10,6 +10,7 @@ public class AddCompanyQueryResponse
     public double StarRating { get; set; }
     public double RatingCount { get; set; }
 
+
     public string City { get; set; } = default!;
     public string District { get; set; } = default!;
     public string Neighbarhood { get; set; } = default!;
@@ -18,6 +19,7 @@ public class AddCompanyQueryResponse
     public string MapUrl { get; set; } = default!;
     public double Lat { get; set; }
     public double Long { get; set; }
+
 
     public string CompanyTypeName { get; set; } = default!;
     public string CompanyTypeDescription { get; set; } = default!;
