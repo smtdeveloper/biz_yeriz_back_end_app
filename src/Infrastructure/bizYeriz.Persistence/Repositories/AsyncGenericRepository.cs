@@ -10,20 +10,13 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
 
     protected readonly AppDbContext _context;
     protected readonly IMapper _mapper; 
-    private readonly DbSet<TEntity> _dbSet;
-    private AppDbContext context;
+    private DbSet<TEntity> _dbSet;  
 
     public AsyncGenericRepository(AppDbContext context, IMapper mapper)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _dbSet = _context.Set<TEntity>();
-    }
-
-
-    public AsyncGenericRepository(AppDbContext context)
-    {
-        this.context = context;
     }
 
 

@@ -16,6 +16,7 @@ namespace bizYeriz.Persistence
 
             // Register repositories and unit of work
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped(typeof(IAsyncGenericRepository<,>), typeof(AsyncGenericRepository<,>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

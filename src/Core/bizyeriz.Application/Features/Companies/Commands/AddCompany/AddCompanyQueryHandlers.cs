@@ -30,6 +30,7 @@ public class AddCompanyQueryHandlers : IRequestHandler<AddCompanyQuery, AddCompa
         await _businessRules.CheckIfCompanyIsNull(company);
 
         // Add the company to the repository
+        company.CreatedDate = DateTime.UtcNow;
         var addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
 
         // Commit changes using UnitOfWork

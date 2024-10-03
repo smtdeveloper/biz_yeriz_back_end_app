@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Features\Foods\Commands\DeleteFood\" />
   </ItemGroup>
 
   <ItemGroup>

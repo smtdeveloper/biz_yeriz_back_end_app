@@ -18,6 +18,7 @@ public class Food : BaseEntity<int>
 
 
     public virtual ICollection<FoodCategoryAndFood> FoodCategoryAndFoods { get; set; }
+    public virtual ICollection<CuisineCategoryAndFood>  CuisineCategoryAndFoods{ get; set; }
 
     public virtual Company Company { get; set; }
 
