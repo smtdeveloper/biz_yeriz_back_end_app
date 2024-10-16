@@ -2,5 +2,5 @@
 
 public class DeleteCompanyQueryResponse
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 }

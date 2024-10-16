@@ -13,7 +13,9 @@
   <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Features\Foods\Commands\DeleteFood\" />
+    <Folder Include="Features\Foods\Commands\UpdateFood\" />
+    <Folder Include="Features\Foods\Queries\GetAllFoods\" />
+    <Folder Include="Features\Foods\Queries\GetFoodById\" />
   </ItemGroup>
 
   <ItemGroup>

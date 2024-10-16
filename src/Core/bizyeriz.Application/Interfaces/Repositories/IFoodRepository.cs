@@ -2,6 +2,6 @@
 
 namespace bizyeriz.Application.Interfaces.Repositories;
 
-public interface IFoodRepository : IAsyncGenericRepository<Food, Guid>
+public interface IFoodRepository : IAsyncGenericRepository<Food, int>
 {
 }
