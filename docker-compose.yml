@@ -10,7 +10,6 @@ services:
       - ConnectionStrings:DefaultConnection=Host=yerizDb;Port=5432;Database=drivers;Username=postgres;Password=postgres
     ports:
       - "8080:8080"
-      - "8081:8081"
 
   yerizDb:
     image: postgres:latest
