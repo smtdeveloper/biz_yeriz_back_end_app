@@ -1,7 +1,4 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -12,17 +9,17 @@ COPY ["src/Infrastructure/bizYeriz.Persistence/bizYeriz.Persistence.csproj", "sr
 COPY ["src/Core/bizyeriz.Application/bizyeriz.Application.csproj", "src/Core/bizyeriz.Application/"]
 COPY ["src/Core/bizYeriz.Domain/bizYeriz.Domain.csproj", "src/Core/bizYeriz.Domain/"]
 COPY ["src/Shared/bizYeriz.Shared/bizYeriz.Shared.csproj", "src/Shared/bizYeriz.Shared/"]
-RUN dotnet restore "./src/Presentation/bizYeriz.WebApi/bizYeriz.WebApi.csproj"
+RUN dotnet restore "src/Presentation/bizYeriz.WebApi/bizYeriz.WebApi.csproj"
 COPY . .
 WORKDIR "/src/src/Presentation/bizYeriz.WebApi"
-RUN dotnet build "./bizYeriz.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "bizYeriz.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./bizYeriz.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "bizYeriz.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_URLS=http://*:8080
-ENTRYPOINT ["dotnet", "bizYeriz.WebApi.dll"]
+EXPOSE 8080
