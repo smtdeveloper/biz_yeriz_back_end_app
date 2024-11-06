@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   bizyeriz.webapi:
-    image: bizyerizwebapi
+    image: ${DOCKER_REGISTR}bizyerizwebapi
     build:
       context: .
       dockerfile: src/Presentation/bizYeriz.WebApi/Dockerfile
