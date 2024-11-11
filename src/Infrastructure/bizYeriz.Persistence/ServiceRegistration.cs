@@ -1,4 +1,5 @@
 ﻿using bizyeriz.Application.Features.Companies.BusinessRules;
+using bizyeriz.Application.Features.Companies.Profiles;
 using bizyeriz.Application.Features.Foods.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
@@ -27,7 +28,7 @@ namespace bizYeriz.Persistence
 
 
             // Register AutoMapper
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());           
         }
     }
 }
