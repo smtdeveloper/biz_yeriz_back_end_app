@@ -1,8 +1,11 @@
-﻿namespace bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
+﻿using System.Security.Cryptography;
+
+namespace bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
 
 public class GetAllCompaniesQueryResponse
 {
-
+    public Guid Id { get; set; }
+    
     public string Name { get; set; } = default!;
     public string? ImageUrl { get; set; }
     public double StarRating { get; set; }
@@ -12,5 +15,8 @@ public class GetAllCompaniesQueryResponse
   
     public bool EnvironmentallyFriendly { get; set; }
     public bool IsTrustworthy { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime? UpdatedDate { get; set; }
+    public DateTime? DeletedDate { get; set; }
 
 }

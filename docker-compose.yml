@@ -2,7 +2,10 @@ version: '3.4'
 
 services:
   bizyeriz.webapi:
-    image: webapi        
+    image: webapi
+    build:
+      context: .
+      dockerfile: src/Presentation/bizYeriz.WebApi/Dockerfile
     ports:
       - "8080:8080"
     environment:
