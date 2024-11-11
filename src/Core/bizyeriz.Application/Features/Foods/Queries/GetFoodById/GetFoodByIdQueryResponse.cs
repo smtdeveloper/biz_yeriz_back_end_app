@@ -2,6 +2,7 @@
 
 public class GetFoodByIdQueryResponse
 {
+    public int Id { get; set; }
     public Guid CompanyId { get; set; }
 
     public string Name { get; set; }

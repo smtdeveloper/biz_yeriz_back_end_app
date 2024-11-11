@@ -63,13 +63,15 @@ namespace bizYeriz.WebApi.Controllers
             catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
         }
 
-        [HttpGet("getbyid/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             if (id == null)
-                return BadRequest("Invalid company ID.");
-
-            try  
+                return BadRequest("Invalid company ID."); // handler içinde yap - canceltoken kullan
+            
+            // IResponse IDataResponse kullan!
+            // middeware  trycatch kullan!
+            try
             {
                 var query = new GetFoodByIdQuery(id);
                 var result = await _mediator.Send(query);
@@ -78,8 +80,8 @@ namespace bizYeriz.WebApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
         }
-
-        [HttpGet("getall")]
+            
+        [HttpGet("list")]
         public async Task<IActionResult> GetAll()
         {
             try

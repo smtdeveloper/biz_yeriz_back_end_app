@@ -23,20 +23,11 @@ public class AddCompanyQueryHandlers : IRequestHandler<AddCompanyQuery, AddCompa
 
     public async Task<AddCompanyQueryResponse> Handle(AddCompanyQuery request, CancellationToken cancellationToken)
     {
-        // Use AutoMapper to map from AddCompanyQuery to Company
         Company company = _mapper.Map<Company>(request);
-
-        // Business rule validation
         await _businessRules.CheckIfCompanyIsNull(company);
-
-        // Add the company to the repository
         company.CreatedDate = DateTime.UtcNow;
         var addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
-
-        // Commit changes using UnitOfWork
         await _unitOfWork.CommitAsync();
-
-        // Map the result back to the response type
         AddCompanyQueryResponse response = _mapper.Map<AddCompanyQueryResponse>(addedCompany);
         return response;
     }

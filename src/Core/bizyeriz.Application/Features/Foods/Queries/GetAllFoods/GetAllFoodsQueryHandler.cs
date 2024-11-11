@@ -4,7 +4,7 @@ using bizYeriz.Domain.Entities.FoodEntities;
 
 namespace bizyeriz.Application.Features.Foods.Queries.GetAllFoods;
 
-public class GetAllFoodsQueryHandler : IRequestHandler<GetAllFoodsQuery, GetAllFoodsQueryResponse>
+public class GetAllFoodsQueryHandler : IRequestHandler<GetAllFoodsQuery, List<GetAllFoodsQueryResponse>>
 {
     private readonly IFoodRepository _foodRepository;
     private readonly IMapper _mapper;
@@ -14,10 +14,10 @@ public class GetAllFoodsQueryHandler : IRequestHandler<GetAllFoodsQuery, GetAllF
         _mapper = mapper;
     }
 
-    public async Task<GetAllFoodsQueryResponse> Handle(GetAllFoodsQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetAllFoodsQueryResponse>> Handle(GetAllFoodsQuery request, CancellationToken cancellationToken)
     {
         var foods = await _foodRepository.GetAllAsync<GetAllFoodsQueryResponse>(cancellationToken);
-        var result = _mapper.Map<GetAllFoodsQueryResponse>(foods);
+        var result = _mapper.Map<List<GetAllFoodsQueryResponse>>(foods);
         return result;
     }
 
