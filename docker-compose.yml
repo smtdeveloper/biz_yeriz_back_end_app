@@ -8,12 +8,13 @@ services:
       context: .
       dockerfile: src/Presentation/bizYeriz.WebApi/Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=Host=bizyerizdb,5432;Database=bizyerizdb;User=codi;Password=codi4309;TrustServerCertificate=True
+      - ConnectionStrings__DefaultConnection=Server=bizyerizdb;Port=5432;Database=bizyerizdb;Username=codi;Password=codi4309;TrustServerCertificate=True
     ports:
       - "8080:8080"
     depends_on:
       bizyerizdb:
         condition: service_healthy    
+
   bizyerizdb:
     image: postgres:16
     container_name: bizyerizdb
@@ -22,9 +23,9 @@ services:
       - POSTGRES_USER=codi
       - POSTGRES_PASSWORD=codi4309
     ports:
-      - "5432:5432"
+      - "5432:5432"   
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U bizyerizdb"]
+      test: ["CMD-SHELL", "pg_isready -U codi"]
       interval: 10s
       timeout: 5s
       retries: 5
