@@ -19,5 +19,5 @@ RUN dotnet publish "bizYeriz.WebApi.csproj" -c Release -o /app/publish /p:UseApp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://*:8080
-EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "bizYeriz.WebApi.dll"]
