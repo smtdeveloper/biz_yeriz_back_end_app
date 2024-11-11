@@ -2,28 +2,27 @@ version: '3.4'
 
 services:
   bizyeriz.webapi:
-    image: ${DOCKER_REGISTR}bizyerizwebapi
+    image: bizyerizwebapi
+    container_name: bizyerizwebapi
     build:
       context: .
       dockerfile: src/Presentation/bizYeriz.WebApi/Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=bizyerizdb;Username=codi;Password=postgres123
+      - ConnectionStrings__DefaultConnection=Host=localhost,5432;Port=5432;Database=bizyerizdb;Username=codi;Password=codi4309
     ports:
       - "8080:8080"
     depends_on:
-      yerizDb:
+      bizyerizdb:
         condition: service_healthy
     command: ["sh", "-c", "dotnet ef database update && dotnet bizYeriz.WebApi.dll"]
 
-  yerizDb:
+  bizyerizdb:
     image: postgres:16
-    container_name: yerizDb
+    container_name: bizyerizdb
     environment:
       - POSTGRES_DB=bizyerizdb
       - POSTGRES_USER=codi
-      - POSTGRES_PASSWORD=postgres123
-    volumes:
-      - ./.containers/drivers-db:/var/lib/postgresql/data
+      - POSTGRES_PASSWORD=codi4309
     ports:
       - "5432:5432"
     healthcheck:
@@ -31,3 +30,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - postgres_bizyeriz_volume:/var/lib/postgresql/data
+
+volumes:
+  postgres_bizyeriz_volume:
