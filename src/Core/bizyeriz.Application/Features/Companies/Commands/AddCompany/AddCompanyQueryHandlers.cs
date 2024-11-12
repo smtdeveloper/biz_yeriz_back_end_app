@@ -3,6 +3,7 @@ using bizyeriz.Application.Features.Companies.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
 using bizYeriz.Domain.Entities.CompanyEntities;
+using NetTopologySuite.Geometries;
 
 namespace bizyeriz.Application.Features.Companies.Commands.AddCompany;
 
@@ -26,8 +27,12 @@ public class AddCompanyQueryHandlers : IRequestHandler<AddCompanyQuery, AddCompa
         Company company = _mapper.Map<Company>(request);
         await _businessRules.CheckIfCompanyIsNull(company);
         company.CreatedDate = DateTime.UtcNow;
+
+        company.Location = new Point(request.Lat, request.Long);
+
         Company addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
         await _unitOfWork.CommitAsync();
+        
         AddCompanyQueryResponse response = _mapper.Map<AddCompanyQueryResponse>(addedCompany);
         return response;
     }

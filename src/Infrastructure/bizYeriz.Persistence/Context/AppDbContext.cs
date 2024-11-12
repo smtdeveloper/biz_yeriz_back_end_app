@@ -11,12 +11,12 @@ namespace bizYeriz.Persistence.Context
     {
 
         protected IConfiguration Configuration { get; set; }
-       
-        public DbSet<User> Users { get; set; }        
+
+        public DbSet<User> Users { get; set; }
         public DbSet<Food> Foods { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<CustomerAddress> CustomerAddresses { get; set; }
-        public DbSet<CompanyUser> CompanyUsers { get; set; }      
+        public DbSet<CompanyUser> CompanyUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CuisineCategory> KitchenCategories { get; set; }
         public DbSet<CuisineCategoryAndFood> CuisineCategoryAndFoods { get; set; }
@@ -40,9 +40,9 @@ namespace bizYeriz.Persistence.Context
             .WithOne(c => c.Order)
             .HasForeignKey<Order>(o => o.CompanyCommentId);  // Order entity'si bağımlı taraf olarak belirlendi
 
-
+            modelBuilder.HasPostgresExtension("postgis");
         }
 
-
     }
+
 }

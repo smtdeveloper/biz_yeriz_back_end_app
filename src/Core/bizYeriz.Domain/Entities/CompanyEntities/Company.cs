@@ -1,4 +1,7 @@
-﻿namespace bizYeriz.Domain.Entities.CompanyEntities;
+﻿
+using NetTopologySuite.Geometries;
+
+namespace bizYeriz.Domain.Entities.CompanyEntities;
 
 public class Company : BaseEntity<Guid>
 {
@@ -17,9 +20,9 @@ public class Company : BaseEntity<Guid>
     public string Street { get; set; } = default!;
     public string AddressDetail { get; set; } = default!;
     public string MapUrl { get; set; } = default!;
-    public double Lat { get; set; }
-    public double Long { get; set; }
-
+    //public double Lat { get; set; }
+    //public double Long { get; set; }
+    public Point? Location { get; set; }
 
     public string CompanyTypeName { get; set; } = default!;
     public string CompanyTypeDescription { get; set; } = default!;

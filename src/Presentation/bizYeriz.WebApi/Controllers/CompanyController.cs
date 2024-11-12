@@ -5,6 +5,7 @@ using bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
 using bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
 using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 using bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
+using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
 
 namespace bizYeriz.WebApi.Controllers
 {
@@ -79,6 +80,23 @@ namespace bizYeriz.WebApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
         }
+
+        [HttpGet("get-nearby-companies")]
+        public async Task<IActionResult> GetNearbyCompanies([FromQuery] double latitude, [FromQuery] double longitude, [FromQuery] double distance)
+        {
+            try
+            {
+                var query = new GetNearbyCompaniesQuery(latitude, longitude, distance);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
 
     }
 }

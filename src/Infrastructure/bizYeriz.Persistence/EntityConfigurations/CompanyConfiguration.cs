@@ -25,9 +25,8 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.Property(c => c.Street).HasColumnName("Street").IsRequired();
         builder.Property(c => c.AddressDetail).HasColumnName("AddressDetail").IsRequired();
         builder.Property(c => c.MapUrl).HasColumnName("MapUrl").IsRequired();
-        builder.Property(c => c.Lat).HasColumnName("Lat").IsRequired();
-        builder.Property(c => c.Long).HasColumnName("Long").IsRequired();
-
+        builder.Property(c => c.Location).HasColumnName("Location").HasColumnType("geography (point)").IsRequired(false);
+        
         builder.Property(c => c.CompanyTypeName).HasColumnName("CompanyTypeName").IsRequired();
         builder.Property(c => c.CompanyTypeDescription).HasColumnName("CompanyTypeDescription").IsRequired();
         builder.Property(c => c.CompanyTypeImageUrl).HasColumnName("CompanyTypeImageUrl").IsRequired();

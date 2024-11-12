@@ -15,8 +15,7 @@ public class AddCompanyQuery : IRequest<AddCompanyQueryResponse>
     public string AddressDetail { get; set; } 
     public string MapUrl { get; set; } 
     public double Lat { get; set; }
-    public double Long { get; set; }
-
+    public double Long { get; set; }   
     public string CompanyTypeName { get; set; } 
     public string CompanyTypeDescription { get; set; } 
     public string? CompanyTypeImageUrl { get; set; }

@@ -14,7 +14,8 @@ namespace bizYeriz.Persistence
         {
             // Register AppDbContext using Npgsql (PostgreSQL)
             services.AddDbContext<AppDbContext>(opt =>
-                opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+                opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), o => o.UseNetTopologySuite()));
+
 
             // Register repositories and unit of work
             services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -28,7 +29,7 @@ namespace bizYeriz.Persistence
 
 
             // Register AutoMapper
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());           
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
     }
 }
