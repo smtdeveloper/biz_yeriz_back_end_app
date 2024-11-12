@@ -22,9 +22,6 @@ namespace bizYeriz.WebApi.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] AddFoodQuery addFoodQuery)
         {
-            if (addFoodQuery == null)
-                return BadRequest("Invalid company data.");
-
             try
             {
                 var result = await _mediator.Send(addFoodQuery);
@@ -36,9 +33,6 @@ namespace bizYeriz.WebApi.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromBody] UpdateFoodQuery updateFoodQuery)
         {
-            if (updateFoodQuery.Id == null)
-                return BadRequest("Invalid company data.");
-
             try
             {
                 var result = await _mediator.Send(updateFoodQuery);
@@ -50,9 +44,6 @@ namespace bizYeriz.WebApi.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-                return BadRequest("Invalid company ID.");
-
             try
             {
                 var deleteCompanyQuery = new DeleteFoodQuery(id);
@@ -64,21 +55,21 @@ namespace bizYeriz.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            if (id == null)
-                return BadRequest("Invalid company ID."); // handler içinde yap - canceltoken kullan
-            
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+        {            
             // IResponse IDataResponse kullan!
             // middeware  trycatch kullan!
             try
             {
                 var query = new GetFoodByIdQuery(id);
-                var result = await _mediator.Send(query);
+                var result = await _mediator.Send(query, cancellationToken);
 
                 return Ok(result);
             }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
             
         [HttpGet("list")]

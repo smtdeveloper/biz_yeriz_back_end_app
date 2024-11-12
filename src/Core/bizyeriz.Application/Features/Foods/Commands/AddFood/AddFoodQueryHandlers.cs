@@ -28,7 +28,6 @@ public class AddFoodQueryHandlers : IRequestHandler<AddFoodQuery, AddFoodQueryRe
     {
         Food food = _mapper.Map<Food>(request);
         await _businessRules.CheckIfFoodIsNull(food);
-
         food.CreatedDate = DateTime.UtcNow;
         var addedCompany = await _foodRepository.AddAsync(food, cancellationToken);
         await _unitOfWork.CommitAsync();

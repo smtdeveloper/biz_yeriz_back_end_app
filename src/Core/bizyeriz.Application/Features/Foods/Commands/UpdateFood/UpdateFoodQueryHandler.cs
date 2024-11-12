@@ -2,6 +2,7 @@
 using bizyeriz.Application.Features.Foods.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
+using bizYeriz.Domain.Entities.FoodEntities;
 
 namespace bizyeriz.Application.Features.Foods.Commands.UpdateFood;
 
@@ -22,15 +23,13 @@ public class UpdateFoodQueryHandler : IRequestHandler<UpdateFoodQuery, UpdateFoo
 
     public async Task<UpdateFoodQueryResponse> Handle(UpdateFoodQuery request, CancellationToken cancellationToken)
     {
-        var company = await _foodRepository.GetByIdAsync(request.Id, cancellationToken);
-        await _businessRules.CheckIfFoodIsNull(company);
-
-        company = _mapper.Map(request, company);
-        var updatedCompany = await _foodRepository.Update(company!);
+        Food food = await _foodRepository.GetByIdAsync(request.Id, cancellationToken);
+        await _businessRules.CheckIfFoodIsNull(food);
+        food = _mapper.Map(request, food);
+        Food updatedCompany = await _foodRepository.Update(food!);
         await _unitOfWork.CommitAsync();
         await _businessRules.CheckIfFoodIsNull(updatedCompany);
-
-        UpdateFoodQueryResponse response = _mapper.Map<UpdateFoodQueryResponse>(company);
+        UpdateFoodQueryResponse response = _mapper.Map<UpdateFoodQueryResponse>(food);
         return response;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using bizyeriz.Application.Features.Companies.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
 using bizYeriz.Domain.Entities.CompanyEntities;
@@ -10,23 +11,20 @@ public class DeleteCompanyQueryHandler : IRequestHandler<DeleteCompanyQuery, Del
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    public DeleteCompanyQueryHandler(ICompanyRepository companyRepository, IMapper mapper, IUnitOfWork unitOfWork)
+    private readonly CompanyBusinessRules _companyBusinessRules;
+    public DeleteCompanyQueryHandler(ICompanyRepository companyRepository, IMapper mapper, IUnitOfWork unitOfWork, CompanyBusinessRules companyBusinessRules)
     {
         _companyRepository = companyRepository;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
+        _companyBusinessRules = companyBusinessRules;
     }
 
     public async Task<DeleteCompanyQueryResponse> Handle(DeleteCompanyQuery request, CancellationToken cancellationToken)
     {
         Company company = await _companyRepository.GetByIdAsync(request.Id, cancellationToken);
-
-        if (company == null)
-        {
-            throw new Exception("Company not found.");
-        }
-
-        _companyRepository.Remove(company);
+        _companyBusinessRules.CheckIfCompanyIsNull(company);
+        _companyRepository.Remove(company);        
         await _unitOfWork.CommitAsync();
         DeleteCompanyQueryResponse response = _mapper.Map<DeleteCompanyQueryResponse>(company);
         return response;

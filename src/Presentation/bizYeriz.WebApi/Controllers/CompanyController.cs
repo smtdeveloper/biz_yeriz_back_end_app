@@ -23,9 +23,6 @@ namespace bizYeriz.WebApi.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] AddCompanyQuery addCompanyQuery)
         {
-            if (addCompanyQuery == null)
-                return BadRequest("Invalid company data.");
-
             try
             {
                 var result = await _mediator.Send(addCompanyQuery);
@@ -37,9 +34,6 @@ namespace bizYeriz.WebApi.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromBody] UpdateCompanyQuery updateCompanyQuery)
         {
-            if (updateCompanyQuery.Id == null)
-                return BadRequest("Invalid company data.");
-
             try
             {
                 var result = await _mediator.Send(updateCompanyQuery);
@@ -51,9 +45,6 @@ namespace bizYeriz.WebApi.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == Guid.Empty)
-                return BadRequest("Invalid company ID.");
-
             try
             {
                 var deleteCompanyQuery = new DeleteCompanyQuery(id);
@@ -67,9 +58,6 @@ namespace bizYeriz.WebApi.Controllers
         [HttpGet("getbyid/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            if (id == Guid.Empty)
-                return BadRequest("Invalid company ID.");
-
             try
             {
                 var query = new GetCompanyByIdQuery(id);

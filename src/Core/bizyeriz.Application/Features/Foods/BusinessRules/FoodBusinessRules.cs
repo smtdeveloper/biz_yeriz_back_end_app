@@ -12,8 +12,7 @@ public class FoodBusinessRules
     {
         _foodRepository = foodRepository;
     }
-
-    // Entity'nin null olup olmadığını kontrol eden kural    
+    
     public async Task CheckIfFoodIsNull(Food food)
     {
         if (food == null)
@@ -21,4 +20,13 @@ public class FoodBusinessRules
             throw new Exception("The Food entity cannot be null.");
         }
     }
+
+    public async Task CheckIfIdIsValid(int id)
+    {
+        if (id <= 0)
+        {
+            throw new Exception("Invalid ID.");
+        }
+    }
+
 }
