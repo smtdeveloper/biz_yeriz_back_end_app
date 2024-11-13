@@ -5,12 +5,12 @@ public class GetNearbyCompaniesQueryResponse
     public Guid Id { get; set; }
 
     public string Name { get; set; } = default!;
+    public double Lat { get; set; }
+    public double Long { get; set; }
     public string? ImageUrl { get; set; }
     public double StarRating { get; set; }
     public double RatingCount { get; set; }
-
     public string CompanyTypeName { get; set; } = default!;
-
     public bool EnvironmentallyFriendly { get; set; }
     public bool IsTrustworthy { get; set; }
     public DateTime CreatedDate { get; set; }
