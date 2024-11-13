@@ -23,7 +23,7 @@ public class Company : BaseEntity<Guid>
     //public double Lat { get; set; }
     //public double Long { get; set; }
     public Point? Location { get; set; }
-
+    public double? Distance { get; set; }
     public string CompanyTypeName { get; set; } = default!;
     public string CompanyTypeDescription { get; set; } = default!;
     public string? CompanyTypeImageUrl { get; set; }

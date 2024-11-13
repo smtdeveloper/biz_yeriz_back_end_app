@@ -16,12 +16,9 @@ public class GetNearbyCompaniesQueryHandler : IRequestHandler<GetNearbyCompanies
 
     public async Task<List<GetNearbyCompaniesQueryResponse>> Handle(GetNearbyCompaniesQuery request, CancellationToken cancellationToken)
     {
-        var latitude = request.Latitude;
-        var longitude = request.Longitude;       
-        var distance = request.Distance;
-
-        var companies = await _companyRepository.GetNearbyCompaniesAsync(latitude, longitude, distance, cancellationToken);
-        return _mapper.Map<List<GetNearbyCompaniesQueryResponse>>(companies);
+        var companies = await _companyRepository.GetNearbyCompaniesAsync(request.Latitude, request.Longitude, request.Distance, cancellationToken);
+        return _mapper.Map<List<GetNearbyCompaniesQueryResponse>>(companies);        
     }
+
 }
 

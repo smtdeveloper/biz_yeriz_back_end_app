@@ -1,5 +1,4 @@
 ﻿using bizyeriz.Application.Features.Companies.BusinessRules;
-using bizyeriz.Application.Features.Companies.Profiles;
 using bizyeriz.Application.Features.Foods.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
