@@ -13,13 +13,13 @@ public class FoodMappings : Profile
 {
     public FoodMappings()
     {
-        CreateMap<AddFoodQuery, Food>();
+        CreateMap<AddFoodCommand, Food>();
         CreateMap<Food, GetFoodByIdQueryResponse>().ReverseMap();       
         CreateMap<Food, GetAllFoodsQueryResponse>().ReverseMap();       
-        CreateMap<Food, AddFoodQueryResponse>().ReverseMap();
-        CreateMap<Food, DeleteFoodQueryResponse>().ReverseMap();
-        CreateMap<Food, DeleteFoodQuery>().ReverseMap();
-        CreateMap<Food, UpdateFoodQueryResponse>().ReverseMap();
-        CreateMap<Food, UpdateFoodQuery>().ReverseMap();
+        CreateMap<Food, AddFoodCommandResponse>().ReverseMap();
+        CreateMap<Food, DeleteFoodCommandResponse>().ReverseMap();
+        CreateMap<Food, DeleteFoodCommand>().ReverseMap();
+        CreateMap<Food, UpdateFoodCommandResponse>().ReverseMap();
+        CreateMap<Food, UpdateFoodCommand>().ReverseMap();
     }
 }

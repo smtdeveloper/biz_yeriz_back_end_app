@@ -1,6 +1,6 @@
 ﻿namespace bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
 
-public class DeleteCompanyQueryResponse
+public class DeleteCompanyCommandResponse
 {
     public Guid Id { get; set; }
 }

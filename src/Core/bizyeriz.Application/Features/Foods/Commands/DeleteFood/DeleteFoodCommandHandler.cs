@@ -5,14 +5,14 @@ using bizyeriz.Application.Interfaces.UnitOfWork;
 
 namespace bizyeriz.Application.Features.Foods.Commands.DeleteFood;
 
-public class DeleteFoodQueryHandler : IRequestHandler<DeleteFoodQuery, DeleteFoodQueryResponse>
+public class DeleteFoodCommandHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodCommandResponse>
 {
     private readonly IFoodRepository _foodRepository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly FoodBusinessRules _foodBusinessRules;
 
-    public DeleteFoodQueryHandler(IFoodRepository foodRepository, IMapper mapper, IUnitOfWork unitOfWork, FoodBusinessRules foodBusinessRules)
+    public DeleteFoodCommandHandler(IFoodRepository foodRepository, IMapper mapper, IUnitOfWork unitOfWork, FoodBusinessRules foodBusinessRules)
     {
         _foodRepository = foodRepository;
         _mapper = mapper;
@@ -20,13 +20,13 @@ public class DeleteFoodQueryHandler : IRequestHandler<DeleteFoodQuery, DeleteFoo
         _foodBusinessRules = foodBusinessRules;
     }
 
-    public async Task<DeleteFoodQueryResponse> Handle(DeleteFoodQuery request, CancellationToken cancellationToken)
+    public async Task<DeleteFoodCommandResponse> Handle(DeleteFoodCommand request, CancellationToken cancellationToken)
     {
         var food = await _foodRepository.GetByIdAsync(request.Id, cancellationToken);
         _foodBusinessRules.CheckIfFoodIsNull(food);
         _foodRepository.Remove(food);
         await _unitOfWork.CommitAsync();
-        DeleteFoodQueryResponse response = _mapper.Map<DeleteFoodQueryResponse>(food);
+        DeleteFoodCommandResponse response = _mapper.Map<DeleteFoodCommandResponse>(food);
         return response;
     }
 

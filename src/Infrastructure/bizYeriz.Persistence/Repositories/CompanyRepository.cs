@@ -28,7 +28,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
                 StarRating = x.StarRating,
                 RatingCount = x.RatingCount,
                 Location = x.Location,
-                Distance = Math.Round(x.Location.Distance(point)), // Uzaklık değeri yuvarlanıyor
+                Distance = Math.Round(x.Location.Distance(point)),
                 CompanyTypeName = x.CompanyTypeName,
                 EnvironmentallyFriendly = x.EnvironmentallyFriendly,
                 IsTrustworthy = x.IsTrustworthy,

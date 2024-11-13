@@ -13,14 +13,14 @@ public class CompanyMappings : Profile
 {
     public CompanyMappings()
     {
-        CreateMap<AddCompanyQuery, Company>();
+        CreateMap<AddCompanyCommand, Company>();
         CreateMap<Company, GetCompanyByIdQueryResponse>().ReverseMap();
         CreateMap<Company, GetAllCompaniesQueryResponse>().ReverseMap();
-        CreateMap<Company, AddCompanyQueryResponse>().ReverseMap();
-        CreateMap<Company, DeleteCompanyQueryResponse>().ReverseMap();
-        CreateMap<Company, DeleteCompanyQuery>().ReverseMap();
-        CreateMap<Company, UpdateCompanyQueryResponse>().ReverseMap();
-        CreateMap<Company, UpdateCompanyQuery>().ReverseMap();        
+        CreateMap<Company, AddCompanyCommandResponse>().ReverseMap();
+        CreateMap<Company, DeleteCompanyCommandResponse>().ReverseMap();
+        CreateMap<Company, DeleteCompanyCommand>().ReverseMap();
+        CreateMap<Company, UpdateCompanyCommandResponse>().ReverseMap();
+        CreateMap<Company, UpdateCompanyCommand>().ReverseMap();        
         CreateMap<Company, GetNearbyCompaniesQueryResponse>().ReverseMap();
 
         CreateMap<Company, GetNearbyCompaniesQueryResponse>()

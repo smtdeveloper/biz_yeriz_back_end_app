@@ -4,7 +4,7 @@ using bizYeriz.Domain.Entities.OrderEntities;
 
 namespace bizyeriz.Application.Features.Companies.Commands.AddCompany;
 
-public class AddCompanyQueryResponse
+public class AddCompanyCommandResponse
 {
     public string Name { get; set; }
     public string? ImageUrl { get; set; }

@@ -6,14 +6,14 @@ using bizYeriz.Domain.Entities.FoodEntities;
 
 namespace bizyeriz.Application.Features.Foods.Commands.UpdateFood;
 
-public class UpdateFoodQueryHandler : IRequestHandler<UpdateFoodQuery, UpdateFoodQueryResponse>
+public class UpdateFoodCommandHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodCommandResponse>
 {
     private readonly IMapper _mapper;
     private readonly IFoodRepository _foodRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly FoodBusinessRules _businessRules;
 
-    public UpdateFoodQueryHandler(IMapper mapper, IFoodRepository foodRepository, IUnitOfWork unitOfWork, FoodBusinessRules businessRules)
+    public UpdateFoodCommandHandler(IMapper mapper, IFoodRepository foodRepository, IUnitOfWork unitOfWork, FoodBusinessRules businessRules)
     {
         _mapper = mapper;
         _foodRepository = foodRepository;
@@ -21,7 +21,7 @@ public class UpdateFoodQueryHandler : IRequestHandler<UpdateFoodQuery, UpdateFoo
         _businessRules = businessRules;
     }
 
-    public async Task<UpdateFoodQueryResponse> Handle(UpdateFoodQuery request, CancellationToken cancellationToken)
+    public async Task<UpdateFoodCommandResponse> Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
     {
         Food food = await _foodRepository.GetByIdAsync(request.Id, cancellationToken);
         await _businessRules.CheckIfFoodIsNull(food);
@@ -29,7 +29,7 @@ public class UpdateFoodQueryHandler : IRequestHandler<UpdateFoodQuery, UpdateFoo
         Food updatedCompany = await _foodRepository.Update(food!);
         await _unitOfWork.CommitAsync();
         await _businessRules.CheckIfFoodIsNull(updatedCompany);
-        UpdateFoodQueryResponse response = _mapper.Map<UpdateFoodQueryResponse>(food);
+        UpdateFoodCommandResponse response = _mapper.Map<UpdateFoodCommandResponse>(food);
         return response;
     }
 }

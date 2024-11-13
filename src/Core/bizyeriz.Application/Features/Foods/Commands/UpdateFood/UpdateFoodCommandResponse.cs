@@ -1,6 +1,6 @@
-﻿namespace bizyeriz.Application.Features.Foods.Commands.AddFood;
+﻿namespace bizyeriz.Application.Features.Foods.Commands.UpdateFood;
 
-public class AddFoodQueryResponse
+public class UpdateFoodCommandResponse
 {
     public Guid CompanyId { get; set; }
 

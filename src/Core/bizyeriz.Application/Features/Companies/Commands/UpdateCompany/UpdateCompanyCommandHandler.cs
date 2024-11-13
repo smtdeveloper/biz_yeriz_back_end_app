@@ -5,14 +5,14 @@ using bizyeriz.Application.Interfaces.UnitOfWork;
 
 namespace bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
 
-public class UpdateCompanyQueryHandler : IRequestHandler<UpdateCompanyQuery, UpdateCompanyQueryResponse>
+public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand, UpdateCompanyCommandResponse>
 {
     private readonly IMapper _mapper;
     private readonly ICompanyRepository _companyRepository;
     private readonly IUnitOfWork _unitOfWork; 
     private readonly CompanyBusinessRules _businessRules;
 
-    public UpdateCompanyQueryHandler(IMapper mapper, ICompanyRepository companyRepository, IUnitOfWork unitOfWork, CompanyBusinessRules businessRules)
+    public UpdateCompanyCommandHandler(IMapper mapper, ICompanyRepository companyRepository, IUnitOfWork unitOfWork, CompanyBusinessRules businessRules)
     {
         _mapper = mapper;
         _companyRepository = companyRepository;
@@ -20,7 +20,7 @@ public class UpdateCompanyQueryHandler : IRequestHandler<UpdateCompanyQuery, Upd
         _businessRules = businessRules;
     }
 
-    public async Task<UpdateCompanyQueryResponse> Handle(UpdateCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<UpdateCompanyCommandResponse> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {    
         var company = await _companyRepository.GetByIdAsync(request.Id, cancellationToken);
         await _businessRules.CheckIfCompanyIsNull(company);
@@ -30,7 +30,7 @@ public class UpdateCompanyQueryHandler : IRequestHandler<UpdateCompanyQuery, Upd
         await _unitOfWork.CommitAsync();
         await _businessRules.CheckIfCompanyIsNull(updatedCompany);
         
-        UpdateCompanyQueryResponse response = _mapper.Map<UpdateCompanyQueryResponse>(company);
+        UpdateCompanyCommandResponse response = _mapper.Map<UpdateCompanyCommandResponse>(company);
         return response;
     }
 }

@@ -7,14 +7,14 @@ using NetTopologySuite.Geometries;
 
 namespace bizyeriz.Application.Features.Companies.Commands.AddCompany;
 
-public class AddCompanyQueryHandlers : IRequestHandler<AddCompanyQuery, AddCompanyQueryResponse>
+public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, AddCompanyCommandResponse>
 {
     private readonly IMapper _mapper;
     private readonly ICompanyRepository _companyRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly CompanyBusinessRules _businessRules;
 
-    public AddCompanyQueryHandlers(IMapper mapper, ICompanyRepository companyRepository, IUnitOfWork unitOfWork, CompanyBusinessRules businessRules)
+    public AddCompanyCommandHandlers(IMapper mapper, ICompanyRepository companyRepository, IUnitOfWork unitOfWork, CompanyBusinessRules businessRules)
     {
         _mapper = mapper;
         _companyRepository = companyRepository;
@@ -22,7 +22,7 @@ public class AddCompanyQueryHandlers : IRequestHandler<AddCompanyQuery, AddCompa
         _businessRules = businessRules;
     }
 
-    public async Task<AddCompanyQueryResponse> Handle(AddCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<AddCompanyCommandResponse> Handle(AddCompanyCommand request, CancellationToken cancellationToken)
     {
         Company company = _mapper.Map<Company>(request);
         await _businessRules.CheckIfCompanyIsNull(company);
@@ -33,7 +33,7 @@ public class AddCompanyQueryHandlers : IRequestHandler<AddCompanyQuery, AddCompa
         Company addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
         await _unitOfWork.CommitAsync();
         
-        AddCompanyQueryResponse response = _mapper.Map<AddCompanyQueryResponse>(addedCompany);
+        AddCompanyCommandResponse response = _mapper.Map<AddCompanyCommandResponse>(addedCompany);
         return response;
     }
 }

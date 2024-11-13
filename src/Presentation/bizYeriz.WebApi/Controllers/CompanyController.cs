@@ -22,7 +22,7 @@ namespace bizYeriz.WebApi.Controllers
 
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody] AddCompanyQuery addCompanyQuery)
+        public async Task<IActionResult> Add([FromBody] AddCompanyCommand addCompanyQuery)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace bizYeriz.WebApi.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] UpdateCompanyQuery updateCompanyQuery)
+        public async Task<IActionResult> Update([FromBody] UpdateCompanyCommand updateCompanyQuery)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace bizYeriz.WebApi.Controllers
         {
             try
             {
-                var deleteCompanyQuery = new DeleteCompanyQuery(id);
+                var deleteCompanyQuery = new DeleteCompanyCommand(id);
                 var result = await _mediator.Send(deleteCompanyQuery);
 
                 return Ok(result);

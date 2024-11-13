@@ -2,7 +2,7 @@
 
 namespace bizyeriz.Application.Features.Foods.Commands.AddCompany;
 
-public class AddFoodQuery : IRequest<AddFoodQueryResponse>
+public class AddFoodCommand : IRequest<AddFoodCommandResponse>
 {
     public Guid CompanyId { get; set; }
 

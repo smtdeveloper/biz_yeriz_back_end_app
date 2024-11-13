@@ -1,6 +1,6 @@
 ﻿namespace bizyeriz.Application.Features.Foods.Commands.DeleteFood;
 
-public class DeleteFoodQueryResponse
+public class DeleteFoodCommandResponse
 {
     public int Id { get; set; }
 }

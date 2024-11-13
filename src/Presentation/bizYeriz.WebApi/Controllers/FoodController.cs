@@ -20,69 +20,41 @@ namespace bizYeriz.WebApi.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody] AddFoodQuery addFoodQuery)
+        public async Task<IActionResult> Add([FromBody] AddFoodCommand addFoodQuery)
         {
-            try
-            {
-                var result = await _mediator.Send(addFoodQuery);
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var result = await _mediator.Send(addFoodQuery);
+            return Ok(result);
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] UpdateFoodQuery updateFoodQuery)
+        public async Task<IActionResult> Update([FromBody] UpdateFoodCommand updateFoodQuery)
         {
-            try
-            {
-                var result = await _mediator.Send(updateFoodQuery);
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var result = await _mediator.Send(updateFoodQuery);
+            return Ok(result);
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                var deleteCompanyQuery = new DeleteFoodQuery(id);
-                var result = await _mediator.Send(deleteCompanyQuery);
-
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var deleteCompanyQuery = new DeleteFoodCommand(id);
+            var result = await _mediator.Send(deleteCompanyQuery);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
-        {            
-            // IResponse IDataResponse kullan!
-            // middeware  trycatch kullan!
-            try
-            {
-                var query = new GetFoodByIdQuery(id);
-                var result = await _mediator.Send(query, cancellationToken);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
+        {
+            var query = new GetFoodByIdQuery(id);
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
-            
+
         [HttpGet("list")]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var query = new GetAllFoodsQuery();
-                var result = await _mediator.Send(query);
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var query = new GetAllFoodsQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
-
     }
 }

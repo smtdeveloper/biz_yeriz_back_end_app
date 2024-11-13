@@ -1,6 +1,6 @@
 ﻿namespace bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
 
-public class UpdateCompanyQuery : IRequest<UpdateCompanyQueryResponse>
+public class UpdateCompanyCommand : IRequest<UpdateCompanyCommandResponse>
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

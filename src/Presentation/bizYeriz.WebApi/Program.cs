@@ -1,5 +1,6 @@
 using bizyeriz.Application;
 using bizYeriz.Persistence;
+using bizYeriz.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-/*app.UseHttpsRedirection()*/; // htpps zorunu yapar!
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+/*app.UseHttpsRedirection()*/
+; // htpps zorunu yapar!
 
 app.UseAuthorization();
 

@@ -6,13 +6,13 @@ using bizYeriz.Domain.Entities.CompanyEntities;
 
 namespace bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
 
-public class DeleteCompanyQueryHandler : IRequestHandler<DeleteCompanyQuery, DeleteCompanyQueryResponse>
+public class DeleteCompanyCommandHandler : IRequestHandler<DeleteCompanyCommand, DeleteCompanyCommandResponse>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly CompanyBusinessRules _companyBusinessRules;
-    public DeleteCompanyQueryHandler(ICompanyRepository companyRepository, IMapper mapper, IUnitOfWork unitOfWork, CompanyBusinessRules companyBusinessRules)
+    public DeleteCompanyCommandHandler(ICompanyRepository companyRepository, IMapper mapper, IUnitOfWork unitOfWork, CompanyBusinessRules companyBusinessRules)
     {
         _companyRepository = companyRepository;
         _mapper = mapper;
@@ -20,13 +20,13 @@ public class DeleteCompanyQueryHandler : IRequestHandler<DeleteCompanyQuery, Del
         _companyBusinessRules = companyBusinessRules;
     }
 
-    public async Task<DeleteCompanyQueryResponse> Handle(DeleteCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<DeleteCompanyCommandResponse> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
     {
         Company company = await _companyRepository.GetByIdAsync(request.Id, cancellationToken);
         _companyBusinessRules.CheckIfCompanyIsNull(company);
         _companyRepository.Remove(company);        
         await _unitOfWork.CommitAsync();
-        DeleteCompanyQueryResponse response = _mapper.Map<DeleteCompanyQueryResponse>(company);
+        DeleteCompanyCommandResponse response = _mapper.Map<DeleteCompanyCommandResponse>(company);
         return response;
     }
 }
