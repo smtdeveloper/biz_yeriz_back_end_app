@@ -30,10 +30,20 @@ public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, AddC
 
         company.Location = new Point(request.Lat, request.Long);
 
-        Company addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
-        await _unitOfWork.CommitAsync();
-        
-        AddCompanyCommandResponse response = _mapper.Map<AddCompanyCommandResponse>(addedCompany);
-        return response;
+        try
+        {
+            Company addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
+            await _unitOfWork.CommitAsync();
+            AddCompanyCommandResponse response = _mapper.Map<AddCompanyCommandResponse>(addedCompany);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            // Log the full exception here (especially the inner exception)
+            throw new Exception("An error occurred while saving the entity changes.", ex);
+        }
+
+
+       
     }
 }

@@ -13,17 +13,13 @@ public class Company : BaseEntity<Guid>
     public double StarRating { get; set; }
     public double RatingCount { get; set; }
 
-
     public string City { get; set; } = default!;
     public string District { get; set; } = default!;
     public string Neighborhood { get; set; } = default!;
     public string Street { get; set; } = default!;
     public string AddressDetail { get; set; } = default!;
-    public string MapUrl { get; set; } = default!;
-    //public double Lat { get; set; }
-    //public double Long { get; set; }
-    public Point? Location { get; set; }
-    public double? Distance { get; set; }
+    public string MapUrl { get; set; } = default!;    
+    public Point? Location { get; set; }   
     public string CompanyTypeName { get; set; } = default!;
     public string CompanyTypeDescription { get; set; } = default!;
     public string? CompanyTypeImageUrl { get; set; }

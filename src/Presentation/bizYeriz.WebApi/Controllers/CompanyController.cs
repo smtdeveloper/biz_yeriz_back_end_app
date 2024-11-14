@@ -60,11 +60,10 @@ namespace bizYeriz.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get-nearby-companies")]
-        public async Task<IActionResult> GetNearbyCompanies([FromQuery] double latitude, [FromQuery] double longitude, [FromQuery] double distance)
+        [HttpPost("get-nearby-companies")]
+        public async Task<IActionResult> GetNearbyCompanies([FromBody] GetNearbyCompaniesQuery getNearbyCompaniesQuery)
         {
-            var query = new GetNearbyCompaniesQuery(latitude, longitude, distance);
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(getNearbyCompaniesQuery);
             return Ok(result);
         }
 

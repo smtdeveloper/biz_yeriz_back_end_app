@@ -19,9 +19,8 @@ public class GetNearbyCompaniesQueryHandler : IRequestHandler<GetNearbyCompanies
 
     public async Task<List<GetNearbyCompaniesQueryResponse>> Handle(GetNearbyCompaniesQuery request, CancellationToken cancellationToken)
     {
-        Expression<Func<GetNearbyCompaniesQueryResponse, bool>> filter = companyDto => companyDto.IsActive && !companyDto.IsDelete;
-        var companies = await _companyRepository.GetAllAsync<GetNearbyCompaniesQueryResponse>(cancellationToken, filter);
-        return companies.ToList();
+        var companies = await _companyRepository.GetNearbyCompaniesAsync(latitude: request.Latitude, longitude : request.Latitude, distance : request.Distance, cancellationToken);
+        return _mapper.Map<List<GetNearbyCompaniesQueryResponse>>(companies);
     }
 }
 
