@@ -24,79 +24,50 @@ namespace bizYeriz.WebApi.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] AddCompanyCommand addCompanyQuery)
         {
-            try
-            {
-                var result = await _mediator.Send(addCompanyQuery);
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var result = await _mediator.Send(addCompanyQuery);
+            return Ok(result);
         }
 
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromBody] UpdateCompanyCommand updateCompanyQuery)
         {
-            try
-            {
-                var result = await _mediator.Send(updateCompanyQuery);
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var result = await _mediator.Send(updateCompanyQuery);
+            return Ok(result);
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            try
-            {
-                var deleteCompanyQuery = new DeleteCompanyCommand(id);
-                var result = await _mediator.Send(deleteCompanyQuery);
+            var deleteCompanyQuery = new DeleteCompanyCommand(id);
+            var result = await _mediator.Send(deleteCompanyQuery);
 
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            return Ok(result);
         }
 
         [HttpGet("getbyid/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            try
-            {
-                var query = new GetCompanyByIdQuery(id);
-                var result = await _mediator.Send(query);
-
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var query = new GetCompanyByIdQuery(id);
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var query = new GetAllCompaniesQuery();
-                var result = await _mediator.Send(query);
-                return Ok(result);
-            }
-            catch (Exception ex) { return StatusCode(500, $"An error occurred: {ex.Message}"); }
+            var query = new GetAllCompaniesQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpGet("get-nearby-companies")]
         public async Task<IActionResult> GetNearbyCompanies([FromQuery] double latitude, [FromQuery] double longitude, [FromQuery] double distance)
         {
-            try
-            {
-                var query = new GetNearbyCompaniesQuery(latitude, longitude, distance);
-                var result = await _mediator.Send(query);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
+            var query = new GetNearbyCompaniesQuery(latitude, longitude, distance);
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-
-
     }
+
 }

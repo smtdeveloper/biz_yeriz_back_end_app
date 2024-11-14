@@ -4,7 +4,6 @@ using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
 using bizYeriz.Persistence.Repositories;
 
-
 namespace bizYeriz.Persistence
 {
     public static class ServiceRegistration
@@ -25,7 +24,6 @@ namespace bizYeriz.Persistence
             // Register business rules
             services.AddScoped<CompanyBusinessRules>();
             services.AddTransient<FoodBusinessRules>();
-
 
             // Register AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

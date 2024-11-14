@@ -4,7 +4,6 @@ namespace bizYeriz.WebApi.Middlewares;
 
 public class ExceptionHandlingMiddleware : IMiddleware
 {
-
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
@@ -25,6 +24,4 @@ public class ExceptionHandlingMiddleware : IMiddleware
         var response = new { message = $"An error occurred: {exception.Message}" };
         return context.Response.WriteAsJsonAsync(response);
     }
-
-
 }
