@@ -19,7 +19,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
 
     public async Task<List<GetNearbyCompaniesQueryResponse>> GetNearbyCompaniesAsync(double latitude, double longitude, double distance, CancellationToken cancellationToken)
     {
-        Point point = new Point(longitude ,latitude) { SRID = 4326 };
+        Point point = new Point(latitude ,longitude) { SRID = 4326 };
 
         var companies = await _dbContext.Companies
             .Where(x => x.Location.Distance(point) < distance)
