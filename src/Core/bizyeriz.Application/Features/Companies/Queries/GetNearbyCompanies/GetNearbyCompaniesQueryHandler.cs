@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
 using bizyeriz.Application.Interfaces.Repositories;
+using bizYeriz.Domain.Entities.CompanyEntities;
+using System.Linq.Expressions;
 
 namespace bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
 
@@ -16,9 +19,9 @@ public class GetNearbyCompaniesQueryHandler : IRequestHandler<GetNearbyCompanies
 
     public async Task<List<GetNearbyCompaniesQueryResponse>> Handle(GetNearbyCompaniesQuery request, CancellationToken cancellationToken)
     {
-        var companies = await _companyRepository.GetNearbyCompaniesAsync(request.Latitude, request.Longitude, request.Distance, cancellationToken);
-        return _mapper.Map<List<GetNearbyCompaniesQueryResponse>>(companies);        
+        Expression<Func<GetNearbyCompaniesQueryResponse, bool>> filter = companyDto => companyDto.IsActive && !companyDto.IsDelete;
+        var companies = await _companyRepository.GetAllAsync<GetNearbyCompaniesQueryResponse>(cancellationToken, filter);
+        return companies.ToList();
     }
-
 }
 

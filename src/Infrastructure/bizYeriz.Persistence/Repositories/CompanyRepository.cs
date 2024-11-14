@@ -19,7 +19,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
         Point point = new Point(latitude, longitude) { SRID = 4326 };
 
         var result = await _dbContext.Companies
-            .Where(x => x.Location.Distance(point) < distance)
+            .Where(x => x.Location.Distance(point) < distance && x.IsActive == x.IsActive == true && x.IsDelete == false) 
             .Select(x => new Company
             {
                 Id = x.Id,
@@ -34,7 +34,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
                 IsTrustworthy = x.IsTrustworthy,
                 CreatedDate = x.CreatedDate,
                 UpdatedDate = x.UpdatedDate,
-                DeletedDate = x.DeletedDate
+                DeletedDate = x.DeletedDate,
             })
             .ToListAsync(cancellationToken);
 
