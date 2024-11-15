@@ -30,8 +30,8 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
         {
             Id = company.Id,
             Name = company.Name,
-            Lat = company.Location.Y,
-            Long = company.Location.X,
+            Lat = company.Location.X,
+            Long = company.Location.Y,
             Distance = Math.Round(company.Location.Distance(point)), // Distance burada hesaplanıyor
             ImageUrl = company.ImageUrl,
             StarRating = company.StarRating,
