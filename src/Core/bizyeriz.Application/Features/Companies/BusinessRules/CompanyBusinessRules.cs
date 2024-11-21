@@ -6,14 +6,8 @@ namespace bizyeriz.Application.Features.Companies.BusinessRules;
 
 public class CompanyBusinessRules
 {
-    private readonly ICompanyRepository _companyRepository;
 
-    public CompanyBusinessRules(ICompanyRepository companyRepository)
-    {
-        _companyRepository = companyRepository;
-    }
-
-    public async Task CheckIfCompanyIsNull(Company company)
+    public async Task CheckIfCompanyIsNull(Company? company)
     {
         if (company == null)
         {

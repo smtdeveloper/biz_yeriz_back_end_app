@@ -9,17 +9,18 @@ public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, G
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
     private readonly CompanyBusinessRules _companyBusinessRules;
-    public GetCompanyByIdQueryHandler(ICompanyRepository companyRepository, IMapper mapper)
+    public GetCompanyByIdQueryHandler(ICompanyRepository companyRepository, IMapper mapper, CompanyBusinessRules companyBusinessRules)
     {
         _companyRepository = companyRepository;
         _mapper = mapper;
+        _companyBusinessRules = companyBusinessRules;
     }
 
 
     public async Task<GetCompanyByIdQueryResponse> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.GetByIdAsync(request.Id, cancellationToken);
-        _companyBusinessRules.CheckIfCompanyIsNull(company);
+        await _companyBusinessRules.CheckIfCompanyIsNull(company);
         return _mapper.Map<GetCompanyByIdQueryResponse>(company);
     }
 }

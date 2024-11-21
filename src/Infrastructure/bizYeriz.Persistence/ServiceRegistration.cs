@@ -23,7 +23,7 @@ namespace bizYeriz.Persistence
 
             // Register business rules
             services.AddScoped<CompanyBusinessRules>();
-            services.AddTransient<FoodBusinessRules>();
+            services.AddScoped<FoodBusinessRules>();
 
             // Register AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
