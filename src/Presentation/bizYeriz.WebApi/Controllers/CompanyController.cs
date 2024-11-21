@@ -61,7 +61,7 @@ namespace bizYeriz.WebApi.Controllers
         }
 
         [HttpPost("get-nearby-companies")]
-        public async Task<IActionResult> GetNearbyCompanies([FromBody] GetNearbyCompaniesQuery getNearbyCompaniesQuery)
+        public async Task<IActionResult> GetNearbyCompanies([FromQuery] GetNearbyCompaniesQuery getNearbyCompaniesQuery)
         {
             var result = await _mediator.Send(getNearbyCompaniesQuery);
             return Ok(result);

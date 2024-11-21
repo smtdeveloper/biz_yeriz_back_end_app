@@ -1,12 +1,17 @@
 ﻿using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
+using System.Text.Json.Serialization;
 
 public class GetNearbyCompaniesQuery : IRequest<List<GetNearbyCompaniesQueryResponse>>
 {
-    public double Latitude { get; set; }   // Added set;
-    public double Longitude { get; set; }  // Added set;
-    public double Distance { get; set; }   // Added set;
+    [JsonPropertyName("latitude")]
+    public double Latitude { get; set; }
 
-    // Constructor is optional now for deserialization
+    [JsonPropertyName("longitude")]
+    public double Longitude { get; set; }
+
+    [JsonPropertyName("distance")]
+    public double Distance { get; set; }   
+
     public GetNearbyCompaniesQuery() { }
 
     public GetNearbyCompaniesQuery(double latitude, double longitude, double distance)

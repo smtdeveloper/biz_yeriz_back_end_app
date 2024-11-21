@@ -18,20 +18,20 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
     }
 
     public async Task<List<GetNearbyCompaniesQueryResponse>> GetNearbyCompaniesAsync(double latitude, double longitude, double distance, CancellationToken cancellationToken)
-    {
-        Point point = new Point(latitude ,longitude) { SRID = 4326 };
+        {
+        Point point = new Point(longitude, latitude) { SRID = 4326 };
 
         var companies = await _dbContext.Companies
-            .Where(x => x.Location.Distance(point) < distance)
+            .Where(_company => _company.Location.Distance(point) < distance && _company.IsActive == true && _company.IsDelete== false)
             .ToListAsync(cancellationToken);
 
-        // Distance hesaplamasını GetNearbyCompaniesQueryResponse modelinde yapıyoruz
+        
         var result = companies.Select(company => new GetNearbyCompaniesQueryResponse
         {
             Id = company.Id,
             Name = company.Name,
-            Lat = company.Location.X,
-            Long = company.Location.Y,
+            Lat = company.Location.Y,
+            Long = company.Location.X,
             Distance = Math.Round(company.Location.Distance(point)), // Distance burada hesaplanıyor
             ImageUrl = company.ImageUrl,
             StarRating = company.StarRating,

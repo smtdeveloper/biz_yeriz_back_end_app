@@ -26,9 +26,8 @@ public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, AddC
     {
         Company company = _mapper.Map<Company>(request);
         await _businessRules.CheckIfCompanyIsNull(company);
-        company.CreatedDate = DateTime.UtcNow;
-
-        company.Location = new Point(request.Lat, request.Long);
+        company.CreatedDate = DateTime.UtcNow;       
+        company.Location = new Point(request.Long, request.Lat);
 
         try
         {
@@ -43,7 +42,5 @@ public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, AddC
             throw new Exception("An error occurred while saving the entity changes.", ex);
         }
 
-
-       
     }
 }
