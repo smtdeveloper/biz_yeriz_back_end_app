@@ -1,6 +1,6 @@
 ﻿namespace bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
 
-public class GetNearbyCompaniesQueryResponse
+public class GetFilterNearbyCompaniesQueryResponse
 {
     public Guid Id { get; set; }
 

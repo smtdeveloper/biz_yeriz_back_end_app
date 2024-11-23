@@ -21,11 +21,11 @@ public class CompanyMappings : Profile
         CreateMap<Company, DeleteCompanyCommand>().ReverseMap();
         CreateMap<Company, UpdateCompanyCommandResponse>().ReverseMap();
         CreateMap<Company, UpdateCompanyCommand>().ReverseMap();        
-        CreateMap<Company, GetNearbyCompaniesQueryResponse>().ReverseMap();
+        CreateMap<Company, GetFilterNearbyCompaniesQueryResponse>().ReverseMap();
 
-        CreateMap<Company, GetNearbyCompaniesQueryResponse>()
-            .ForMember(dest => dest.Lat, opt => opt.MapFrom(src => src.Location != null ? src.Location.X : (double?)null))
-            .ForMember(dest => dest.Long, opt => opt.MapFrom(src => src.Location != null ? src.Location.Y : (double?)null))
+        CreateMap<Company, GetFilterNearbyCompaniesQueryResponse>()
+            .ForMember(dest => dest.Lat, opt => opt.MapFrom(src => src.Location != null ? src.Location.Y : (double?)null))
+            .ForMember(dest => dest.Long, opt => opt.MapFrom(src => src.Location != null ? src.Location.X : (double?)null))
             .ReverseMap();
 
     }

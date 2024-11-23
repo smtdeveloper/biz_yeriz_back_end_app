@@ -1,12 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using bizyeriz.Application.Features.Companies.Commands.AddCompany;
-using bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
+﻿using bizyeriz.Application.Features.Companies.Commands.AddCompany;
 using bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
-using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
+using bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
 using bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
-using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
-using bizyeriz.Application.Features.Companies.Queries.Filter;
+using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace bizYeriz.WebApi.Controllers
 {
@@ -45,7 +43,7 @@ namespace bizYeriz.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("getbyid/{id}")]
+        [HttpGet("detail/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var query = new GetCompanyByIdQuery(id);
@@ -53,7 +51,7 @@ namespace bizYeriz.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("getall")]
+        [HttpGet("list")]
         public async Task<IActionResult> GetAll()
         {
             var query = new GetAllCompaniesQuery();
@@ -61,15 +59,8 @@ namespace bizYeriz.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get-nearby-companies")]
-        public async Task<IActionResult> GetNearbyCompanies([FromQuery] GetNearbyCompaniesQuery getNearbyCompaniesQuery)
-        {
-            var result = await _mediator.Send(getNearbyCompaniesQuery);
-            return Ok(result);
-        }
-
-        [HttpPost("filter")]
-        public async Task<IActionResult> Filter([FromBody] GetCompaniesFilterQuery getNearbyCompaniesQuery)
+        [HttpPost("filter-companies")]
+        public async Task<IActionResult> GetFilterNearbyCompanies([FromBody] GetFilterNearbyCompaniesQuery getNearbyCompaniesQuery)
         {
             var result = await _mediator.Send(getNearbyCompaniesQuery);
             return Ok(result);

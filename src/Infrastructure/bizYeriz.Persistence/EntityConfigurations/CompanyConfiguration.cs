@@ -38,8 +38,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.Property(c => c.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasMany(c => c.CompanyUsers);
-        builder.HasMany(c => c.Foods);
-        builder.HasMany(c => c.CuisineCategories);
+        builder.HasMany(c => c.Foods);        
         builder.HasMany(c => c.WorkingHours);
 
         builder.HasQueryFilter(c => !c.DeletedDate.HasValue);

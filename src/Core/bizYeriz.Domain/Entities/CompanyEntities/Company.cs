@@ -1,5 +1,6 @@
 ﻿
 using NetTopologySuite.Geometries;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bizYeriz.Domain.Entities.CompanyEntities;
 
@@ -30,10 +31,11 @@ public class Company : BaseEntity<Guid>
     public bool EnvironmentallyFriendly { get; set; }
     public bool IsTrustworthy { get; set; }
 
+    [NotMapped]
+    public double Distance { get; set; }
 
     public virtual ICollection<CompanyUser> CompanyUsers { get; set; }
-    public virtual ICollection<Food> Foods { get; set; }
-    public virtual ICollection<CuisineCategory> CuisineCategories { get; set; }
+    public virtual ICollection<Food> Foods { get; set; }   
     public virtual ICollection<CompanyWorkingHour> WorkingHours { get; set; }
     public virtual ICollection<Order> Orders { get; set; }
 }

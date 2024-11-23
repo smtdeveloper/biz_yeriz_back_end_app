@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizYeriz.Domain.Entities.CompanyEntities;
 using NetTopologySuite.Geometries;
@@ -17,35 +16,61 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
         _mapper = mapper;
     }
 
-    public async Task<List<GetNearbyCompaniesQueryResponse>> GetNearbyCompaniesAsync(double latitude, double longitude, double distance, CancellationToken cancellationToken)
-            {
-        Point point = new Point(longitude, latitude) { SRID = 4326 };
+    public async Task<List<Company>> GetFilteredNearbyCompaniesAsync(GetFilterNearbyCompaniesQuery getFilterNearbyCompaniesQuery, CancellationToken cancellationToken)
+    {
+        Point userLocation = new Point(getFilterNearbyCompaniesQuery.Location.Longitude, getFilterNearbyCompaniesQuery.Location.Latitude) { SRID = 4326 };
 
-        var companies = await _dbContext.Companies
-            .Where(_company => _company.Location.Distance(point) < distance && _company.IsActive == true && _company.IsDelete== false)
-            .ToListAsync(cancellationToken);
 
-        
-        var result = companies.Select(company => new GetNearbyCompaniesQueryResponse
+
+        var query = _dbContext.Companies
+            .AsNoTracking()
+            .Where(company =>
+                company.IsActive &&
+                !company.IsDelete &&
+                company.Location.Distance(userLocation) < getFilterNearbyCompaniesQuery.Location.Distance);
+
+        if (getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds != null && getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds.Any())
         {
-            Id = company.Id,
-            Name = company.Name,
-            Lat = company.Location.Y,
-            Long = company.Location.X,
-            Distance = Math.Round(company.Location.Distance(point)), // Distance burada hesaplanıyor
-            ImageUrl = company.ImageUrl,
-            StarRating = company.StarRating,
-            RatingCount = company.RatingCount,
-            CompanyTypeName = company.CompanyTypeName,
-            EnvironmentallyFriendly = company.EnvironmentallyFriendly,
-            IsTrustworthy = company.IsTrustworthy,
-            CreatedDate = company.CreatedDate,
-            UpdatedDate = company.UpdatedDate,
-            DeletedDate = company.DeletedDate,
-            IsActive = company.IsActive,
-            IsDelete = company.IsDelete
-        }).ToList();
+            query = query
+                .Include(c => c.Foods)
+                .ThenInclude(f => f.CuisineCategoryAndFoods)
+                .Where(company => company.Foods.Any(food =>
+                    food.CuisineCategoryAndFoods.Any(ccf =>
+                        getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds.Contains(ccf.CuisineCategoryId))));
+        }
 
-        return result;
+        var companies = await query
+         .Select(company => new Company
+         {
+             Id = company.Id,
+             Name = company.Name,
+             Email = company.Email,
+             MobilePhone = company.MobilePhone,
+             CompanyPhone = company.CompanyPhone,
+             ImageUrl = company.ImageUrl,
+             StarRating = company.StarRating,
+             RatingCount = company.RatingCount,
+             City = company.City,
+             District = company.District,
+             Neighborhood = company.Neighborhood,
+             Street = company.Street,
+             AddressDetail = company.AddressDetail,
+             MapUrl = company.MapUrl,
+             Location = company.Location,
+             CompanyTypeName = company.CompanyTypeName,
+             CompanyTypeDescription = company.CompanyTypeDescription,
+             CompanyTypeImageUrl = company.CompanyTypeImageUrl,
+             EnvironmentallyFriendly = company.EnvironmentallyFriendly,
+             IsTrustworthy = company.IsTrustworthy,
+             IsActive = company.IsActive,
+             IsDelete = company.IsDelete,
+             CreatedDate = company.CreatedDate,
+             UpdatedDate = company.UpdatedDate,
+             DeletedDate = company.DeletedDate,
+             Distance = Math.Round(company.Location.Distance(userLocation)),
+         })
+         .ToListAsync(cancellationToken);
+
+        return companies;
     }
 }

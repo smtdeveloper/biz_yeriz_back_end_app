@@ -7,15 +7,15 @@ using bizyeriz.Application.Features.Foods.Queries.GetAllFoods;
 using bizyeriz.Application.Features.Foods.Queries.GetFoodById;
 using bizYeriz.Domain.Entities.FoodEntities;
 
-namespace bizyeriz.Application.Mapping;
+namespace bizyeriz.Application.Features.Foods.Profiles;
 
 public class FoodMappings : Profile
 {
     public FoodMappings()
     {
         CreateMap<AddFoodCommand, Food>();
-        CreateMap<Food, GetFoodByIdQueryResponse>().ReverseMap();       
-        CreateMap<Food, GetAllFoodsQueryResponse>().ReverseMap();       
+        CreateMap<Food, GetFoodByIdQueryResponse>().ReverseMap();
+        CreateMap<Food, GetAllFoodsQueryResponse>().ReverseMap();
         CreateMap<Food, AddFoodCommandResponse>().ReverseMap();
         CreateMap<Food, DeleteFoodCommandResponse>().ReverseMap();
         CreateMap<Food, DeleteFoodCommand>().ReverseMap();

@@ -16,7 +16,6 @@ public class Food : BaseEntity<int>
     public bool IsActive { get; set; }
     public bool IsDelete { get; set; }
 
-
     public virtual ICollection<FoodCategoryAndFood> FoodCategoryAndFoods { get; set; }
     public virtual ICollection<CuisineCategoryAndFood>  CuisineCategoryAndFoods{ get; set; }
 
