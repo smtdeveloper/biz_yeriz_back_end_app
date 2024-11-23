@@ -24,7 +24,10 @@ public class DeleteCompanyCommandHandler : IRequestHandler<DeleteCompanyCommand,
     {
         Company company = await _companyRepository.GetByIdAsync(request.Id, cancellationToken);
         _companyBusinessRules.CheckIfCompanyIsNull(company);
-        _companyRepository.Remove(company);        
+
+        company.IsDelete = true;
+        company.IsActive = false;
+        _companyRepository.Update(company);        
         await _unitOfWork.CommitAsync();
         DeleteCompanyCommandResponse response = _mapper.Map<DeleteCompanyCommandResponse>(company);
         return response;

@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace bizYeriz.Shared.Security;
+namespace bizYeriz.Shared.Security.Hashing;
 
 public static class HashingHelper
 {

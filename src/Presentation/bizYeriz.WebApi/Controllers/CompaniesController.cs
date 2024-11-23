@@ -6,16 +6,17 @@ using bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
 using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 using bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
 using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
+using bizyeriz.Application.Features.Companies.Queries.Filter;
 
 namespace bizYeriz.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class CompaniesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public CompanyController(IMediator mediator)
+        public CompaniesController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -62,6 +63,13 @@ namespace bizYeriz.WebApi.Controllers
 
         [HttpGet("get-nearby-companies")]
         public async Task<IActionResult> GetNearbyCompanies([FromQuery] GetNearbyCompaniesQuery getNearbyCompaniesQuery)
+        {
+            var result = await _mediator.Send(getNearbyCompaniesQuery);
+            return Ok(result);
+        }
+
+        [HttpPost("filter")]
+        public async Task<IActionResult> Filter([FromBody] GetCompaniesFilterQuery getNearbyCompaniesQuery)
         {
             var result = await _mediator.Send(getNearbyCompaniesQuery);
             return Ok(result);
