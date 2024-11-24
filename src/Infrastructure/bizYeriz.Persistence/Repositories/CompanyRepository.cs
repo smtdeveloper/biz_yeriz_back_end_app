@@ -25,8 +25,8 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
         var query = _dbContext.Companies
             .AsNoTracking()
             .Where(company =>
-                company.IsActive &&
-                !company.IsDelete &&
+                company.IsActive == true &&
+                company.IsDelete == false &&
                 company.Location.Distance(userLocation) < getFilterNearbyCompaniesQuery.Location.Distance);
 
         if (getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds != null && getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds.Any())
@@ -34,9 +34,26 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
             query = query
                 .Include(c => c.Foods)
                 .ThenInclude(f => f.CuisineCategoryAndFoods)
-                .Where(company => company.Foods.Any(food =>
-                    food.CuisineCategoryAndFoods.Any(ccf =>
-                        getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds.Contains(ccf.CuisineCategoryId))));
+                .Where(company => company.Foods.Any(_food =>
+                    _food.CuisineCategoryAndFoods.Any(ccf => getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds.Contains(ccf.CuisineCategoryId)) &&
+                    _food.IsActive == true &&
+                    _food.IsDelete == false
+                    ));
+        }
+
+        if (getFilterNearbyCompaniesQuery.Filters.MinPrice.HasValue || getFilterNearbyCompaniesQuery.Filters.MaxPrice.HasValue)
+        {
+            double minPrice = getFilterNearbyCompaniesQuery.Filters.MinPrice ?? 0;
+            double maxPrice = getFilterNearbyCompaniesQuery.Filters.MaxPrice ?? double.MaxValue;
+
+            query = query
+                .Where(company => company.Foods.Any(_food =>
+                    (
+                    _food.DiscountedPrice >= minPrice &&
+                    _food.DiscountedPrice <= maxPrice &&
+                    _food.IsActive == true &&
+                    _food.IsDelete == false
+                    )));
         }
 
         var companies = await query

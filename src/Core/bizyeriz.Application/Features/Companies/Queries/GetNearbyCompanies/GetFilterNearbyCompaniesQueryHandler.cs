@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using bizyeriz.Application.Interfaces.Repositories;
-using NetTopologySuite.Operation.Distance;
 
 namespace bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
 

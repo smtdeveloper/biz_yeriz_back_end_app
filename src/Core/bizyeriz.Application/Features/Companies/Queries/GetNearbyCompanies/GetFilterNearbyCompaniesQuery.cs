@@ -1,6 +1,5 @@
 ﻿using bizyeriz.Application.Features.Companies.Models;
 using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
-using System.Text.Json.Serialization;
 
 public class GetFilterNearbyCompaniesQuery : IRequest<List<GetFilterNearbyCompaniesQueryResponse>>
 {
