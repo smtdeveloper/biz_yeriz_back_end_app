@@ -13,7 +13,7 @@ public class Company : BaseEntity<Guid>
     public string CompanyPhone { get; set; } = default!;
     public double StarRating { get; set; }
     public double RatingCount { get; set; }
-
+    public double? AverageRating { get; set; }
     public string City { get; set; } = default!;
     public string District { get; set; } = default!;
     public string Neighborhood { get; set; } = default!;
@@ -38,4 +38,5 @@ public class Company : BaseEntity<Guid>
     public virtual ICollection<Food> Foods { get; set; }   
     public virtual ICollection<CompanyWorkingHour> WorkingHours { get; set; }
     public virtual ICollection<Order> Orders { get; set; }
+    public virtual ICollection<CompanyPaymentType> CompanyPaymentTypes { get; set; }
 }

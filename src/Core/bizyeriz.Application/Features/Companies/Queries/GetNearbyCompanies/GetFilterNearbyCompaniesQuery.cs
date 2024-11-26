@@ -4,13 +4,13 @@ using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
 public class GetFilterNearbyCompaniesQuery : IRequest<List<GetFilterNearbyCompaniesQueryResponse>>
 {
     public LocationDto Location { get; set; }
-    public FilterCompaniesDto? Filters { get; set; } = new FilterCompaniesDto();
+    public FilterCompaniesDto Filters { get; set; } = new FilterCompaniesDto();
 
     public GetFilterNearbyCompaniesQuery() { }
 
-    public GetFilterNearbyCompaniesQuery(LocationDto location, FilterCompaniesDto? filters)
+    public GetFilterNearbyCompaniesQuery(LocationDto location, FilterCompaniesDto filters)
     {
         Location = location;
-        Filters = filters;  
+        Filters = filters;
     }
 }

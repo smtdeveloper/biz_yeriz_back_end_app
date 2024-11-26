@@ -2,11 +2,6 @@
 using bizYeriz.Shared.Security.Hashing;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace bizYeriz.Persistence.EntityConfigurations;
 public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -44,27 +39,27 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasBaseType((string)null!);
     }
 
-    public static Guid AdminId { get; } = Guid.NewGuid();
-    private IEnumerable<User> _seeds
-    {
-        get
-        {
-            HashingHelper.CreatePasswordHash(
-                password: "codi",
-                passwordHash: out byte[] passwordHash,
-                passwordSalt: out byte[] passwordSalt
-            );
-            User adminUser =
-                new()
-                {
-                    Id = AdminId,
-                    Email = "codi@admin",
-                    Name = "codi",
-                    LastName = "coder",
-                    PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt
-                };
-            yield return adminUser;
-        }
-    }
+    //public static Guid AdminId { get; } = Guid.NewGuid();
+    //private IEnumerable<User> _seeds
+    //{
+    //    get
+    //    {
+    //        HashingHelper.CreatePasswordHash(
+    //            password: "codi",
+    //            passwordHash: out byte[] passwordHash,
+    //            passwordSalt: out byte[] passwordSalt
+    //        );
+    //        User adminUser =
+    //            new()
+    //            {
+    //                Id = AdminId,
+    //                Email = "codi@admin",
+    //                Name = "codi",
+    //                LastName = "coder",
+    //                PasswordHash = passwordHash,
+    //                PasswordSalt = passwordSalt
+    //            };
+    //        yield return adminUser;
+    //    }
+    //}
 }

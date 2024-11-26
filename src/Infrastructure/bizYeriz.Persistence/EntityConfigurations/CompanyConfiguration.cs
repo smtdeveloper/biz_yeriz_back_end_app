@@ -18,6 +18,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.Property(c => c.CompanyPhone).HasColumnName("CompanyPhone");
         builder.Property(c => c.StarRating).HasColumnName("StarRating");
         builder.Property(c => c.RatingCount).HasColumnName("RatingCount");
+        builder.Property(c => c.AverageRating).HasColumnName("AverageRating");
 
         builder.Property(c => c.City).HasColumnName("City").IsRequired();
         builder.Property(c => c.District).HasColumnName("District").IsRequired();

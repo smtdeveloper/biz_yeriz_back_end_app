@@ -20,8 +20,6 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
     {
         Point userLocation = new Point(getFilterNearbyCompaniesQuery.Location.Longitude, getFilterNearbyCompaniesQuery.Location.Latitude) { SRID = 4326 };
 
-
-
         var query = _dbContext.Companies
             .AsNoTracking()
             .Where(company =>
@@ -29,6 +27,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
                 company.IsDelete == false &&
                 company.Location.Distance(userLocation) < getFilterNearbyCompaniesQuery.Location.Distance);
 
+        // Mutfak filtresi
         if (getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds != null && getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds.Any())
         {
             query = query
@@ -41,17 +40,35 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
                     ));
         }
 
-
-        if (getFilterNearbyCompaniesQuery.Filters.PriceRange.HasValue)
+        // Fiyat filtresi
+        if (getFilterNearbyCompaniesQuery.Filters.PriceRangeId.HasValue)
         {
-            double maxPrice = (double)getFilterNearbyCompaniesQuery.Filters.PriceRange.Value;
+            double maxPrice = GetMaxPriceByPriceRangeId(getFilterNearbyCompaniesQuery.Filters.PriceRangeId.Value);
 
             query = query
                 .Where(company => company.Foods.Any(food =>
-                    food.IsActive &&
-                    !food.IsDelete &&
-                    (food.DiscountedPrice <= maxPrice)));
+                    food.IsActive == true &&
+                    food.IsDelete == false &&
+                    ((food.DiscountedPrice) <= maxPrice)));
         }
+
+        // Puan filtresi
+        if (getFilterNearbyCompaniesQuery.Filters.ByPointId.HasValue)
+        {
+            double minPoint = GetMinimumPointByPointId(getFilterNearbyCompaniesQuery.Filters.ByPointId.Value);
+
+            query = query
+                .Where(company => company.StarRating / company.RatingCount >= minPoint);
+        }
+
+        // Ödeme türü filtresi
+        if (getFilterNearbyCompaniesQuery.Filters.PaymentIds != null && getFilterNearbyCompaniesQuery.Filters.PaymentIds.Any())
+        {
+            query = query
+                .Where(company => company.CompanyPaymentTypes.Any(cpt =>
+                    getFilterNearbyCompaniesQuery.Filters.PaymentIds.Contains(cpt.PaymentTypeId)));
+        }
+
 
         var companies = await query
          .Select(company => new Company
@@ -64,6 +81,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
              ImageUrl = company.ImageUrl,
              StarRating = company.StarRating,
              RatingCount = company.RatingCount,
+             AverageRating = company.RatingCount > 0 ? company.StarRating / company.RatingCount : 0,
              City = company.City,
              District = company.District,
              Neighborhood = company.Neighborhood,
@@ -86,5 +104,55 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
          .ToListAsync(cancellationToken);
 
         return companies;
+    }
+
+    private double GetMaxPriceByPriceRangeId(int priceRangeId)
+    {
+        switch (priceRangeId)
+        {
+            case 1:
+                return 50;
+            case 2:
+                return 100;
+            case 3:
+                return 150;
+            case 4:
+                return 200;
+            case 5:
+                return 250;
+            case 6:
+                return 300;
+            case 7:
+                return 350;
+            case 8:
+                return 400;
+            default:
+                return double.MaxValue;
+        }
+    }
+    private double GetMinimumPointByPointId(int byPointId)
+    {
+        switch (byPointId)
+        {
+            case 1:
+                return 4.5;
+            case 2:
+                return 4.0;
+            case 3:
+                return 3.5;
+            case 4:
+                return 3.0;
+            case 5:
+                return 2.5;
+            case 6:
+                return 2.0;
+            case 7:
+              return 1.5;
+            case 8:
+                return 1.0;
+
+            default:
+                return 0;
+        }
     }
 }

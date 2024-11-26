@@ -1,9 +1,9 @@
-﻿using bizyeriz.Application.Features.Companies.Enums;
-
-namespace bizyeriz.Application.Features.Companies.Models;
+﻿namespace bizyeriz.Application.Features.Companies.Models;
 
 public class FilterCompaniesDto
 {
-    public List<int> CuisineCategoryIds { get; set; }   
-    public PriceRange? PriceRange { get; set; }
+    public List<int> CuisineCategoryIds { get; set; } = new List<int>();
+    public int? PriceRangeId { get; set; }
+    public int? ByPointId { get; set; }
+    public List<int> PaymentIds { get; set; } = new List<int>();
 }

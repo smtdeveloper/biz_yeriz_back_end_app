@@ -25,6 +25,10 @@ namespace bizYeriz.Persistence.Context
         public DbSet<FoodCategoryAndFood> FoodCategoryAndFoods { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CompanyComment> CompanyComments { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<CompanyPaymentType> CompanyPaymentTypes { get; set; }
+        public DbSet<MinOrderAmount> MinOrderAmounts { get; set; }
+        public DbSet<CompanyPoint> CompanyPoints { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions, IConfiguration configuration)
                : base(dbContextOptions)
         {
@@ -34,11 +38,6 @@ namespace bizYeriz.Persistence.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            modelBuilder.Entity<Order>()
-            .HasOne(o => o.CompanyComment)
-            .WithOne(c => c.Order)
-            .HasForeignKey<Order>(o => o.CompanyCommentId);  // Order entity'si bağımlı taraf olarak belirlendi
 
             modelBuilder.HasPostgresExtension("postgis");
         }
