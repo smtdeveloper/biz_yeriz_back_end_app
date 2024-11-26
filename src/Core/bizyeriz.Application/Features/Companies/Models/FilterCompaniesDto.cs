@@ -1,8 +1,9 @@
-﻿namespace bizyeriz.Application.Features.Companies.Models;
+﻿using bizyeriz.Application.Features.Companies.Enums;
+
+namespace bizyeriz.Application.Features.Companies.Models;
 
 public class FilterCompaniesDto
 {
-    public List<int> CuisineCategoryIds { get; set; }
-    public double? MinPrice { get; set; }
-    public double? MaxPrice { get; set; }
+    public List<int> CuisineCategoryIds { get; set; }   
+    public PriceRange? PriceRange { get; set; }
 }

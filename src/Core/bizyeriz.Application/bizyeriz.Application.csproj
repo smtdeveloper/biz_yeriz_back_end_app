@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\bizYeriz.Domain\bizYeriz.Domain.csproj" />
+    <Compile Remove="DTOs\**" />
+    <Compile Remove="Exceptions\**" />
+    <EmbeddedResource Remove="DTOs\**" />
+    <EmbeddedResource Remove="Exceptions\**" />
+    <None Remove="DTOs\**" />
+    <None Remove="Exceptions\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Exceptions\" />
+    <ProjectReference Include="..\bizYeriz.Domain\bizYeriz.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

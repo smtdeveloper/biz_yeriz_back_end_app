@@ -41,19 +41,16 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
                     ));
         }
 
-        if (getFilterNearbyCompaniesQuery.Filters.MinPrice.HasValue || getFilterNearbyCompaniesQuery.Filters.MaxPrice.HasValue)
+
+        if (getFilterNearbyCompaniesQuery.Filters.PriceRange.HasValue)
         {
-            double minPrice = getFilterNearbyCompaniesQuery.Filters.MinPrice ?? 0;
-            double maxPrice = getFilterNearbyCompaniesQuery.Filters.MaxPrice ?? double.MaxValue;
+            double maxPrice = (double)getFilterNearbyCompaniesQuery.Filters.PriceRange.Value;
 
             query = query
-                .Where(company => company.Foods.Any(_food =>
-                    (
-                    _food.DiscountedPrice >= minPrice &&
-                    _food.DiscountedPrice <= maxPrice &&
-                    _food.IsActive == true &&
-                    _food.IsDelete == false
-                    )));
+                .Where(company => company.Foods.Any(food =>
+                    food.IsActive &&
+                    !food.IsDelete &&
+                    (food.DiscountedPrice <= maxPrice)));
         }
 
         var companies = await query
