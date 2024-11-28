@@ -3,9 +3,9 @@ using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, GetAllFiltersResponse>
+public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, GetAllFiltersQueryResponse>
 {
-    public async Task<GetAllFiltersResponse> Handle(GetAllFiltersQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllFiltersQueryResponse> Handle(GetAllFiltersQuery request, CancellationToken cancellationToken)
     {
         // StaticFilters'dan sabit değerleri al
         var cuisineCategories = StaticFilters.CuisineCategories
@@ -25,7 +25,7 @@ public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, Get
             .ToList();
 
         // Sabit değerlerin birleştirilmesi
-        return await Task.FromResult(new GetAllFiltersResponse
+        return await Task.FromResult(new GetAllFiltersQueryResponse
         {
             CuisineCategories = cuisineCategories,
             ByPoints = byPoints,

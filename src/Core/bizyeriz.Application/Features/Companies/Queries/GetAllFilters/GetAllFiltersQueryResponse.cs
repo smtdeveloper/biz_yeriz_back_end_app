@@ -1,6 +1,6 @@
 ﻿namespace bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 
-public class GetAllFiltersResponse
+public class GetAllFiltersQueryResponse
 {
     public List<CuisineCategoryDto> CuisineCategories { get; set; }
     public List<PaymentTypeDto> PaymentTypes { get; set; }
