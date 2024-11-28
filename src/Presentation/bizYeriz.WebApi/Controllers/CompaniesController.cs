@@ -2,6 +2,7 @@
 using bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
 using bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
 using bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
+using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +64,14 @@ namespace bizYeriz.WebApi.Controllers
         public async Task<IActionResult> GetFilterNearbyCompanies([FromBody] GetFilterNearbyCompaniesQuery getNearbyCompaniesQuery)
         {
             var result = await _mediator.Send(getNearbyCompaniesQuery);
+            return Ok(result);
+        }
+
+        [HttpGet("GetAllFilters")]
+        public async Task<IActionResult> GetAllFilters()
+        {
+            var query = new GetAllFiltersQuery();
+            var result = await _mediator.Send(query);
             return Ok(result);
         }
 

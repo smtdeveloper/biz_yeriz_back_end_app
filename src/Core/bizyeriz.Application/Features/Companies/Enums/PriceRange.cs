@@ -2,10 +2,12 @@
 
 public enum PriceRange
 {
-    Under50 = 50,
-    Under100 = 100,
-    Under150 = 150,
-    Under200 = 200,
-    Under250 = 250,
-    Under300 = 300
+    FiftyOrLess = 1,
+    HundredOrLess = 2,
+    HundredFiftyOrLess = 3,
+    TwoHundredOrLess = 4,
+    TwoHundredFiftyOrLess = 5,
+    ThreeHundredOrLess = 6,
+    ThreeHundredFiftyOrLess = 7,
+    FourHundredOrLess = 8
 }
