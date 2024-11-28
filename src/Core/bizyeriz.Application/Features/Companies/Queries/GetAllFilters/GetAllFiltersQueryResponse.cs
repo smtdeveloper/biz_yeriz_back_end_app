@@ -11,7 +11,7 @@ public class GetAllFiltersQueryResponse
 public class CuisineCategoryDto
 {
     public int Id { get; set; }
-    public string Name { get; set; }    
+    public string CategoryName { get; set; }    
 }
 
 public class PaymentTypeDto

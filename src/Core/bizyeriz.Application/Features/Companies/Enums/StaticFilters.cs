@@ -4,19 +4,6 @@ namespace bizyeriz.Application.Features.Companies.Enums;
 
 public static class StaticFilters
 {
-    public static readonly List<CuisineCategoryDto> CuisineCategories = new()
-    {
-        new CuisineCategoryDto { Id = 8, Name = "Pasta/Tatlı" },
-        new CuisineCategoryDto { Id = 9, Name = "Aperatifler" },
-        new CuisineCategoryDto { Id = 10, Name = "Fırın Pastahane" },
-        new CuisineCategoryDto { Id = 11, Name = "Ev Yemekleri" },
-        new CuisineCategoryDto { Id = 12, Name = "Çorba" },
-        new CuisineCategoryDto { Id = 13, Name = "Çiğ Köfte" },
-        new CuisineCategoryDto { Id = 14, Name = "Salata" },
-        new CuisineCategoryDto { Id = 15, Name = "Meze" },
-        new CuisineCategoryDto { Id = 16, Name = "Dünya Mutfağı" }
-    };
-
     public static readonly List<ByPointDto> ByPoints = new()
     {
         new ByPointDto { Id = 1, Point = 4.5 },

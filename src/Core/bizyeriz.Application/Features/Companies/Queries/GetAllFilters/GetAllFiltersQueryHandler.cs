@@ -1,16 +1,24 @@
-﻿using bizyeriz.Application.Features.Companies.Enums;
+﻿using AutoMapper;
+using bizyeriz.Application.Features.Companies.Enums;
 using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
-using System.Threading;
-using System.Threading.Tasks;
+using bizyeriz.Application.Interfaces.Repositories;
 
 public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, GetAllFiltersQueryResponse>
 {
+    private readonly ICuisineCategoryRepository _cuisineCategoryRepository;
+    private readonly IMapper _mapper;
+
+    public GetAllFiltersQueryHandler(ICuisineCategoryRepository cuisineCategoryRepository, IMapper mapper)
+    {
+        _cuisineCategoryRepository = cuisineCategoryRepository;
+        _mapper = mapper;
+    }
+
     public async Task<GetAllFiltersQueryResponse> Handle(GetAllFiltersQuery request, CancellationToken cancellationToken)
     {
-        // StaticFilters'dan sabit değerleri al
-        var cuisineCategories = StaticFilters.CuisineCategories
-            .Select(c => new CuisineCategoryDto { Id = c.Id, Name = c.Name })
-            .ToList();
+        var cuisineCategoriesFromDb = await _cuisineCategoryRepository.GetAllAsync(cancellationToken: cancellationToken);
+        var cuisineCategories = _mapper.Map<List<CuisineCategoryDto>>(cuisineCategoriesFromDb);
+
 
         var byPoints = StaticFilters.ByPoints
             .Select(bp => new ByPointDto { Id = bp.Id, Point = bp.Point})

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 using bizyeriz.Application.Features.CuisineCategories.Queries.GetAllCuisineCategories;
 using bizYeriz.Domain.Entities.FoodEntities;
 
@@ -10,5 +11,6 @@ public class CuisineCategoryMappings : Profile
     {
         CreateMap<GetAllCuisineCategoriesQueryResponse, CuisineCategory>().ReverseMap();
         CreateMap<GetAllCuisineCategoriesQuery, CuisineCategory>().ReverseMap();
+        CreateMap<CuisineCategory, CuisineCategoryDto>().ReverseMap();
     }
 }
