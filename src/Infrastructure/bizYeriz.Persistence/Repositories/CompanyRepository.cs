@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using bizyeriz.Application.Features.Companies.Enums;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizYeriz.Domain.Entities.CompanyEntities;
 using NetTopologySuite.Geometries;
@@ -108,51 +109,67 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
 
     private double GetMaxPriceByPriceRangeId(int priceRangeId)
     {
-        switch (priceRangeId)
-        {
-            case 1:
-                return 50;
-            case 2:
-                return 100;
-            case 3:
-                return 150;
-            case 4:
-                return 200;
-            case 5:
-                return 250;
-            case 6:
-                return 300;
-            case 7:
-                return 350;
-            case 8:
-                return 400;
-            default:
-                return double.MaxValue;
-        }
+        // PriceRanges listesinden ilgili ID'ye sahip kaydı bul
+        var priceRange = StaticFilters.PriceRanges.FirstOrDefault(pr => pr.Id == priceRangeId);
+        return priceRange?.Range ?? double.MaxValue; // Eğer ID bulunmazsa varsayılan değer
     }
+
     private double GetMinimumPointByPointId(int byPointId)
     {
-        switch (byPointId)
-        {
-            case 1:
-                return 4.5;
-            case 2:
-                return 4.0;
-            case 3:
-                return 3.5;
-            case 4:
-                return 3.0;
-            case 5:
-                return 2.5;
-            case 6:
-                return 2.0;
-            case 7:
-              return 1.5;
-            case 8:
-                return 1.0;
-
-            default:
-                return 0;
-        }
+        // ByPoints listesinden ilgili ID'ye sahip kaydı bul
+        var byPoint = StaticFilters.ByPoints.FirstOrDefault(bp => bp.Id == byPointId);
+        return byPoint?.Point ?? 0; // Eğer ID bulunmazsa varsayılan değer
     }
+
+    //private double GetMaxPriceByPriceRangeId(int priceRangeId)
+    //{
+    //    switch (priceRangeId)
+    //    {
+    //        case 1:
+    //            return 50;
+    //        case 2:
+    //            return 100;
+    //        case 3:
+    //            return 150;
+    //        case 4:
+    //            return 200;
+    //        case 5:
+    //            return 250;
+    //        case 6:
+    //            return 300;
+    //        case 7:
+    //            return 350;
+    //        case 8:
+    //            return 400;
+    //        default:
+    //            return double.MaxValue;
+    //    }
+    //}
+
+    //private double GetMinimumPointByPointId(int byPointId)
+    //{
+    //    switch (byPointId)
+    //    {
+    //        case 1:
+    //            return 4.5;
+    //        case 2:
+    //            return 4.0;
+    //        case 3:
+    //            return 3.5;
+    //        case 4:
+    //            return 3.0;
+    //        case 5:
+    //            return 2.5;
+    //        case 6:
+    //            return 2.0;
+    //        case 7:
+    //          return 1.5;
+    //        case 8:
+    //            return 1.0;
+
+    //        default:
+    //            return 0;
+    //    }
+    //}
+
 }

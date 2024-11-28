@@ -11,8 +11,7 @@ public class GetAllFiltersResponse
 public class CuisineCategoryDto
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string ImageUrl { get; set; }
+    public string Name { get; set; }    
 }
 
 public class PaymentTypeDto
@@ -24,10 +23,10 @@ public class PaymentTypeDto
 public class PriceRangeDto
 {
     public int Id { get; set; }
-    public string Range { get; set; }
+    public double Range { get; set; }
 }
 public class ByPointDto
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public double Point { get; set; }
 }
