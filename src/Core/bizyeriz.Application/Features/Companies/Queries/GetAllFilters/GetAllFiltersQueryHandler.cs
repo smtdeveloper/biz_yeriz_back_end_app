@@ -21,24 +21,36 @@ public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, Get
 
 
         var byPoints = StaticFilters.ByPoints
-            .Select(bp => new ByPointDto { Id = bp.Id, Point = bp.Point})
+            .Select(bp => new ByPointDto { Id = bp.Id, Point = bp.Point, Name = bp.Name})
             .ToList();
 
         var priceRanges = StaticFilters.PriceRanges
-            .Select(pr => new PriceRangeDto { Id = pr.Id, Range = pr.Range})
+            .Select(pr => new PriceRangeDto { Id = pr.Id, Range = pr.Range, Name = pr.Name })
             .ToList();
 
         var paymentTypes = StaticFilters.PaymentTypes
             .Select(pt => new PaymentTypeDto { Id = pt.Id, Name = pt.Name })
             .ToList();
 
-        // Sabit değerlerin birleştirilmesi
+        CuisineCategoryFilterModel cuisineCategoryFilterModel = new CuisineCategoryFilterModel 
+        { Data = cuisineCategories , FilterName ="Mutfaklar" , IsMultiSelect = true};
+
+        ByPointFilterModel byPointFilterModel = new ByPointFilterModel 
+        { Data = byPoints, FilterName = "Puanlar", IsMultiSelect = false };
+
+        PaymentTypeFilterModel paymentTypeFilterModel = new PaymentTypeFilterModel
+        { Data = paymentTypes, FilterName = "Ödeme Türleri", IsMultiSelect = true };
+
+        PriceRangeFilterModel priceRangeFilterModel = new PriceRangeFilterModel
+        { Data = priceRanges, FilterName = "Minimum Fiyat", IsMultiSelect = false };
+
         return await Task.FromResult(new GetAllFiltersQueryResponse
         {
-            CuisineCategories = cuisineCategories,
-            ByPoints = byPoints,
-            PriceRanges = priceRanges,
-            PaymentTypes = paymentTypes
+            ByCuisineCategory = cuisineCategoryFilterModel,
+            ByPoint = byPointFilterModel,
+            ByPriceRange = priceRangeFilterModel,
+            ByPaymentType= paymentTypeFilterModel
         });
+    
     }
 }

@@ -10,7 +10,10 @@ public class CuisineCategoryMappings : Profile
     public CuisineCategoryMappings()
     {
         CreateMap<GetAllCuisineCategoriesQueryResponse, CuisineCategory>().ReverseMap();
-        CreateMap<GetAllCuisineCategoriesQuery, CuisineCategory>().ReverseMap();
-        CreateMap<CuisineCategory, CuisineCategoryDto>().ReverseMap();
+        CreateMap<GetAllCuisineCategoriesQuery, CuisineCategory>().ReverseMap();       
+        CreateMap<CuisineCategory, CuisineCategoryDto>()
+           .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CategoryName))
+           .ReverseMap()
+           .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Name));
     }
 }
