@@ -100,7 +100,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
              CreatedDate = company.CreatedDate,
              UpdatedDate = company.UpdatedDate,
              DeletedDate = company.DeletedDate,
-             Distance = Math.Round(company.Location.Distance(userLocation)),
+             Distance = Math.Round(company.Location.Distance(userLocation) / 1000),
          })
          .ToListAsync(cancellationToken);
 
