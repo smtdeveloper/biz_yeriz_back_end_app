@@ -33,6 +33,15 @@ public static class StaticFilters
         new PaymentTypeDto { Id = 1, Name = "Nakit" },
         new PaymentTypeDto { Id = 2, Name = "Kredi Kartı" }
     };
+
+    public static readonly List<OrderTypeDto> OrderTypes = new()
+    {
+         new OrderTypeDto { Id = 1, Name = "Akıllı Sıralama" },
+         new OrderTypeDto { Id = 2, Name = "Yakınlık" },
+         new OrderTypeDto { Id = 3, Name = "En Çok Değerlendirenler" },
+         new OrderTypeDto { Id = 4, Name = "Puan" },
+         new OrderTypeDto { Id = 5, Name = "Alfabetik" }
+    };
 }
 
 
