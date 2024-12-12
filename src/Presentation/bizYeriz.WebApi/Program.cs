@@ -19,14 +19,7 @@ builder.Services.AddPersistenceService(builder.Configuration);
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    // Swagger JSON endpoint
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BizYeriz API V1");
-    
-    // Change the base path for the Swagger UI
-    c.RoutePrefix = "api/swagger";
-});
+app.UseSwaggerUI();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
