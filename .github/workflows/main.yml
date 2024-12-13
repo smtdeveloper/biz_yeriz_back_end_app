@@ -23,4 +23,4 @@ jobs:
             cd /var/www/biz_yeriz_back_end_app
             git reset --hard
             git pull origin main
-            docker-compose up --build
+            docker-compose up --build -d
