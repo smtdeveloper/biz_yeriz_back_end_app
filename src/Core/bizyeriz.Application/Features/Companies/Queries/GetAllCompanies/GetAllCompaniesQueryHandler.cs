@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using bizyeriz.Application.Features.Companies.Queries.GetNearbyCompanies;
 using bizyeriz.Application.Interfaces.Repositories;
-using bizYeriz.Domain.Entities.CompanyEntities;
 using System.Linq.Expressions;
 
 namespace bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;

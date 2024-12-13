@@ -1,6 +1,4 @@
-﻿using bizyeriz.Application.Interfaces.Repositories;
-using bizYeriz.Domain.Entities.CompanyEntities;
-using bizYeriz.Domain.Entities.FoodEntities;
+﻿using bizYeriz.Domain.Entities.CompanyEntities;
 
 namespace bizyeriz.Application.Features.Companies.BusinessRules;
 

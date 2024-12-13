@@ -63,10 +63,6 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
         return entity;        
     }
 
-    public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression)
-    {
-        return _dbSet.Where(expression);
-    }
     public void UpdateRange(IEnumerable<TEntity> entities)
     {
         _dbSet.UpdateRange(entities);   

@@ -2,7 +2,6 @@
 using bizYeriz.Domain.Entities.CompanyEntities;
 using bizYeriz.Domain.Entities.CustomerEntities;
 using bizYeriz.Domain.Entities.FoodEntities;
-using bizYeriz.Domain.Entities.OrderEntities;
 using System.Reflection;
 
 namespace bizYeriz.Persistence.Context
