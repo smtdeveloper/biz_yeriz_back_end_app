@@ -2,11 +2,12 @@
 using bizyeriz.Application.Features.Companies.Enums;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizYeriz.Domain.Entities.CompanyEntities;
+using bizYeriz.Persistence.Repositories.Extensions;
 using NetTopologySuite.Geometries;
 
 namespace bizYeriz.Persistence.Repositories;
 
-public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompanyRepository
+public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompanyRepository
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -70,6 +71,7 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
                     getFilterNearbyCompaniesQuery.Filters.PaymentIds.Contains(cpt.PaymentTypeId)));
         }
 
+        query = query.ApplyOrdering(getFilterNearbyCompaniesQuery.Filters.ByOrderId, userLocation);
 
         var companies = await query
          .Select(company => new Company
@@ -121,4 +123,4 @@ public class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompany
         return byPoint?.Point ?? 0; // Eğer ID bulunmazsa varsayılan değer
     }
 
-}
+}  
