@@ -32,7 +32,7 @@ public class Company : BaseEntity<Guid>
     public bool IsTrustworthy { get; set; }
 
     [NotMapped]
-    public double Distance { get; set; }
+    public string Distance { get; set; }
 
     public virtual ICollection<CompanyUser> CompanyUsers { get; set; }
     public virtual ICollection<Food> Foods { get; set; }   

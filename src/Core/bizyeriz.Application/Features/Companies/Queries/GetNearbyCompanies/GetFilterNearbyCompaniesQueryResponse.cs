@@ -7,7 +7,7 @@ public class GetFilterNearbyCompaniesQueryResponse
     public string Name { get; set; } = default!;
     public double Lat { get; set; }
     public double Long { get; set; }
-    public double? Distance { get; set; }
+    public string? Distance { get; set; }
     public string? ImageUrl { get; set; }
     public double StarRating { get; set; }
     public double RatingCount { get; set; }

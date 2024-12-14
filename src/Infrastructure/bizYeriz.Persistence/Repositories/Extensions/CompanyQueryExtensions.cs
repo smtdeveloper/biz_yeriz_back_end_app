@@ -1,4 +1,5 @@
-﻿using bizYeriz.Domain.Entities.CompanyEntities;
+﻿using bizyeriz.Application.Features.Companies.Enums;
+using bizYeriz.Domain.Entities.CompanyEntities;
 using NetTopologySuite.Geometries;
 
 namespace bizYeriz.Persistence.Repositories.Extensions;
@@ -18,5 +19,36 @@ public static class CompanyQueryExtensions
             5 => query.OrderBy(c => c.Name), // Alfabetik
             _ => query
         };
+    
+    }
+
+    public static class DistanceHelper
+    {
+        public static string FormatDistance(double distanceInMeters)
+        {
+            if (distanceInMeters < 1000)
+            {
+                return $"{Math.Round(distanceInMeters)} metre"; // 1000 metreden küçükse metre cinsinden
+            }
+            else
+            {
+                return $"{Math.Round(distanceInMeters / 1000, 2)} km"; // 1000 metre veya daha büyükse kilometre cinsinden
+            }
+        }
+    }
+
+
+    public static double GetMaxPriceByPriceRangeId(int priceRangeId)
+    {
+        // PriceRanges listesinden ilgili ID'ye sahip kaydı bul
+        var priceRange = StaticFilters.PriceRanges.FirstOrDefault(pr => pr.Id == priceRangeId);
+        return priceRange?.Range ?? double.MaxValue; // Eğer ID bulunmazsa varsayılan değer
+    }
+
+    public static double GetMinimumPointByPointId(int byPointId)
+    {
+        // ByPoints listesinden ilgili ID'ye sahip kaydı bul
+        var byPoint = StaticFilters.ByPoints.FirstOrDefault(bp => bp.Id == byPointId);
+        return byPoint?.Point ?? 0; // Eğer ID bulunmazsa varsayılan değer
     }
 }
