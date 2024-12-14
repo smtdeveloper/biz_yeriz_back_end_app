@@ -20,7 +20,7 @@ var app = builder.Build();
 
 app.UseSwagger(c =>
 {
-    c.RouteTemplate = "api/swagger/{documentName}/swagger.json"; 
+    c.RouteTemplate = "/api/swagger/{documentName}/swagger.json"; 
 });
 app.UseSwaggerUI(c =>
 {
