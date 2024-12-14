@@ -10,7 +10,7 @@ public class GetCompanyByIdQueryResponse
     public string CompanyPhone { get; set; } = default!;
     public double StarRating { get; set; }
     public double RatingCount { get; set; }
-
+    public double AverageRating { get; set; }
 
     public string City { get; set; } = default!;
     public string District { get; set; } = default!;
