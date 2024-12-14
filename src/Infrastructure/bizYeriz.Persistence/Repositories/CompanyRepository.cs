@@ -4,6 +4,7 @@ using bizyeriz.Application.Interfaces.Repositories;
 using bizYeriz.Domain.Entities.CompanyEntities;
 using bizYeriz.Persistence.Repositories.Extensions;
 using NetTopologySuite.Geometries;
+using static bizYeriz.Persistence.Repositories.Extensions.CompanyQueryExtensions;
 
 namespace bizYeriz.Persistence.Repositories;
 
@@ -102,25 +103,10 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
              CreatedDate = company.CreatedDate,
              UpdatedDate = company.UpdatedDate,
              DeletedDate = company.DeletedDate,
-             Distance = Math.Round(company.Location.Distance(userLocation) / 1000),
+             Distance = DistanceHelper.FormatDistance(company.Location.Distance(userLocation)), // Statik metot ile formatlama
          })
          .ToListAsync(cancellationToken);
 
         return companies;
     }
-
-    private double GetMaxPriceByPriceRangeId(int priceRangeId)
-    {
-        // PriceRanges listesinden ilgili ID'ye sahip kaydı bul
-        var priceRange = StaticFilters.PriceRanges.FirstOrDefault(pr => pr.Id == priceRangeId);
-        return priceRange?.Range ?? double.MaxValue; // Eğer ID bulunmazsa varsayılan değer
-    }
-
-    private double GetMinimumPointByPointId(int byPointId)
-    {
-        // ByPoints listesinden ilgili ID'ye sahip kaydı bul
-        var byPoint = StaticFilters.ByPoints.FirstOrDefault(bp => bp.Id == byPointId);
-        return byPoint?.Point ?? 0; // Eğer ID bulunmazsa varsayılan değer
-    }
-
-}  
+}
