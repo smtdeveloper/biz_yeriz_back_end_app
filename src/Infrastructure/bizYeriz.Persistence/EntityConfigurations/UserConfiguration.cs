@@ -36,7 +36,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         //builder.HasData(_seeds);
 
-        builder.HasBaseType((string)null!);
+       // builder.HasBaseType((string)null!);
     }
 
     //public static Guid AdminId { get; } = Guid.NewGuid();
