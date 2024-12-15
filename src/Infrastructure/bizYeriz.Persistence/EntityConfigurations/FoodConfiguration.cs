@@ -14,7 +14,7 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
         builder.Property(f => f.Name).HasColumnName("Name").IsRequired();
         builder.Property(f => f.Description).HasColumnName("Description");
         builder.Property(f => f.ImageUrl).HasColumnName("ImageUrl");
-        builder.Property(f => f.OrjinalPrice).HasColumnName("OrjinalPrice");
+        builder.Property(f => f.OriginalPrice).HasColumnName("OriginalPrice");
         builder.Property(f => f.DiscountedPrice).HasColumnName("DiscountedPrice").IsRequired();
         builder.Property(f => f.AvailableFrom).HasColumnName("AvailableFrom");
         builder.Property(f => f.AvailableUntil).HasColumnName("AvailableUntil");

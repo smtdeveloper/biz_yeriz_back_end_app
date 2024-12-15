@@ -33,7 +33,7 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
                     CompanyId = f.CompanyId,
                     Name = f.Name,
                     Description = f.Description,
-                    OrjinalPrice = f.OrjinalPrice,
+                    OriginalPrice = f.OriginalPrice,
                     DiscountedPrice = f.DiscountedPrice,
                     ImageUrl = f.ImageUrl,
                     AvailableFrom = f.AvailableFrom,
