@@ -1,4 +1,6 @@
-﻿namespace bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
+﻿using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
+
+namespace bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 
 public class GetCompanyByIdQueryResponse
 {
@@ -31,5 +33,27 @@ public class GetCompanyByIdQueryResponse
 
     public bool EnvironmentallyFriendly { get; set; }
     public bool IsTrustworthy { get; set; }
+    public List<CuisineCategoryWithFoodsDto> CuisineCategoriesWithFoods { get; set; }
+}
 
+public class CompanyFoodsDto
+{
+    public Guid CompanyId { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string ImageUrl { get; set; }
+    public double OrjinalPrice { get; set; }
+    public double DiscountedPrice { get; set; }
+    public DateTime AvailableFrom { get; set; }
+    public DateTime AvailableUntil { get; set; }
+    public int Stock { get; set; }
+    public bool IsActive { get; set; }
+    public bool IsDelete { get; set; }
+   
+}
+
+public class CuisineCategoryWithFoodsDto
+{
+    public string CategoryName { get; set; }
+    public List<CompanyFoodsDto> Foods { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 using bizyeriz.Application.Features.Foods.Commands.AddCompany;
 using bizyeriz.Application.Features.Foods.Commands.AddFood;
 using bizyeriz.Application.Features.Foods.Commands.DeleteFood;
@@ -21,5 +22,6 @@ public class FoodMappings : Profile
         CreateMap<Food, DeleteFoodCommand>().ReverseMap();
         CreateMap<Food, UpdateFoodCommandResponse>().ReverseMap();
         CreateMap<Food, UpdateFoodCommand>().ReverseMap();
+        CreateMap<Food, CompanyFoodsDto>().ReverseMap();
     }
 }

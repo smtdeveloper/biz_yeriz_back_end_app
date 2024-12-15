@@ -21,6 +21,12 @@ public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, G
     {
         var company = await _companyRepository.GetByIdAsync(request.Id, cancellationToken);
         await _companyBusinessRules.CheckIfCompanyIsNull(company);
-        return _mapper.Map<GetCompanyByIdQueryResponse>(company);
+
+        List<CuisineCategoryWithFoodsDto> groupedFoods = await _companyRepository.GetFoodsGroupedByCuisineAsync(request.Id, cancellationToken);
+        var response = _mapper.Map<GetCompanyByIdQueryResponse>(company);
+        response.CuisineCategoriesWithFoods = groupedFoods;
+
+        return response;
     }
+
 }

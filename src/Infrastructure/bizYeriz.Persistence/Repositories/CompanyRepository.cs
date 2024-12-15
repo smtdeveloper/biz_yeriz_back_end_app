@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using bizyeriz.Application.Features.Companies.Enums;
+using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizYeriz.Domain.Entities.CompanyEntities;
 using bizYeriz.Persistence.Repositories.Extensions;
@@ -18,6 +18,43 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
         _dbContext = context;
         _mapper = mapper;
     }
+
+    public async Task<List<CuisineCategoryWithFoodsDto>> GetFoodsGroupedByCuisineAsync(Guid companyId, CancellationToken cancellationToken)
+    {
+        var groupedFoods = await _context.Foods
+            .AsNoTracking()
+            .Where(f => f.CompanyId == companyId && f.IsActive)
+            .SelectMany(f => f.CuisineCategoryAndFoods.Select(ccf => new
+            {
+                CuisineCategory = ccf.CuisineCategory,
+                Food = new CompanyFoodsDto
+                {
+                    CompanyId = f.CompanyId,
+                    Name = f.Name,
+                    Description = f.Description,
+                    OrjinalPrice = f.OrjinalPrice,
+                    DiscountedPrice = f.DiscountedPrice,
+                    ImageUrl = f.ImageUrl,
+                    AvailableFrom = f.AvailableFrom,
+                    AvailableUntil = f.AvailableUntil,
+                    Stock = f.Stock,
+                    IsActive = f.IsActive
+                }
+            }))
+            .GroupBy(x => x.CuisineCategory)
+            .Select(group => new CuisineCategoryWithFoodsDto
+            {
+                CategoryName = group.Key.CategoryName,
+                Foods = group.Select(x => x.Food).ToList()
+            })
+            .ToListAsync(cancellationToken);
+
+        if (groupedFoods == null || !groupedFoods.Any())
+            return new List<CuisineCategoryWithFoodsDto>();
+
+        return groupedFoods;
+    }
+
 
     public async Task<List<Company>> GetFilteredNearbyCompaniesAsync(GetFilterNearbyCompaniesQuery getFilterNearbyCompaniesQuery, CancellationToken cancellationToken)
     {
