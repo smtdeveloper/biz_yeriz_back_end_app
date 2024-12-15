@@ -22,6 +22,8 @@ public class FoodMappings : Profile
         CreateMap<Food, DeleteFoodCommand>().ReverseMap();
         CreateMap<Food, UpdateFoodCommandResponse>().ReverseMap();
         CreateMap<Food, UpdateFoodCommand>().ReverseMap();
-        CreateMap<Food, CompanyFoodsDto>().ReverseMap();
+        CreateMap<Food, CompanyFoodsDto>()
+        .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+
     }
 }

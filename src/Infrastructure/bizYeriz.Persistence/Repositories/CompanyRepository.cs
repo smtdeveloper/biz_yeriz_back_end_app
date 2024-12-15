@@ -29,6 +29,7 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
                 CuisineCategory = ccf.CuisineCategory,
                 Food = new CompanyFoodsDto
                 {
+                    Id = f.Id,
                     CompanyId = f.CompanyId,
                     Name = f.Name,
                     Description = f.Description,
@@ -41,13 +42,15 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
                     IsActive = f.IsActive
                 }
             }))
+            .Distinct() // Tekrarları kaldır
             .GroupBy(x => x.CuisineCategory)
             .Select(group => new CuisineCategoryWithFoodsDto
             {
                 CategoryName = group.Key.CategoryName,
-                Foods = group.Select(x => x.Food).ToList()
+                Foods = group.Select(x => x.Food).Distinct().ToList() // Yiyeceklerde tekrarları kaldır
             })
             .ToListAsync(cancellationToken);
+
 
         if (groupedFoods == null || !groupedFoods.Any())
             return new List<CuisineCategoryWithFoodsDto>();
