@@ -70,6 +70,19 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
                 company.IsDelete == false &&
                 company.Location.Distance(userLocation) < getFilterNearbyCompaniesQuery.Location.Distance);
 
+
+        // Yemek adı filtresi
+        if (!string.IsNullOrWhiteSpace(getFilterNearbyCompaniesQuery.Filters.SearchWord))
+        {
+            string searchWord = getFilterNearbyCompaniesQuery.Filters.SearchWord.Trim().ToLower();
+
+            query = query
+                .Include(company => company.Foods)
+                .Where(company => company.Foods.Any(food =>
+                    food.Name.ToLower().Contains(searchWord) && food.IsActive == true && food.IsDelete == false) || 
+                    company.Name.ToLower().Contains(searchWord) && company.IsActive == true && company.IsDelete == false); 
+        }
+
         // Mutfak filtresi
         if (getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds != null && getFilterNearbyCompaniesQuery.Filters.CuisineCategoryIds.Any())
         {

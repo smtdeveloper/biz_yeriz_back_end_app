@@ -7,4 +7,5 @@ public class FilterCompaniesDto
     public int? ByPointId { get; set; }
     public int? ByOrderId { get; set; }
     public List<int>? PaymentIds { get; set; } = new List<int>();
+    public string SearchWord { get; set; }
 }
