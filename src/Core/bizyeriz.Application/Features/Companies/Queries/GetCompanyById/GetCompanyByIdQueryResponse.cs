@@ -33,7 +33,16 @@ public class GetCompanyByIdQueryResponse
 
     public bool EnvironmentallyFriendly { get; set; }
     public bool IsTrustworthy { get; set; }
-    public List<CuisineCategoryWithFoodsDto> CuisineCategoriesWithFoods { get; set; }
+    public List<CuisineCategoryWithFoodsDto> CuisineCategoriesWithFoods { get; set; } = new();
+    public List<CompanyWorkingHourDto> WorkingHours { get; set; } = new();
+}
+
+public class CompanyWorkingHourDto
+{
+    public DayOfWeek Day { get; set; }
+    public TimeSpan OpenTime { get; set; }
+    public TimeSpan ClosingTime { get; set; }
+    public bool IsActive { get; set; }
 }
 
 public class CompanyFoodsDto

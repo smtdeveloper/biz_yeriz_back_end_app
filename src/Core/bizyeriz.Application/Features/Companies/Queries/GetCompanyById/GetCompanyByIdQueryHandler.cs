@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using bizyeriz.Application.Features.Companies.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
+using bizYeriz.Domain.Entities.CompanyEntities;
 
 namespace bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 
@@ -23,10 +24,14 @@ public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, G
         await _companyBusinessRules.CheckIfCompanyIsNull(company);
 
         List<CuisineCategoryWithFoodsDto> groupedFoods = await _companyRepository.GetFoodsGroupedByCuisineAsync(request.Id, cancellationToken);
-        var response = _mapper.Map<GetCompanyByIdQueryResponse>(company);
+        List<CompanyWorkingHour> workingHours = await _companyRepository.GetWorkingHoursByCompanyIdAsync(request.Id, cancellationToken);
+
+        GetCompanyByIdQueryResponse response = _mapper.Map<GetCompanyByIdQueryResponse>(company);
         response.CuisineCategoriesWithFoods = groupedFoods;
+        response.WorkingHours = _mapper.Map<List<CompanyWorkingHourDto>>(workingHours);
 
         return response;
     }
+
 
 }

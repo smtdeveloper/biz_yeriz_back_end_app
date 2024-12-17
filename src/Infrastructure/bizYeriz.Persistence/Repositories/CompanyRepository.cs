@@ -19,6 +19,13 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
         _mapper = mapper;
     }
 
+    public async Task<List<CompanyWorkingHour>> GetWorkingHoursByCompanyIdAsync(Guid companyId, CancellationToken cancellationToken)
+    {
+        return await _context.CompanyWorkingHours
+            .Where(wh => wh.CompanyId == companyId && !wh.IsDelete && wh.IsActive)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<List<CuisineCategoryWithFoodsDto>> GetFoodsGroupedByCuisineAsync(Guid companyId, CancellationToken cancellationToken)
     {
         var groupedFoods = await _context.Foods
@@ -57,7 +64,6 @@ public  class CompanyRepository : AsyncGenericRepository<Company, Guid>, ICompan
 
         return groupedFoods;
     }
-
 
     public async Task<List<Company>> GetFilteredNearbyCompaniesAsync(GetFilterNearbyCompaniesQuery getFilterNearbyCompaniesQuery, CancellationToken cancellationToken)
     {

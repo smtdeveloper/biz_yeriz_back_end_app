@@ -21,6 +21,7 @@ public class CompanyMappings : Profile
         CreateMap<Company, UpdateCompanyCommandResponse>().ReverseMap();
         CreateMap<Company, UpdateCompanyCommand>().ReverseMap();        
         CreateMap<Company, GetFilterNearbyCompaniesQueryResponse>().ReverseMap();
+        CreateMap<CompanyWorkingHour, CompanyWorkingHourDto>();
 
         CreateMap<Company, GetFilterNearbyCompaniesQueryResponse>()
             .ForMember(dest => dest.Lat, opt => opt.MapFrom(src => src.Location != null ? src.Location.Y : (double?)null))
