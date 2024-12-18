@@ -1,8 +1,9 @@
 ﻿using bizyeriz.Application.Features.Foods.Commands.AddFood;
+using bizYeriz.Shared.Responses;
 
 namespace bizyeriz.Application.Features.Foods.Commands.AddCompany;
 
-public class AddFoodCommand : IRequest<AddFoodCommandResponse>
+public class AddFoodCommand : IRequest<IDataResponse<AddFoodCommandResponse>>
 {
     public Guid CompanyId { get; set; }
 

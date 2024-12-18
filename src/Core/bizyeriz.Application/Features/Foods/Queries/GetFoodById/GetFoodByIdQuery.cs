@@ -1,4 +1,5 @@
-﻿namespace bizyeriz.Application.Features.Foods.Queries.GetFoodById;
+﻿using bizYeriz.Shared.Responses;
 
-public record GetFoodByIdQuery(int Id) : IRequest<GetFoodByIdQueryResponse>;
+namespace bizyeriz.Application.Features.Foods.Queries.GetFoodById;
 
+public record GetFoodByIdQuery(int Id) : IRequest<IDataResponse<GetFoodByIdQueryResponse>>;

@@ -1,6 +1,8 @@
-﻿namespace bizyeriz.Application.Features.Foods.Queries.GetAllFoods;
+﻿using bizYeriz.Shared.Responses;
 
-public class GetAllFoodsQuery : IRequest<List<GetAllFoodsQueryResponse>>
+namespace bizyeriz.Application.Features.Foods.Queries.GetAllFoods;
+
+public class GetAllFoodsQuery : IRequest<IDataResponse<List<GetAllFoodsQueryResponse>>>
 {
 
 }

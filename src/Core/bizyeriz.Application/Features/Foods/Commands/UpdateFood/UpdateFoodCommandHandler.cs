@@ -3,10 +3,11 @@ using bizyeriz.Application.Features.Foods.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
 using bizYeriz.Domain.Entities.FoodEntities;
+using bizYeriz.Shared.Responses;
 
 namespace bizyeriz.Application.Features.Foods.Commands.UpdateFood;
 
-public class UpdateFoodCommandHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodCommandResponse>
+public class UpdateFoodCommandHandler : IRequestHandler<UpdateFoodCommand, IResponse>
 {
     private readonly IMapper _mapper;
     private readonly IFoodRepository _foodRepository;
@@ -21,7 +22,7 @@ public class UpdateFoodCommandHandler : IRequestHandler<UpdateFoodCommand, Updat
         _businessRules = businessRules;
     }
 
-    public async Task<UpdateFoodCommandResponse> Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
+    public async Task<IResponse> Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
     {
         Food food = await _foodRepository.GetByIdAsync(request.Id, cancellationToken);
         await _businessRules.CheckIfFoodIsNull(food);
@@ -29,7 +30,9 @@ public class UpdateFoodCommandHandler : IRequestHandler<UpdateFoodCommand, Updat
         Food updatedCompany = await _foodRepository.Update(food!);
         await _unitOfWork.CommitAsync();
         await _businessRules.CheckIfFoodIsNull(updatedCompany);
-        UpdateFoodCommandResponse response = _mapper.Map<UpdateFoodCommandResponse>(food);
-        return response;
+
+        var result = Response.SuccessResponse("Yemek Başarıyla Güncellendi.");
+        return result;
+
     }
 }

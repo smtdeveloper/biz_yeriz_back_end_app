@@ -22,7 +22,7 @@ public class GetFilterNearbyCompaniesQueryHandler : IRequestHandler<GetFilterNea
             cancellationToken: cancellationToken);
 
         var response = _mapper.Map<List<GetFilterNearbyCompaniesQueryResponse>>(companies);
-        var result = DataResponse<List<GetFilterNearbyCompaniesQueryResponse>>.SuccessResponse(response, "Şirket Başarıyla Eklendi.");
+        var result = DataResponse<List<GetFilterNearbyCompaniesQueryResponse>>.SuccessResponse(response, "Şirketler Başarıyla Listelendi.");
         return result;
     }
 }

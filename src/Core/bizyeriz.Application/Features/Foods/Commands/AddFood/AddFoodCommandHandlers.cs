@@ -5,10 +5,11 @@ using bizyeriz.Application.Features.Foods.Commands.AddCompany;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
 using bizYeriz.Domain.Entities.FoodEntities;
+using bizYeriz.Shared.Responses;
 
 namespace bizyeriz.Application.Features.Foods.Commands.AddFood;
 
-public class AddFoodCommandHandlers : IRequestHandler<AddFoodCommand, AddFoodCommandResponse>
+public class AddFoodCommandHandlers : IRequestHandler<AddFoodCommand, IDataResponse<AddFoodCommandResponse>>
 {
     private readonly IMapper _mapper;
     private readonly IFoodRepository _foodRepository;
@@ -24,7 +25,7 @@ public class AddFoodCommandHandlers : IRequestHandler<AddFoodCommand, AddFoodCom
     }
 
 
-    public async Task<AddFoodCommandResponse> Handle(AddFoodCommand request, CancellationToken cancellationToken)
+    public async Task<IDataResponse<AddFoodCommandResponse>> Handle(AddFoodCommand request, CancellationToken cancellationToken)
     {
         Food food = _mapper.Map<Food>(request);
         await _businessRules.CheckIfFoodIsNull(food);
@@ -32,9 +33,9 @@ public class AddFoodCommandHandlers : IRequestHandler<AddFoodCommand, AddFoodCom
         var addedCompany = await _foodRepository.AddAsync(food, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        AddFoodCommandResponse response = _mapper.Map<AddFoodCommandResponse>(addedCompany);
-        return response;
+        AddFoodCommandResponse response = _mapper.Map<AddFoodCommandResponse>(addedCompany);       
+        var result = DataResponse<AddFoodCommandResponse>.SuccessResponse(response, "Yemek Başarıyla Eklendi.");
+        return result;
     }
-
 
 }

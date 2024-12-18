@@ -2,10 +2,11 @@
 using bizyeriz.Application.Features.Foods.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
+using bizYeriz.Shared.Responses;
 
 namespace bizyeriz.Application.Features.Foods.Commands.DeleteFood;
 
-public class DeleteFoodCommandHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodCommandResponse>
+public class DeleteFoodCommandHandler : IRequestHandler<DeleteFoodCommand, IResponse>
 {
     private readonly IFoodRepository _foodRepository;
     private readonly IMapper _mapper;
@@ -20,14 +21,15 @@ public class DeleteFoodCommandHandler : IRequestHandler<DeleteFoodCommand, Delet
         _foodBusinessRules = foodBusinessRules;
     }
 
-    public async Task<DeleteFoodCommandResponse> Handle(DeleteFoodCommand request, CancellationToken cancellationToken)
+    public async Task<IResponse> Handle(DeleteFoodCommand request, CancellationToken cancellationToken)
     {
         var food = await _foodRepository.GetByIdAsync(request.Id, cancellationToken);
         _foodBusinessRules.CheckIfFoodIsNull(food);
         _foodRepository.Remove(food);
         await _unitOfWork.CommitAsync();
-        DeleteFoodCommandResponse response = _mapper.Map<DeleteFoodCommandResponse>(food);
-        return response;
+       
+        var result = Response.SuccessResponse("Yemek Başarıyla Silindi.");
+        return result;
     }
 
 }

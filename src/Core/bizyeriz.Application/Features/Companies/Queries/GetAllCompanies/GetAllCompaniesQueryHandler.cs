@@ -23,7 +23,7 @@ public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery,
         var response = await _companyRepository.GetAllAsync<GetAllCompaniesQueryResponse>(cancellationToken, filter);
         var responseList = response.ToList();
 
-        var result = DataResponse<List<GetAllCompaniesQueryResponse>>.SuccessResponse(responseList, "Şirketler başarıyla getirildi.");
+        var result = DataResponse<List<GetAllCompaniesQueryResponse>>.SuccessResponse(responseList, "Şirketler başarıyla Listelendi.");
         return result;
     }
 }

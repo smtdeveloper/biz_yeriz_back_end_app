@@ -34,6 +34,7 @@ public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, IDat
         await _unitOfWork.CommitAsync();
 
         AddCompanyCommandResponse response = _mapper.Map<AddCompanyCommandResponse>(addedCompany);
+        
         var result = DataResponse<AddCompanyCommandResponse>.SuccessResponse(response, "Şirket Başarıyla Eklendi.");
         return result;       
     }

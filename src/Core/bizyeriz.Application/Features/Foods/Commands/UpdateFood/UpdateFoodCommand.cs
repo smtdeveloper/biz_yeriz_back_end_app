@@ -1,8 +1,9 @@
 ﻿using bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
+using bizYeriz.Shared.Responses;
 
 namespace bizyeriz.Application.Features.Foods.Commands.UpdateFood;
 
-public class UpdateFoodCommand : IRequest<UpdateFoodCommandResponse>
+public class UpdateFoodCommand : IRequest<IResponse>
 {
     public Guid CompanyId { get; set; }
 

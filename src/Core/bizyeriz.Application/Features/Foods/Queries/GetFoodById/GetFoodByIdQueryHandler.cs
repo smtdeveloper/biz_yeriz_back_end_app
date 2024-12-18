@@ -1,11 +1,11 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using bizyeriz.Application.Features.Foods.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
+using bizYeriz.Shared.Responses;
 
 namespace bizyeriz.Application.Features.Foods.Queries.GetFoodById;
 
-public class GetFoodByIdQueryHandler : IRequestHandler<GetFoodByIdQuery, GetFoodByIdQueryResponse>
+public class GetFoodByIdQueryHandler : IRequestHandler<GetFoodByIdQuery, IDataResponse<GetFoodByIdQueryResponse>>
 {
     private readonly IFoodRepository _foodRepository;
     private readonly IMapper _mapper;
@@ -18,10 +18,12 @@ public class GetFoodByIdQueryHandler : IRequestHandler<GetFoodByIdQuery, GetFood
         _foodBusinessRules = foodBusinessRules;
     }
 
-    public async Task<GetFoodByIdQueryResponse> Handle(GetFoodByIdQuery request, CancellationToken cancellationToken)
+    public async Task<IDataResponse<GetFoodByIdQueryResponse>> Handle(GetFoodByIdQuery request, CancellationToken cancellationToken)
     {
         var food = await _foodRepository.GetByIdAsync(request.Id, cancellationToken);
         await _foodBusinessRules.CheckIfFoodIsNull(food);
-        return _mapper.Map<GetFoodByIdQueryResponse>(food);
+        GetFoodByIdQueryResponse response = _mapper.Map<GetFoodByIdQueryResponse>(food);
+        var result = DataResponse<GetFoodByIdQueryResponse>.SuccessResponse(response, "Yemek Başarıyla Listelendi.");
+        return result;
     }
 }
