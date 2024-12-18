@@ -1,6 +1,8 @@
-﻿namespace bizyeriz.Application.Features.Companies.Commands.AddCompany;
+﻿using bizYeriz.Shared.Responses;
 
-public class AddCompanyCommand : IRequest<AddCompanyCommandResponse>
+namespace bizyeriz.Application.Features.Companies.Commands.AddCompany;
+
+public class AddCompanyCommand : IRequest<IDataResponse<AddCompanyCommandResponse>>
 {
     public string Name { get; set; }
     public string? ImageUrl { get; set; }

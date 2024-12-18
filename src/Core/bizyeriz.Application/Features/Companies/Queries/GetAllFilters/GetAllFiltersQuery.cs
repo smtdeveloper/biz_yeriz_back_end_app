@@ -1,6 +1,8 @@
-﻿namespace bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
+﻿using bizYeriz.Shared.Responses;
 
-public class GetAllFiltersQuery : IRequest<GetAllFiltersQueryResponse>
+namespace bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
+
+public class GetAllFiltersQuery : IRequest<IDataResponse<GetAllFiltersQueryResponse>>
 {
 }
 

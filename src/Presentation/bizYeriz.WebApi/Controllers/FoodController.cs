@@ -6,55 +6,54 @@ using bizyeriz.Application.Features.Foods.Queries.GetFoodById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace bizYeriz.WebApi.Controllers
+namespace bizYeriz.WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class FoodController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FoodController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public FoodController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public FoodController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+    [HttpPost("add")]
+    public async Task<IActionResult> Add([FromBody] AddFoodCommand addFoodQuery)
+    {
+        var result = await _mediator.Send(addFoodQuery);
+        return Ok(result);
+    }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody] AddFoodCommand addFoodQuery)
-        {
-            var result = await _mediator.Send(addFoodQuery);
-            return Ok(result);
-        }
+    [HttpPut("update")]
+    public async Task<IActionResult> Update([FromBody] UpdateFoodCommand updateFoodQuery)
+    {
+        var result = await _mediator.Send(updateFoodQuery);
+        return Ok(result);
+    }
 
-        [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] UpdateFoodCommand updateFoodQuery)
-        {
-            var result = await _mediator.Send(updateFoodQuery);
-            return Ok(result);
-        }
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var deleteCompanyQuery = new DeleteFoodCommand(id);
+        var result = await _mediator.Send(deleteCompanyQuery);
+        return Ok(result);
+    }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var deleteCompanyQuery = new DeleteFoodCommand(id);
-            var result = await _mediator.Send(deleteCompanyQuery);
-            return Ok(result);
-        }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+    {
+        var query = new GetFoodByIdQuery(id);
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
-        {
-            var query = new GetFoodByIdQuery(id);
-            var result = await _mediator.Send(query, cancellationToken);
-            return Ok(result);
-        }
-
-        [HttpGet("list")]
-        public async Task<IActionResult> GetAll()
-        {
-            var query = new GetAllFoodsQuery();
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
+    [HttpGet("list")]
+    public async Task<IActionResult> GetAll()
+    {
+        var query = new GetAllFoodsQuery();
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
 }

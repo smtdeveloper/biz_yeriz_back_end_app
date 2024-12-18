@@ -1,3 +1,5 @@
-﻿namespace bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
+﻿using bizYeriz.Shared.Responses;
 
-public record GetCompanyByIdQuery(Guid Id) : IRequest<GetCompanyByIdQueryResponse>;
+namespace bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
+
+public record GetCompanyByIdQuery(Guid Id) : IRequest<IDataResponse<GetCompanyByIdQueryResponse>>;

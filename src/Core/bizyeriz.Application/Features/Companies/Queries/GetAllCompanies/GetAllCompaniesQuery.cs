@@ -1,3 +1,5 @@
-﻿namespace bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
+﻿using bizYeriz.Shared.Responses;
 
-public record GetAllCompaniesQuery : IRequest<List<GetAllCompaniesQueryResponse>> {}
+namespace bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
+
+public record GetAllCompaniesQuery : IRequest<IDataResponse<List<GetAllCompaniesQueryResponse>>> {}

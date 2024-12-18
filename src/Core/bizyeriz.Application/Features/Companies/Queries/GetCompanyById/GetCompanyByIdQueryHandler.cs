@@ -2,10 +2,11 @@
 using bizyeriz.Application.Features.Companies.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizYeriz.Domain.Entities.CompanyEntities;
+using bizYeriz.Shared.Responses;
 
 namespace bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 
-public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, GetCompanyByIdQueryResponse>
+public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, IDataResponse<GetCompanyByIdQueryResponse>>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -17,8 +18,7 @@ public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, G
         _companyBusinessRules = companyBusinessRules;
     }
 
-
-    public async Task<GetCompanyByIdQueryResponse> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
+    public async Task<IDataResponse<GetCompanyByIdQueryResponse>> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.GetByIdAsync(request.Id, cancellationToken);
         await _companyBusinessRules.CheckIfCompanyIsNull(company);
@@ -30,8 +30,8 @@ public class GetCompanyByIdQueryHandler : IRequestHandler<GetCompanyByIdQuery, G
         response.CuisineCategoriesWithFoods = groupedFoods;
         response.WorkingHours = _mapper.Map<List<CompanyWorkingHourDto>>(workingHours);
 
-        return response;
+        var result = DataResponse<GetCompanyByIdQueryResponse>.SuccessResponse(response, "Şirket Başarıyla Listendi.");
+        return result;
     }
-
 
 }

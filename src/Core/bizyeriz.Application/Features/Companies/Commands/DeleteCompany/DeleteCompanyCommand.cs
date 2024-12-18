@@ -1,4 +1,6 @@
-﻿namespace bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
+﻿using bizYeriz.Shared.Responses;
 
-public record DeleteCompanyCommand(Guid Id) : IRequest<DeleteCompanyCommandResponse>;
+namespace bizyeriz.Application.Features.Companies.Commands.DeleteCompany;
+
+public record DeleteCompanyCommand(Guid Id) : IRequest<IResponse>;
 

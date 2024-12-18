@@ -16,9 +16,7 @@ public class CompanyMappings : Profile
         CreateMap<AddCompanyCommand, Company>();       
         CreateMap<Company, GetAllCompaniesQueryResponse>().ReverseMap();
         CreateMap<Company, AddCompanyCommandResponse>().ReverseMap();
-        CreateMap<Company, DeleteCompanyCommandResponse>().ReverseMap();
-        CreateMap<Company, DeleteCompanyCommand>().ReverseMap();
-        CreateMap<Company, UpdateCompanyCommandResponse>().ReverseMap();
+        CreateMap<Company, DeleteCompanyCommand>().ReverseMap();       
         CreateMap<Company, UpdateCompanyCommand>().ReverseMap();        
         CreateMap<Company, GetFilterNearbyCompaniesQueryResponse>().ReverseMap();
         CreateMap<CompanyWorkingHour, CompanyWorkingHourDto>();

@@ -3,11 +3,12 @@ using bizyeriz.Application.Features.Companies.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizyeriz.Application.Interfaces.UnitOfWork;
 using bizYeriz.Domain.Entities.CompanyEntities;
+using bizYeriz.Shared.Responses;
 using NetTopologySuite.Geometries;
 
 namespace bizyeriz.Application.Features.Companies.Commands.AddCompany;
 
-public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, AddCompanyCommandResponse>
+public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, IDataResponse<AddCompanyCommandResponse>>
 {
     private readonly IMapper _mapper;
     private readonly ICompanyRepository _companyRepository;
@@ -22,25 +23,18 @@ public class AddCompanyCommandHandlers : IRequestHandler<AddCompanyCommand, AddC
         _businessRules = businessRules;
     }
 
-    public async Task<AddCompanyCommandResponse> Handle(AddCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<IDataResponse<AddCompanyCommandResponse>> Handle(AddCompanyCommand request, CancellationToken cancellationToken)
     {
         Company company = _mapper.Map<Company>(request);
         await _businessRules.CheckIfCompanyIsNull(company);
         company.CreatedDate = DateTime.UtcNow;       
         company.Location = new Point(request.Long, request.Lat);
 
-        try
-        {
-            Company addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
-            await _unitOfWork.CommitAsync();
-            AddCompanyCommandResponse response = _mapper.Map<AddCompanyCommandResponse>(addedCompany);
-            return response;
-        }
-        catch (Exception ex)
-        {
-            // Log the full exception here (especially the inner exception)
-            throw new Exception("An error occurred while saving the entity changes.", ex);
-        }
+        Company addedCompany = await _companyRepository.AddAsync(company, cancellationToken);
+        await _unitOfWork.CommitAsync();
 
+        AddCompanyCommandResponse response = _mapper.Map<AddCompanyCommandResponse>(addedCompany);
+        var result = DataResponse<AddCompanyCommandResponse>.SuccessResponse(response, "Şirket Başarıyla Eklendi.");
+        return result;       
     }
 }

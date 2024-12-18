@@ -1,6 +1,8 @@
-﻿namespace bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
+﻿using bizYeriz.Shared.Responses;
 
-public class UpdateCompanyCommand : IRequest<UpdateCompanyCommandResponse>
+namespace bizyeriz.Application.Features.Companies.Commands.UpdateCompany;
+
+public class UpdateCompanyCommand : IRequest<IResponse>
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

@@ -2,8 +2,9 @@
 using bizyeriz.Application.Features.Companies.Enums;
 using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 using bizyeriz.Application.Interfaces.Repositories;
+using bizYeriz.Shared.Responses;
 
-public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, GetAllFiltersQueryResponse>
+public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, IDataResponse<GetAllFiltersQueryResponse>>
 {
     private readonly ICuisineCategoryRepository _cuisineCategoryRepository;
     private readonly IMapper _mapper;
@@ -14,14 +15,13 @@ public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, Get
         _mapper = mapper;
     }
 
-    public async Task<GetAllFiltersQueryResponse> Handle(GetAllFiltersQuery request, CancellationToken cancellationToken)
+    public async Task<IDataResponse<GetAllFiltersQueryResponse>> Handle(GetAllFiltersQuery request, CancellationToken cancellationToken)
     {
         var cuisineCategoriesFromDb = await _cuisineCategoryRepository.GetAllAsync(cancellationToken: cancellationToken);
         var cuisineCategories = _mapper.Map<List<CuisineCategoryDto>>(cuisineCategoriesFromDb);
 
-
         var byPoints = StaticFilters.ByPoints
-            .Select(bp => new ByPointDto { Id = bp.Id, Point = bp.Point, Name = bp.Name})
+            .Select(bp => new ByPointDto { Id = bp.Id, Point = bp.Point, Name = bp.Name })
             .ToList();
 
         var priceRanges = StaticFilters.PriceRanges
@@ -36,10 +36,10 @@ public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, Get
             .Select(_orderTypes => new OrderTypeDto { Id = _orderTypes.Id, Name = _orderTypes.Name })
             .ToList();
 
-        ByCuisineCategoryFilterModel cuisineCategoryFilterModel = new ByCuisineCategoryFilterModel 
-        { Data = cuisineCategories , FilterName ="Mutfaklar" , IsMultiSelect = true};
+        ByCuisineCategoryFilterModel cuisineCategoryFilterModel = new ByCuisineCategoryFilterModel
+        { Data = cuisineCategories, FilterName = "Mutfaklar", IsMultiSelect = true };
 
-        ByPointFilterModel byPointFilterModel = new ByPointFilterModel 
+        ByPointFilterModel byPointFilterModel = new ByPointFilterModel
         { Data = byPoints, FilterName = "Puanlar", IsMultiSelect = false };
 
         ByPaymentTypeFilterModel paymentTypeFilterModel = new ByPaymentTypeFilterModel
@@ -51,14 +51,15 @@ public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, Get
         ByOrderFilterModel byOrderFilterModel = new ByOrderFilterModel
         { Data = orderTypes, FilterName = "Sıralamalar", IsMultiSelect = false };
 
-        return await Task.FromResult(new GetAllFiltersQueryResponse
+        var response = new GetAllFiltersQueryResponse
         {
             ByCuisineCategory = cuisineCategoryFilterModel,
             ByPoint = byPointFilterModel,
             ByPriceRange = priceRangeFilterModel,
-            ByPaymentType= paymentTypeFilterModel,
+            ByPaymentType = paymentTypeFilterModel,
             ByOrder = byOrderFilterModel,
-        });
-    
+        };
+
+        return DataResponse<GetAllFiltersQueryResponse>.SuccessResponse(response, "Tüm filterlar listelendi.");
     }
 }
