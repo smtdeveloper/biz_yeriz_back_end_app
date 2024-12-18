@@ -1,5 +1,7 @@
-﻿namespace bizyeriz.Application.Features.CuisineCategories.Queries.GetAllCuisineCategories;
+﻿using bizYeriz.Shared.Responses;
 
-public class GetAllCuisineCategoriesQuery : IRequest<List<GetAllCuisineCategoriesQueryResponse>>
+namespace bizyeriz.Application.Features.CuisineCategories.Queries.GetAllCuisineCategories;
+
+public class GetAllCuisineCategoriesQuery : IRequest<IDataResponse<List<GetAllCuisineCategoriesQueryResponse>>>
 {
 }
