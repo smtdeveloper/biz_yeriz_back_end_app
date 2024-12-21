@@ -16,6 +16,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddPersistenceService(builder.Configuration);
 
+// Configure CORS
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.UseSwagger(c =>
@@ -32,6 +44,8 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 /*app.UseHttpsRedirection()*/
 ; // htpps zorunu yapar!
+
+app.UseCors("AllowSpecificOrigins");
 
 app.UseAuthorization();
 
