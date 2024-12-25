@@ -52,11 +52,11 @@ public class CompanyFoodsDto
     public string Name { get; set; }
     public string Description { get; set; }
     public string ImageUrl { get; set; }
-    public double OriginalPrice { get; set; }
-    public double DiscountedPrice { get; set; }
-    public DateTime AvailableFrom { get; set; }
-    public DateTime AvailableUntil { get; set; }
-    public int Stock { get; set; }
+    public double? OriginalPrice { get; set; }
+    public double? DiscountedPrice { get; set; }
+    public DateTime? AvailableFrom { get; set; }
+    public DateTime? AvailableUntil { get; set; }
+    public int? Stock { get; set; }
     public bool IsActive { get; set; }
     public bool IsDelete { get; set; }
    

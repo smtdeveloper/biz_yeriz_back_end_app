@@ -4,22 +4,24 @@ using bizyeriz.Application.Features.Foods.Commands.UpdateFood;
 using bizyeriz.Application.Features.Foods.Queries.GetAllFoods;
 using bizyeriz.Application.Features.Foods.Queries.GetFoodById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bizYeriz.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class FoodController : ControllerBase
+public class FoodsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public FoodController(IMediator mediator)
+    public FoodsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpPost("add")]
+    [Authorize(Policy = "AddFood")]
     public async Task<IActionResult> Add([FromBody] AddFoodCommand addFoodQuery)
     {
         var result = await _mediator.Send(addFoodQuery);
@@ -27,6 +29,7 @@ public class FoodController : ControllerBase
     }
 
     [HttpPut("update")]
+    [Authorize(Policy = "UpdateFood")]
     public async Task<IActionResult> Update([FromBody] UpdateFoodCommand updateFoodQuery)
     {
         var result = await _mediator.Send(updateFoodQuery);
@@ -34,6 +37,7 @@ public class FoodController : ControllerBase
     }
 
     [HttpDelete("delete/{id}")]
+    [Authorize(Policy = "DeleteFood")]
     public async Task<IActionResult> Delete(int id)
     {
         var deleteCompanyQuery = new DeleteFoodCommand(id);
@@ -41,7 +45,7 @@ public class FoodController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}")]   
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         var query = new GetFoodByIdQuery(id);
@@ -49,7 +53,7 @@ public class FoodController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("list")]
+    [HttpGet("list")]   
     public async Task<IActionResult> GetAll()
     {
         var query = new GetAllFoodsQuery();
@@ -57,3 +61,4 @@ public class FoodController : ControllerBase
         return Ok(result);
     }
 }
+

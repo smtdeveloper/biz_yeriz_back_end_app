@@ -24,6 +24,165 @@ namespace bizYeriz.Persistence.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("Description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsActive");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDelete");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Name");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions", (string)null);
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedByIp")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("CreatedByIp");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ExpirationDate");
+
+                    b.Property<string>("ReasonRevoked")
+                        .HasColumnType("text")
+                        .HasColumnName("ReasonRevoked");
+
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("text")
+                        .HasColumnName("ReplacedByToken");
+
+                    b.Property<string>("RevokedByIp")
+                        .HasColumnType("text")
+                        .HasColumnName("RevokedByIp");
+
+                    b.Property<DateTime?>("RevokedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("RevokedDate");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Token");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("Description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsActive");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDelete");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Name");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles", (string)null);
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions", (string)null);
+                });
+
             modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -35,21 +194,30 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("BirthDate");
 
+                    b.Property<Guid?>("CompanyUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("CompanyUserId");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("CreatedDate");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("CustomerId");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DeletedDate");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("Email");
 
                     b.Property<string>("Gsm")
-                        .HasColumnType("text")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("Gsm");
 
                     b.Property<bool>("IsActive")
@@ -61,84 +229,64 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnName("IsDelete");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("LastName");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Name");
 
-                    b.Property<byte[]>("PasswordHash")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("bytea")
+                        .HasColumnType("text")
                         .HasColumnName("PasswordHash");
 
-                    b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("bytea")
-                        .HasColumnName("PasswordSalt");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("RoleId");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("UpdatedDate");
 
-                    b.Property<int>("UserType")
-                        .HasColumnType("integer");
+                    b.Property<int>("UserTypes")
+                        .HasColumnType("integer")
+                        .HasColumnName("UserType");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.Company", b =>
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.UserAddress", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("Id");
 
-                    b.Property<string>("AddressDetail")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddreesDetail")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("AddressDetail");
-
-                    b.Property<double?>("AverageRating")
-                        .HasColumnType("double precision")
-                        .HasColumnName("AverageRating");
+                        .HasColumnName("AddreesDetail");
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("City");
 
-                    b.Property<string>("CompanyPhone")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CompanyPhone");
-
-                    b.Property<string>("CompanyTypeDescription")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CompanyTypeDescription");
-
-                    b.Property<string>("CompanyTypeImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CompanyTypeImageUrl");
-
-                    b.Property<string>("CompanyTypeName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CompanyTypeName");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("CreatedDate");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("CustomerAddressName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("CustomerAddressName");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("timestamp with time zone")
@@ -149,8 +297,98 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("District");
 
-                    b.Property<string>("Email")
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsActive");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDelete");
+
+                    b.Property<string>("Lat")
                         .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Lat");
+
+                    b.Property<string>("Long")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Long");
+
+                    b.Property<string>("Neighbarhood")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Neighbarhood");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Street");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CustomerAddresses", (string)null);
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("AddressDetail")
+                        .HasColumnType("text")
+                        .HasColumnName("AddressDetail");
+
+                    b.Property<double?>("AverageRating")
+                        .HasColumnType("double precision")
+                        .HasColumnName("AverageRating");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text")
+                        .HasColumnName("City");
+
+                    b.Property<string>("CompanyPhone")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("CompanyPhone");
+
+                    b.Property<string>("CompanyTypeDescription")
+                        .HasColumnType("text")
+                        .HasColumnName("CompanyTypeDescription");
+
+                    b.Property<string>("CompanyTypeImageUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("CompanyTypeImageUrl");
+
+                    b.Property<string>("CompanyTypeName")
+                        .HasColumnType("text")
+                        .HasColumnName("CompanyTypeName");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("District")
+                        .HasColumnType("text")
+                        .HasColumnName("District");
+
+                    b.Property<string>("Email")
                         .HasColumnType("text")
                         .HasColumnName("Email");
 
@@ -176,12 +414,10 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnName("Location");
 
                     b.Property<string>("MapUrl")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("MapUrl");
 
                     b.Property<string>("MobilePhone")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("MobilePhone");
 
@@ -191,20 +427,18 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnName("Name");
 
                     b.Property<string>("Neighborhood")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Neighborhood");
 
-                    b.Property<double>("RatingCount")
+                    b.Property<double?>("RatingCount")
                         .HasColumnType("double precision")
                         .HasColumnName("RatingCount");
 
-                    b.Property<double>("StarRating")
+                    b.Property<double?>("StarRating")
                         .HasColumnType("double precision")
                         .HasColumnName("StarRating");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Street");
 
@@ -213,8 +447,6 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnName("UpdatedDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Companies", (string)null);
                 });
@@ -228,11 +460,7 @@ namespace bizYeriz.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Contents")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Contents");
 
@@ -244,10 +472,6 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DeletedDate");
 
-                    b.Property<bool>("Dislike")
-                        .HasColumnType("boolean")
-                        .HasColumnName("Dislike");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
                         .HasColumnName("IsActive");
@@ -256,17 +480,9 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("IsDelete");
 
-                    b.Property<bool>("Like")
-                        .HasColumnType("boolean")
-                        .HasColumnName("Like");
-
                     b.Property<int>("OrderId")
                         .HasColumnType("integer")
                         .HasColumnName("OrderId");
-
-                    b.Property<double>("RatingCount")
-                        .HasColumnType("double precision")
-                        .HasColumnName("RatingCount");
 
                     b.Property<double>("StarRating")
                         .HasColumnType("double precision")
@@ -276,9 +492,16 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("UpdatedDate");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("UserId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("CompanyComments", (string)null);
                 });
@@ -291,77 +514,83 @@ namespace bizYeriz.Persistence.Migrations
                     b.Property<int>("PaymentTypeId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CompanyId", "PaymentTypeId");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.HasIndex("PaymentTypeId");
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.ToTable("CompanyPaymentType", (string)null);
-                });
-
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyPoint", b =>
-                {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<double>("MinimumPoint")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+                    b.HasKey("CompanyId", "PaymentTypeId");
 
-                    b.ToTable("CompanyPoints");
+                    b.HasIndex("PaymentTypeId");
+
+                    b.ToTable("CompanyPaymentTypes", (string)null);
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("Id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("CompanyId");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DeletedDate");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Position")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("UpdatedDate");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("UserId");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("CompanyUsers", (string)null);
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyUserToCompany", b =>
+                {
+                    b.Property<Guid>("CompanyUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("CompanyUserId", "CompanyId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanyUserToCompany", (string)null);
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyWorkingHour", b =>
@@ -416,7 +645,7 @@ namespace bizYeriz.Persistence.Migrations
                     b.ToTable("CompanyWorkingHours", (string)null);
                 });
 
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.MinOrderAmount", b =>
+            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.FavoriteCompany", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -424,25 +653,36 @@ namespace bizYeriz.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("double precision");
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CompanyId1")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedDate");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DeletedDate");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MinOrderAmounts");
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CompanyId1");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteCompanies", (string)null);
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.PaymentType", b =>
@@ -459,6 +699,12 @@ namespace bizYeriz.Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -468,7 +714,7 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes");
+                    b.ToTable("PaymentTypes", (string)null);
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CustomerEntities.Customer", b =>
@@ -502,86 +748,6 @@ namespace bizYeriz.Persistence.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CustomerEntities.CustomerAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AddreesDetail")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("AddreesDetail");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("City");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("CreatedDate");
-
-                    b.Property<string>("CustomerAddressName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CustomerAddressName");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("CustomerId");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DeletedDate");
-
-                    b.Property<string>("District")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("District");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("IsActive");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("boolean")
-                        .HasColumnName("IsDelete");
-
-                    b.Property<string>("Lat")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Lat");
-
-                    b.Property<string>("Long")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Long");
-
-                    b.Property<string>("Neighbarhood")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Neighbarhood");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("Street");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("UpdatedDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("CustomerAddresses", (string)null);
-                });
-
             modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.CuisineCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -593,7 +759,8 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("CategoryName");
 
                     b.Property<DateTime>("CreatedDate")
@@ -606,7 +773,8 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("ImageUrl");
 
                     b.Property<bool>("IsActive")
@@ -630,24 +798,30 @@ namespace bizYeriz.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("Id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedDate");
 
                     b.Property<int>("CuisineCategoryId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("CuisineCategoryId");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DeletedDate");
 
                     b.Property<int>("FoodId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("FoodId");
 
                     b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -655,7 +829,42 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.ToTable("CuisineCategoryAndFoods");
+                    b.ToTable("CuisineCategoryAndFoods", (string)null);
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.FavoriteFood", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteFoods", (string)null);
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.Food", b =>
@@ -667,11 +876,11 @@ namespace bizYeriz.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("AvailableFrom")
+                    b.Property<DateTime?>("AvailableFrom")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("AvailableFrom");
 
-                    b.Property<DateTime>("AvailableUntil")
+                    b.Property<DateTime?>("AvailableUntil")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("AvailableUntil");
 
@@ -683,24 +892,19 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("CreatedDate");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DeletedDate");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Description");
 
-                    b.Property<double>("DiscountedPrice")
+                    b.Property<double?>("DiscountedPrice")
                         .HasColumnType("double precision")
                         .HasColumnName("DiscountedPrice");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ImageUrl");
 
@@ -717,11 +921,11 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("Name");
 
-                    b.Property<double>("OriginalPrice")
+                    b.Property<double?>("OriginalPrice")
                         .HasColumnType("double precision")
                         .HasColumnName("OriginalPrice");
 
-                    b.Property<int>("Stock")
+                    b.Property<int?>("Stock")
                         .HasColumnType("integer")
                         .HasColumnName("Stock");
 
@@ -732,8 +936,6 @@ namespace bizYeriz.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Foods", (string)null);
                 });
@@ -757,7 +959,8 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("Description");
 
                     b.Property<string>("ImageUrl")
@@ -775,7 +978,8 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("Name");
 
                     b.Property<int>("OrderNumber")
@@ -795,7 +999,8 @@ namespace bizYeriz.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("Id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -806,10 +1011,12 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("FoodCategoryId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("FoodCategoryId");
 
                     b.Property<int>("FoodId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("FoodId");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -820,7 +1027,7 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.ToTable("FoodCategoryAndFoods");
+                    b.ToTable("FoodCategoryAndFoods", (string)null);
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.OrderEntities.Order", b =>
@@ -847,12 +1054,6 @@ namespace bizYeriz.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("CustomerAddressId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -863,7 +1064,11 @@ namespace bizYeriz.Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.Property<decimal?>("Discount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Excuse")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("boolean");
@@ -875,25 +1080,24 @@ namespace bizYeriz.Persistence.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("OrderStatus")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("integer");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<decimal?>("RefundAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("ShippingCost")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TaxAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TrackingNumber")
                         .IsRequired()
@@ -902,36 +1106,138 @@ namespace bizYeriz.Persistence.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("CompanyCommentId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("CustomerAddressId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Order");
+                    b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.Company", b =>
+            modelBuilder.Entity("bizYeriz.Domain.Entities.OrderEntities.OrderItem", b =>
                 {
-                    b.HasOne("bizYeriz.Domain.Entities.CustomerEntities.Customer", null)
-                        .WithMany("FavoriteCompany")
-                        .HasForeignKey("CustomerId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FoodImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("FoodName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems", (string)null);
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.RefreshToken", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.RolePermission", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.User", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.UserAddress", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
+                        .WithMany("UserAddresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyComment", b =>
                 {
-                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
+                    b.HasOne("bizYeriz.Domain.Entities.OrderEntities.Order", "Order")
+                        .WithOne("CompanyComment")
+                        .HasForeignKey("bizYeriz.Domain.Entities.CompanyEntities.CompanyComment", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
+                        .WithMany("CompanyComments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyPaymentType", b =>
@@ -939,13 +1245,13 @@ namespace bizYeriz.Persistence.Migrations
                     b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
                         .WithMany("CompanyPaymentTypes")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.PaymentType", "PaymentType")
                         .WithMany("CompanyPaymentTypes")
                         .HasForeignKey("PaymentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Company");
@@ -955,21 +1261,32 @@ namespace bizYeriz.Persistence.Migrations
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyUser", b =>
                 {
-                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
-                        .WithMany("CompanyUsers")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
                         .WithOne("CompanyUser")
                         .HasForeignKey("bizYeriz.Domain.Entities.CompanyEntities.CompanyUser", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyUserToCompany", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
+                        .WithMany("CompanyUserToCompanies")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.CompanyUser", "CompanyUser")
+                        .WithMany("CompanyUserToCompanies")
+                        .HasForeignKey("CompanyUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Company");
 
-                    b.Navigation("User");
+                    b.Navigation("CompanyUser");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyWorkingHour", b =>
@@ -983,26 +1300,38 @@ namespace bizYeriz.Persistence.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.FavoriteCompany", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", null)
+                        .WithMany("FavoriteCompanies")
+                        .HasForeignKey("CompanyId1");
+
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
+                        .WithMany("FavoriteCompany")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("bizYeriz.Domain.Entities.CustomerEntities.Customer", b =>
                 {
                     b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
                         .WithOne("Customer")
                         .HasForeignKey("bizYeriz.Domain.Entities.CustomerEntities.Customer", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CustomerEntities.CustomerAddress", b =>
-                {
-                    b.HasOne("bizYeriz.Domain.Entities.CustomerEntities.Customer", "Customer")
-                        .WithMany("CustomerAddresses")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.CuisineCategoryAndFood", b =>
@@ -1010,7 +1339,7 @@ namespace bizYeriz.Persistence.Migrations
                     b.HasOne("bizYeriz.Domain.Entities.FoodEntities.CuisineCategory", "CuisineCategory")
                         .WithMany("CuisineCategoryAndFoods")
                         .HasForeignKey("CuisineCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("bizYeriz.Domain.Entities.FoodEntities.Food", "Food")
@@ -1024,17 +1353,32 @@ namespace bizYeriz.Persistence.Migrations
                     b.Navigation("Food");
                 });
 
+            modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.FavoriteFood", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.FoodEntities.Food", "Food")
+                        .WithMany("FavoriteFood")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
+                        .WithMany("FavoriteFood")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Food");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.Food", b =>
                 {
                     b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
                         .WithMany("Foods")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("bizYeriz.Domain.Entities.CustomerEntities.Customer", null)
-                        .WithMany("FavoriteFood")
-                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Company");
                 });
@@ -1060,53 +1404,80 @@ namespace bizYeriz.Persistence.Migrations
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.OrderEntities.Order", b =>
                 {
-                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.CompanyComment", "CompanyComment")
-                        .WithOne("Order")
-                        .HasForeignKey("bizYeriz.Domain.Entities.OrderEntities.Order", "CompanyCommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
                         .WithMany("Orders")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("bizYeriz.Domain.Entities.CustomerEntities.CustomerAddress", "CustomerAddress")
-                        .WithMany()
-                        .HasForeignKey("CustomerAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("bizYeriz.Domain.Entities.CustomerEntities.Customer", "Customer")
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Company");
 
-                    b.Navigation("CompanyComment");
+                    b.Navigation("User");
+                });
 
-                    b.Navigation("Customer");
+            modelBuilder.Entity("bizYeriz.Domain.Entities.OrderEntities.OrderItem", b =>
+                {
+                    b.HasOne("bizYeriz.Domain.Entities.FoodEntities.Food", "Food")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("CustomerAddress");
+                    b.HasOne("bizYeriz.Domain.Entities.OrderEntities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Food");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.AuthEntities.User", b =>
                 {
-                    b.Navigation("CompanyUser")
-                        .IsRequired();
+                    b.Navigation("CompanyComments");
 
-                    b.Navigation("Customer")
-                        .IsRequired();
+                    b.Navigation("CompanyUser");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("FavoriteCompany");
+
+                    b.Navigation("FavoriteFood");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("RefreshTokens");
+
+                    b.Navigation("UserAddresses");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.Company", b =>
                 {
                     b.Navigation("CompanyPaymentTypes");
 
-                    b.Navigation("CompanyUsers");
+                    b.Navigation("CompanyUserToCompanies");
+
+                    b.Navigation("FavoriteCompanies");
 
                     b.Navigation("Foods");
 
@@ -1115,26 +1486,14 @@ namespace bizYeriz.Persistence.Migrations
                     b.Navigation("WorkingHours");
                 });
 
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyComment", b =>
+            modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.CompanyUser", b =>
                 {
-                    b.Navigation("Order")
-                        .IsRequired();
+                    b.Navigation("CompanyUserToCompanies");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.PaymentType", b =>
                 {
                     b.Navigation("CompanyPaymentTypes");
-                });
-
-            modelBuilder.Entity("bizYeriz.Domain.Entities.CustomerEntities.Customer", b =>
-                {
-                    b.Navigation("CustomerAddresses");
-
-                    b.Navigation("FavoriteCompany");
-
-                    b.Navigation("FavoriteFood");
-
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.CuisineCategory", b =>
@@ -1146,12 +1505,24 @@ namespace bizYeriz.Persistence.Migrations
                 {
                     b.Navigation("CuisineCategoryAndFoods");
 
+                    b.Navigation("FavoriteFood");
+
                     b.Navigation("FoodCategoryAndFoods");
+
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.FoodEntities.FoodCategory", b =>
                 {
                     b.Navigation("FoodCategoryAndFoods");
+                });
+
+            modelBuilder.Entity("bizYeriz.Domain.Entities.OrderEntities.Order", b =>
+                {
+                    b.Navigation("CompanyComment")
+                        .IsRequired();
+
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

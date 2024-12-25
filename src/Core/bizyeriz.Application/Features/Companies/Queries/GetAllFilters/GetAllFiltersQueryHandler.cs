@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using bizyeriz.Application.Features.Companies.Enums;
+using bizyeriz.Application.Features.Companies.Models.Enums;
 using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 using bizyeriz.Application.Interfaces.Repositories;
 using bizYeriz.Shared.Responses;
@@ -59,7 +59,6 @@ public class GetAllFiltersQueryHandler : IRequestHandler<GetAllFiltersQuery, IDa
             ByPaymentType = paymentTypeFilterModel,
             ByOrder = byOrderFilterModel,
         };
-
         return DataResponse<GetAllFiltersQueryResponse>.SuccessResponse(response, "Tüm filterlar listelendi.");
     }
 }

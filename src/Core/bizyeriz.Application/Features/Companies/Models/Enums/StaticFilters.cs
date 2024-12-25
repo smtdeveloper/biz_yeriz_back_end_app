@@ -1,6 +1,6 @@
 ﻿using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 
-namespace bizyeriz.Application.Features.Companies.Enums;
+namespace bizyeriz.Application.Features.Companies.Models.Enums;
 
 public static class StaticFilters
 {

@@ -11,8 +11,8 @@ public class Company : BaseEntity<Guid>
     public string Email { get; set; } = default!;
     public string MobilePhone { get; set; } = default!;
     public string CompanyPhone { get; set; } = default!;
-    public double StarRating { get; set; }
-    public double RatingCount { get; set; }
+    public double? StarRating { get; set; }
+    public double? RatingCount { get; set; }
     public double? AverageRating { get; set; }
     public string City { get; set; } = default!;
     public string District { get; set; } = default!;
@@ -34,9 +34,10 @@ public class Company : BaseEntity<Guid>
     [NotMapped]
     public string Distance { get; set; }
 
-    public virtual ICollection<CompanyUser> CompanyUsers { get; set; }
-    public virtual ICollection<Food> Foods { get; set; }   
-    public virtual ICollection<CompanyWorkingHour> WorkingHours { get; set; }
-    public virtual ICollection<Order> Orders { get; set; }
-    public virtual ICollection<CompanyPaymentType> CompanyPaymentTypes { get; set; }
+    public virtual ICollection<CompanyUserToCompany> CompanyUserToCompanies { get; set; } = new List<CompanyUserToCompany>();
+    public virtual ICollection<FavoriteCompany> FavoriteCompanies { get; set; } = new List<FavoriteCompany>();
+    public virtual ICollection<Food> Foods { get; set; } = new List<Food>();
+    public virtual ICollection<CompanyWorkingHour> WorkingHours { get; set; } = new List<CompanyWorkingHour>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<CompanyPaymentType> CompanyPaymentTypes { get; set; } = new List<CompanyPaymentType>();
 }

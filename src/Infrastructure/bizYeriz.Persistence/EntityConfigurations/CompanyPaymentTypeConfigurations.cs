@@ -1,7 +1,5 @@
 ﻿using bizYeriz.Domain.Entities.CompanyEntities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace bizYeriz.Persistence.EntityConfigurations;
 
@@ -9,17 +7,38 @@ public class CompanyPaymentTypeConfigurations : IEntityTypeConfiguration<Company
 {
     public void Configure(EntityTypeBuilder<CompanyPaymentType> builder)
     {
-        builder.ToTable("CompanyPaymentType").HasKey(_companyPaymentType => new { _companyPaymentType.CompanyId, _companyPaymentType.PaymentTypeId });
+        // Tablo adı ve birincil anahtar tanımı
+        builder.ToTable("CompanyPaymentTypes");
 
-        builder
-            .HasOne(cpt => cpt.Company)
-            .WithMany(c => c.CompanyPaymentTypes)
-            .HasForeignKey(cpt => cpt.CompanyId);
-    
-        builder
-            .HasOne(cpt => cpt.PaymentType)
-            .WithMany(pt => pt.CompanyPaymentTypes)
-            .HasForeignKey(cpt => cpt.PaymentTypeId);
-    
+        builder.HasKey(cpt => new { cpt.CompanyId, cpt.PaymentTypeId });
+
+        // Alanların özellikleri
+        builder.Property(cpt => cpt.Id)
+               .IsRequired()
+               .ValueGeneratedOnAdd();
+
+        builder.Property(cpt => cpt.CreatedDate)
+               .IsRequired();
+
+        builder.Property(cpt => cpt.UpdatedDate)
+               .IsRequired(false);
+
+        builder.Property(cpt => cpt.IsActive)
+               .IsRequired();
+
+        builder.Property(cpt => cpt.IsDelete)
+               .IsRequired();
+
+        // İlişkiler
+        builder.HasOne(cpt => cpt.Company)
+               .WithMany(c => c.CompanyPaymentTypes)
+               .HasForeignKey(cpt => cpt.CompanyId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(cpt => cpt.PaymentType)
+               .WithMany(pt => pt.CompanyPaymentTypes)
+               .HasForeignKey(cpt => cpt.PaymentTypeId)
+               .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

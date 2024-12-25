@@ -1,4 +1,4 @@
-﻿using bizyeriz.Application.Features.Companies.Enums;
+﻿using bizyeriz.Application.Features.Companies.Models.Enums;
 using bizYeriz.Domain.Entities.CompanyEntities;
 using NetTopologySuite.Geometries;
 

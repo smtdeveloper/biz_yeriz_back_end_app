@@ -5,6 +5,7 @@ using bizyeriz.Application.Features.Companies.Queries.GetAllCompanies;
 using bizyeriz.Application.Features.Companies.Queries.GetAllFilters;
 using bizyeriz.Application.Features.Companies.Queries.GetCompanyById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bizYeriz.WebApi.Controllers;
@@ -20,27 +21,20 @@ public class CompaniesController : ControllerBase
         _mediator = mediator;
     }
 
-
     [HttpPost("add")]
-    public async Task<IActionResult> Add([FromBody] AddCompanyCommand addCompanyQuery)
-    {
-        var result = await _mediator.Send(addCompanyQuery);
-        return Ok(result);
-    }
+    [Authorize(Policy = "AddCompany")]
+    public async Task<IActionResult> Add([FromBody] AddCompanyCommand addCompanyQuery) => Ok(await _mediator.Send(addCompanyQuery)); 
 
     [HttpPut("update")]
-    public async Task<IActionResult> Update([FromBody] UpdateCompanyCommand updateCompanyQuery)
-    {
-        var result = await _mediator.Send(updateCompanyQuery);
-        return Ok(result);
-    }
-
+    [Authorize(Policy = "UpdateCompany")]
+    public async Task<IActionResult> Update([FromBody] UpdateCompanyCommand updateCompanyQuery) => Ok(await _mediator.Send(updateCompanyQuery));
+    
     [HttpDelete("delete/{id}")]
+    [Authorize(Policy = "DeleteCompany")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var deleteCompanyQuery = new DeleteCompanyCommand(id);
         var result = await _mediator.Send(deleteCompanyQuery);
-
         return Ok(result);
     }
 
@@ -74,5 +68,4 @@ public class CompaniesController : ControllerBase
         var result = await _mediator.Send(query);
         return Ok(result);
     }
-
 }

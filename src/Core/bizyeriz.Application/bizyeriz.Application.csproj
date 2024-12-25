@@ -16,13 +16,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\bizYeriz.Shared\bizYeriz.Shared.csproj" />
     <ProjectReference Include="..\bizYeriz.Domain\bizYeriz.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Auths\Models\" />
+    <Folder Include="Features\Auths\Profiles\" />
+    <Folder Include="Features\Auths\Queries\" />
   </ItemGroup>
 
 </Project>

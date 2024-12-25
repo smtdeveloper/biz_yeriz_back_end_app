@@ -1,8 +1,8 @@
-﻿namespace bizYeriz.Domain.Entities.CustomerEntities;
+﻿namespace bizYeriz.Domain.Entities.AuthEntities;
 
-public class CustomerAddress : BaseEntity<int>
+public class UserAddress : BaseEntity<int>
 {
-    public Guid CustomerId { get; set; }
+    public Guid UserId { get; set; }
     public string CustomerAddressName { get; set; } = default!;
     public string City { get; set; } = default!;
     public string District { get; set; } = default!;
@@ -14,7 +14,6 @@ public class CustomerAddress : BaseEntity<int>
     public bool IsActive { get; set; }
     public bool IsDelete { get; set; }
 
-    ICollection<Order> Orders { get; set; }
-    public virtual Customer Customer { get; set; }
-
+    ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual User User { get; set; }
 }

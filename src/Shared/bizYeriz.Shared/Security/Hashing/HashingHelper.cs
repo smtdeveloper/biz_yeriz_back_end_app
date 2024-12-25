@@ -6,24 +6,25 @@ namespace bizYeriz.Shared.Security.Hashing;
 public static class HashingHelper
 {
     /// <summary>
-    /// Create a password hash and salt via HMACSHA512.
+    /// Create a password hash via HMACSHA512 without using salt.
     /// </summary>
-    public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    public static void CreatePasswordHash(string password, out string passwordHash)
     {
         using HMACSHA512 hmac = new();
 
-        passwordSalt = hmac.Key;
-        passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        // Sadece şifreyi hash'liyoruz, salt kullanmıyoruz
+        passwordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));  // Hash'i Base64 string olarak sakla
     }
 
     /// <summary>
-    /// Verify a password hash and salt via HMACSHA512.
+    /// Verify a password hash via HMACSHA512.
     /// </summary>
-    public static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+    public static bool VerifyPasswordHash(string password, string passwordHash)
     {
-        using HMACSHA512 hmac = new(passwordSalt);
+        using HMACSHA512 hmac = new();
 
         byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return computedHash.SequenceEqual(passwordHash);
+        return Convert.ToBase64String(computedHash) == passwordHash;  // Hash'i karşılaştır
     }
 }
+

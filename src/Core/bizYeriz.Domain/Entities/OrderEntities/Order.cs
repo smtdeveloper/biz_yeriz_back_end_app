@@ -2,12 +2,12 @@
 
 public class Order : BaseEntity<int>
 {
-    public Guid CustomerId { get; set; }
+    public Guid UserId { get; set; }
     public Guid CompanyId { get; set; }
     public int CompanyCommentId { get; set; }
-    public int CustomerAddressId { get; set; }
 
-    public string OrderStatus { get; set; } = default!; //Enum
+    public OrderStatusType OrderStatus { get; set; }
+    public string Excuse { get; set; } = string.Empty;
     public decimal TotalAmount { get; set; }
     public string PaymentMethod { get; set; } = default!; //Enum
     public bool IsPaid { get; set; }
@@ -18,17 +18,15 @@ public class Order : BaseEntity<int>
     public string TrackingNumber { get; set; } = default!;
     public string CouponCode { get; set; } = default!;
 
+    public DeliveryType DeliveryType { get; set; } //Enum
     public DateTime OrderDate { get; set; }
     public DateTime? DeliveryDate { get; set; }
     public DateTime? CancelledDate { get; set; }
     public decimal? RefundAmount { get; set; }
 
-    ICollection<OrderItem> OrderItems { get; set; }
-
-    public Customer Customer { get; set; }
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public User User{ get; set; }
     public Company Company { get; set; }
     public CompanyComment CompanyComment { get; set; }
-    public CustomerAddress CustomerAddress { get; set; }
-
-    public DeliveryType DeliveryType { get; set; } //Enum
+   
 }

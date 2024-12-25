@@ -1,15 +1,15 @@
-﻿using bizYeriz.Domain.Entities.CustomerEntities;
+﻿using bizYeriz.Domain.Entities.AuthEntities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace bizYeriz.Persistence.EntityConfigurations;
 
-public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAddress>
+public class UserAddressConfiguration : IEntityTypeConfiguration<UserAddress>
 {
-    public void Configure(EntityTypeBuilder<CustomerAddress> builder)
+    public void Configure(EntityTypeBuilder<UserAddress> builder)
     {
         builder.ToTable("CustomerAddresses").HasKey(ca => ca.Id);       
         builder.Property(ca => ca.Id).HasColumnName("Id").IsRequired();
-        builder.Property(ca => ca.CustomerId).HasColumnName("CustomerId").IsRequired();
+        builder.Property(ca => ca.UserId).HasColumnName("UserId").IsRequired();
         builder.Property(ca => ca.CustomerAddressName).HasColumnName("CustomerAddressName").IsRequired();       
         builder.Property(ca => ca.City).HasColumnName("City").IsRequired();
         builder.Property(ca => ca.District).HasColumnName("District").IsRequired();
@@ -23,7 +23,5 @@ public class CustomerAddressConfiguration : IEntityTypeConfiguration<CustomerAdd
         builder.Property(ca => ca.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(ca => ca.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(ca => ca.DeletedDate).HasColumnName("DeletedDate");
-
-        builder.HasQueryFilter(ca => !ca.DeletedDate.HasValue);
     }
 }

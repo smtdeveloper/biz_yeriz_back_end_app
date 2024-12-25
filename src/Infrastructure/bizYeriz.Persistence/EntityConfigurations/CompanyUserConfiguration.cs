@@ -1,27 +1,35 @@
 ﻿using bizYeriz.Domain.Entities.CompanyEntities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace bizYeriz.Persistence.EntityConfigurations;
 public class CompanyUserConfiguration : IEntityTypeConfiguration<CompanyUser>
 {
     public void Configure(EntityTypeBuilder<CompanyUser> builder)
     {
-        builder.ToTable("CompanyUsers").HasKey(cu => cu.Id);
+        // Tablo adını belirleme (Opsiyonel)
+        builder.ToTable("CompanyUsers");
 
-        // Sıralı Guid
-        builder.Property(f => f.Id).ValueGeneratedOnAdd().HasValueGenerator<SequentialGuidValueGenerator>();
+        // Birincil Anahtar (Varsayılan olarak BaseEntity ile gelen ID alanı kullanılır)
+        builder.HasKey(cu => cu.Id);
 
-        builder.Property(cu => cu.Id).HasColumnName("Id").IsRequired();
-        builder.Property(cu => cu.UserId).HasColumnName("UserId").IsRequired();
-        builder.Property(cu => cu.CompanyId).HasColumnName("CompanyId").IsRequired();
-        builder.Property(cu => cu.CreatedDate).HasColumnName("CreatedDate").IsRequired();
-        builder.Property(cu => cu.UpdatedDate).HasColumnName("UpdatedDate");
-        builder.Property(cu => cu.DeletedDate).HasColumnName("DeletedDate");
+        // İlişkiler
+        builder
+            .HasOne(cu => cu.User) // CompanyUser ile User ilişkisi
+            .WithOne(u => u.CompanyUser) // Bir User'ın bir CompanyUser ile ilişkisi
+            .HasForeignKey<CompanyUser>(cu => cu.UserId) // CompanyUser'da UserId yabancı anahtar olarak kullanılır
+            .OnDelete(DeleteBehavior.Restrict); // Silme davranışı, User silinemezse CompanyUser silinir
 
-        builder.HasQueryFilter(cu => !cu.DeletedDate.HasValue);
+        builder
+            .HasMany(cu => cu.CompanyUserToCompanies) // CompanyUser'ın birçok CompanyUserToCompany kaydı olabilir
+            .WithOne(cutc => cutc.CompanyUser) // CompanyUserToCompany'nın CompanyUser ile ilişkilendirilmesi
+            .HasForeignKey(cutc => cutc.CompanyUserId); // Yabancı anahtar (CompanyUserId)
 
-        builder.HasOne(cu => cu.User);
-        builder.HasOne(cu => cu.Company);
+        // Alan özelliklerini tanımlama (isteğe bağlı)
+        builder.Property(cu => cu.Position)
+            .HasMaxLength(200); // Position alanı için maksimum uzunluk 200 karakter olarak belirlendi
+
+        // Zorunlu alanlar, default değerler vb. eklemek
+        builder.Property(cu => cu.UserId)
+            .IsRequired(); // UserId zorunlu alan olarak belirlendi
     }
 }
