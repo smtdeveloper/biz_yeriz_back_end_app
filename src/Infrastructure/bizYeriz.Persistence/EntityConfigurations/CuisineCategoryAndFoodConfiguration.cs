@@ -6,34 +6,15 @@ public class CuisineCategoryAndFoodConfiguration : IEntityTypeConfiguration<Cuis
 {
     public void Configure(EntityTypeBuilder<CuisineCategoryAndFood> builder)
     {
-        // Tablo adı ve birincil anahtar tanımı
         builder.ToTable("CuisineCategoryAndFoods");
         builder.HasKey(ccf => ccf.Id);
+        builder.Property(ccf => ccf.Id).HasColumnName("Id").IsRequired();
+        builder.Property(ccf => ccf.CuisineCategoryId).HasColumnName("CuisineCategoryId").IsRequired();
+        builder.Property(ccf => ccf.FoodId).HasColumnName("FoodId").IsRequired();
+        builder.Property(ccf => ccf.CreatedDate).HasColumnName("CreatedDate").IsRequired();
+        builder.Property(ccf => ccf.UpdatedDate).HasColumnName("UpdatedDate").IsRequired(false);
+        builder.Property(ccf => ccf.DeletedDate).HasColumnName("DeletedDate").IsRequired(false);
 
-        // Alanların özellikleri
-        builder.Property(ccf => ccf.Id)
-               .HasColumnName("Id")
-               .IsRequired();
-
-        builder.Property(ccf => ccf.CuisineCategoryId)
-               .HasColumnName("CuisineCategoryId")
-               .IsRequired();
-
-        builder.Property(ccf => ccf.FoodId)
-               .HasColumnName("FoodId")
-               .IsRequired();
-
-        builder.Property(ccf => ccf.CreatedDate)
-               .HasColumnName("CreatedDate")
-               .IsRequired();
-
-        builder.Property(ccf => ccf.UpdatedDate)
-               .HasColumnName("UpdatedDate");
-
-        builder.Property(ccf => ccf.DeletedDate)
-               .HasColumnName("DeletedDate");
-
-        // İlişkiler
         builder.HasOne(ccf => ccf.CuisineCategory)
                .WithMany(cc => cc.CuisineCategoryAndFoods)
                .HasForeignKey(ccf => ccf.CuisineCategoryId)
@@ -43,6 +24,5 @@ public class CuisineCategoryAndFoodConfiguration : IEntityTypeConfiguration<Cuis
                .WithMany(f => f.CuisineCategoryAndFoods)
                .HasForeignKey(ccf => ccf.FoodId)
                .OnDelete(DeleteBehavior.Restrict);
-
     }
 }

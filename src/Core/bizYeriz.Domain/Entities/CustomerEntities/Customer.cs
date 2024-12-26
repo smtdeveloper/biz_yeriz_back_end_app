@@ -1,7 +1,4 @@
-﻿
-
-namespace bizYeriz.Domain.Entities.CustomerEntities;
-
+﻿namespace bizYeriz.Domain.Entities.CustomerEntities;
 public class Customer : BaseEntity<Guid>
 {
     public Guid UserId { get; set; }

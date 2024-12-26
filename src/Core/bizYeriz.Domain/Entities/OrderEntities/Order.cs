@@ -1,11 +1,9 @@
 ﻿namespace bizYeriz.Domain.Entities.OrderEntities;
-
 public class Order : BaseEntity<int>
 {
     public Guid UserId { get; set; }
     public Guid CompanyId { get; set; }
     public int CompanyCommentId { get; set; }
-
     public OrderStatusType OrderStatus { get; set; }
     public string Excuse { get; set; } = string.Empty;
     public decimal TotalAmount { get; set; }
@@ -17,7 +15,6 @@ public class Order : BaseEntity<int>
     public string Notes { get; set; } = default!;
     public string TrackingNumber { get; set; } = default!;
     public string CouponCode { get; set; } = default!;
-
     public DeliveryType DeliveryType { get; set; } //Enum
     public DateTime OrderDate { get; set; }
     public DateTime? DeliveryDate { get; set; }

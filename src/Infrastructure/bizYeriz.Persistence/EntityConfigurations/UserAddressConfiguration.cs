@@ -23,5 +23,10 @@ public class UserAddressConfiguration : IEntityTypeConfiguration<UserAddress>
         builder.Property(ca => ca.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(ca => ca.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(ca => ca.DeletedDate).HasColumnName("DeletedDate");
+
+        builder.HasOne(u => u.User)
+               .WithMany(ua => ua.UserAddresses)
+               .HasForeignKey(ua => ua.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

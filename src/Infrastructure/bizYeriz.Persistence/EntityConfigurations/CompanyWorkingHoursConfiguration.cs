@@ -8,8 +8,6 @@ namespace bizYeriz.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<CompanyWorkingHour> builder)
         {
             builder.ToTable("CompanyWorkingHours").HasKey(cwh => cwh.Id);
-
-            // Properties configuration
             builder.Property(cwh => cwh.Id).HasColumnName("Id").IsRequired();
             builder.Property(cwh => cwh.Day).HasColumnName("Day").IsRequired();
             builder.Property(cwh => cwh.OpenTime).HasColumnName("OpenTime").IsRequired();
@@ -21,11 +19,10 @@ namespace bizYeriz.Persistence.EntityConfigurations
             builder.Property(cwh => cwh.UpdatedDate).HasColumnName("UpdatedDate").IsRequired(false);
             builder.Property(cwh => cwh.DeletedDate).HasColumnName("DeletedDate").IsRequired(false);
 
-            // Relationships configuration
             builder.HasOne(cwh => cwh.Company)
                 .WithMany(c => c.WorkingHours)
                 .HasForeignKey(cwh => cwh.CompanyId)
-                .OnDelete(DeleteBehavior.Cascade); // Assuming you want cascading delete for company
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
