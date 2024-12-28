@@ -1,4 +1,5 @@
 ﻿using bizyeriz.Application.Features.Auths.BusinessRules;
+using bizyeriz.Application.Features.Auths.Commands.RegisterUser;
 using bizyeriz.Application.Features.Companies.BusinessRules;
 using bizyeriz.Application.Features.Foods.BusinessRules;
 using bizyeriz.Application.Interfaces.Repositories;
@@ -30,7 +31,7 @@ public static class ServiceRegistration
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ITokenHelper, JwtHelper>();
 
-
+      
 
         // Register business rules
         services.AddScoped<CompanyBusinessRules>();

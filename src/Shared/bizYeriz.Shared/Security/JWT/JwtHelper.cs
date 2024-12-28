@@ -55,6 +55,7 @@ public class JwtHelper : ITokenHelper
         DateTime accessTokenExpiration
     )
     {
+        // JWT token oluşturuluyor
         return new JwtSecurityToken(
             tokenOptions.Issuer,
             tokenOptions.Audience,
@@ -69,7 +70,13 @@ public class JwtHelper : ITokenHelper
     {
         List<Claim> claims = [];
         claims.AddNameIdentifier(user!.Id!.ToString()!);
-        claims.AddEmail(user.Email);
+
+        if (!string.IsNullOrEmpty(user?.Email))
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
+
+        if (!string.IsNullOrEmpty(user?.Gsm))
+            claims.Add(new Claim(ClaimTypes.MobilePhone, user.Gsm));
+
         claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
         return claims.ToImmutableList();
     }

@@ -1,13 +1,19 @@
 using bizyeriz.Application;
+using bizyeriz.Application.Features.Auths.Commands.RegisterUser;
 using bizYeriz.Persistence;
 using bizYeriz.Shared.Security.Encryption;
 using bizYeriz.Shared.Security.JWT;
 using bizYeriz.WebApi.Middlewares;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// FluentValidation için tüm validatorlarý kaydet
+builder.Services.AddValidatorsFromAssembly(typeof(RegisterCustomerCommandValidator).Assembly);
+
+// Diðer baðýmlýlýklarý kaydet
 const string tokenOptionsConfigurationSection = "TokenOptions";
 TokenOptions tokenOptions =
     builder.Configuration.GetSection(tokenOptionsConfigurationSection).Get<TokenOptions>()
@@ -26,6 +32,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddPersistenceService(builder.Configuration);
+
 
 builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("TokenOptions"));
 
