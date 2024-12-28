@@ -14,7 +14,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.ShippingCost).HasColumnType("decimal(18,2)").IsRequired(false);
         builder.Property(o => o.RefundAmount).HasColumnType("decimal(18,2)").IsRequired(false);
         builder.Property(o => o.PaymentMethod).IsRequired().IsRequired(false);
-        builder.Property(o => o.DeliveryType).IsRequired().IsRequired(false);
+        builder.Property(o => o.DeliveryType).IsRequired().IsRequired();
         builder.Property(o => o.Notes).IsRequired(false);
         builder.Property(o => o.TrackingNumber).IsRequired(false);
         builder.Property(o => o.CouponCode).IsRequired(false);

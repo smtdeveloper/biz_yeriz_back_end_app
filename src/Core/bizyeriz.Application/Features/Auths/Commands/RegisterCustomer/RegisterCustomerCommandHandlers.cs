@@ -49,6 +49,7 @@ public class RegisterCustomerCommandHandlers : IRequestHandler<RegisterCustomerC
             Gsm = request.Gsm,
             PasswordHash = passwordHash,  // Şifre hash'ini string olarak saklıyoruz
             RoleId = customerRolId,   // Customer rolü atanıyor
+            UserTypes = bizYeriz.Domain.Enums.UserTypes.Customer,
             IsActive = true,
             IsDelete = false,           
         };
