@@ -4,6 +4,7 @@ using bizYeriz.Shared.Security.Encryption;
 using bizYeriz.Shared.Security.JWT;
 using bizYeriz.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,11 @@ builder.Services.AddApplicationServices();
 
 // Register middleware
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

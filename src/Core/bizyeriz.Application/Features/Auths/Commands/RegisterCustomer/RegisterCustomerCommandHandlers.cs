@@ -40,7 +40,7 @@ public class RegisterCustomerCommandHandlers : IRequestHandler<RegisterCustomerC
             passwordHash: out string passwordHash
         );
 
-        Guid customerRolId = Guid.Parse("ce44286b-9853-4634-2043-08dd0244c40d");
+        Guid customerRolId = Guid.Parse("98f4236e-da0e-4f3e-950c-09d111408083");
 
         // Yeni kullanıcı nesnesini oluştur
         User newUser = new()
@@ -51,7 +51,8 @@ public class RegisterCustomerCommandHandlers : IRequestHandler<RegisterCustomerC
             RoleId = customerRolId,   // Customer rolü atanıyor
             UserTypes = bizYeriz.Domain.Enums.UserTypes.Customer,
             IsActive = true,
-            IsDelete = false,           
+            IsDelete = false,  
+            CreatedDate = DateTime.UtcNow
         };
 
         User createdUser = await _userRepository.AddAsync(newUser,cancellationToken);
@@ -60,26 +61,30 @@ public class RegisterCustomerCommandHandlers : IRequestHandler<RegisterCustomerC
 
         RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(
             createdUser,
-            request.IpAddress, 
+            request.IpAddress,            
             cancellationToken
         );
-        
+
+        createdRefreshToken.CreatedDate = DateTime.UtcNow;
         RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken , cancellationToken);
-
-        Role customerRol = await _roleRepository.GetByIdAsync(customerRolId,cancellationToken);
-
+        RefreshTokenModel refreshTokenModel = new RefreshTokenModel 
+        {
+            UserId = addedRefreshToken.UserId,
+            Token = addedRefreshToken.Token,
+            ExpirationDate = addedRefreshToken.ExpirationDate           
+        };
+        
+        RoleModel roleModel = new RoleModel{Id = customerRolId, Name = "Customer" };
         await _unitOfWork.CommitAsync();
 
-        // Geriye döndürülecek cevabı oluştur
         var response = new RegisterCustomerCommandResponse
         {
             AccessToken = createdAccessToken,
-            RefreshToken = createdRefreshToken, 
-            Role = customerRol,             
+            RefreshTokenModel = refreshTokenModel, 
+            RoleModel = roleModel,             
         };
 
         var result = DataResponse<RegisterCustomerCommandResponse>.SuccessResponse(response, "Başarıyla Kayıt Oldunuz!");
         return result;
     }
-
 }
