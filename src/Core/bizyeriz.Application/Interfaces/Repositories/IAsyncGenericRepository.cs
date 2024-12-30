@@ -14,4 +14,5 @@ public interface IAsyncGenericRepository<TEntity, TEntityId> where TEntity : cla
     void UpdateRange(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);
     void RemoveRange(IEnumerable<TEntity> entities);
+    IQueryable<TEntity> Query();    
 }

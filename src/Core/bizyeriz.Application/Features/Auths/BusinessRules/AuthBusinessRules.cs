@@ -2,6 +2,7 @@
 using bizYeriz.Domain.Entities.AuthEntities;
 using bizYeriz.Shared.Exception.Types;
 using bizYeriz.Shared.Security.Hashing;
+using System.Threading;
 
 namespace bizyeriz.Application.Features.Auths.BusinessRules;
 
@@ -34,9 +35,7 @@ public class AuthBusinessRules
         bool doesExist = await _userRepository.AnyAsync(u => u.Gsm == gsm, cancellationToken);
 
         if (doesExist)
-        {
-            await throwBusinessException("Telefon numarası zaten mevcut!");
-        }
+            await throwBusinessException("Telefon numarası zaten mevcut!");        
     }
 
     public async Task UserShouldBeExistsWhenSelected(User? user)

@@ -20,52 +20,55 @@ public class AsyncGenericRepository< TEntity, TEntityId> : IAsyncGenericReposito
     }
 
 
-    public async Task<TEntity> AddAsync(TEntity entity ,CancellationToken cancellationToken)
+    public IQueryable<TEntity> Query()
+    {
+        return _dbSet.AsQueryable();
+    }
+
+    public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken)
     {
         if (entity == null)
         {
             throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");
         }
-        await _dbSet.AddAsync(entity);
+        await _dbSet.AddAsync(entity, cancellationToken);        
         return entity;
     }
 
     public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
     {
-        await _dbSet.AddRangeAsync(entities);
+        await _dbSet.AddRangeAsync(entities,cancellationToken);        
     }
 
     public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
     {
-        return await _dbSet.AnyAsync(expression);
+        return await _dbSet.AnyAsync(expression, cancellationToken);
     }
-
-
 
     public async Task<TEntity> GetByIdAsync(TEntityId id, CancellationToken cancellationToken)
     {
-        return await _dbSet.FindAsync(id);
+        return await _dbSet.FindAsync(id);       
     }
 
     public void Remove(TEntity entity)
     {
-        _dbSet.Remove(entity);
+        _dbSet.Remove(entity);        
     }
 
     public void RemoveRange(IEnumerable<TEntity> entities)
     {
-        _dbSet.RemoveRange(entities);
+        _dbSet.RemoveRange(entities);        
     }
 
     public async Task<TEntity> Update(TEntity entity)
     {
-        _dbSet.Update(entity);
+        _dbSet.Update(entity);        
         return entity;        
     }
 
     public void UpdateRange(IEnumerable<TEntity> entities)
     {
-        _dbSet.UpdateRange(entities);   
+        _dbSet.UpdateRange(entities);        
     }
 
     public async Task<ICollection<TEntity>> GetAllAsync(CancellationToken cancellationToken, Expression<Func<TEntity, bool>>? expression = null)

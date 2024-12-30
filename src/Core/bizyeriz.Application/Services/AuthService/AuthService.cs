@@ -16,6 +16,7 @@ public class AuthManager : IAuthService
     private readonly ITokenHelper _tokenHelper;
     private readonly IConfiguration _configuration;
     private readonly IMapper _mapper;
+    private readonly TokenOptions _tokenOptions;
 
     public AuthManager(
       
@@ -26,6 +27,7 @@ public class AuthManager : IAuthService
         ITokenHelper tokenHelper,
         IConfiguration configuration,
         IMapper mapper
+
     )
     {
         _refreshTokenRepository = refreshTokenRepository;
@@ -35,6 +37,10 @@ public class AuthManager : IAuthService
         _tokenHelper = tokenHelper;
         _configuration = configuration;
         _mapper = mapper;
+        const string tokenOptionsConfigurationSection = "TokenOptions";
+        _tokenOptions =
+            configuration.GetSection(tokenOptionsConfigurationSection).Get<TokenOptions>()
+            ?? throw new NullReferenceException($"\"{tokenOptionsConfigurationSection}\" section cannot found in configuration");
     }
 
     public async Task<RefreshToken> AddRefreshToken(RefreshToken refreshToken, CancellationToken cancellationToken)
@@ -65,9 +71,13 @@ public class AuthManager : IAuthService
         return Task.FromResult(refreshToken);
     }
 
-    public Task DeleteOldRefreshTokens(Guid userId, CancellationToken cancellationToken)
+    public async Task DeleteOldRefreshTokens(Guid userId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        List<RefreshToken> refreshTokens = await _refreshTokenRepository.GetOldRefreshTokensAsync(
+             userId,
+            _tokenOptions.RefreshTokenTTL
+        );
+        _refreshTokenRepository.RemoveRange(refreshTokens);
     }
 
     public Task<RefreshToken?> GetRefreshTokenByToken(string refreshToken, CancellationToken cancellationToken)

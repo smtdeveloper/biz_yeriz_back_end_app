@@ -22,7 +22,7 @@ public class BaseController : ControllerBase
         return ipAddress;
     }
 
-    protected Guid getUserIdFromRequest() //todo authentication behavior?
+    protected Guid getUserIdFromRequest()
     {
         var userId = Guid.Parse(HttpContext.User.GetIdClaim()!);
         return userId;
