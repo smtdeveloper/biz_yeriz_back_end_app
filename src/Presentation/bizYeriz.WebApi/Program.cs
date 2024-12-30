@@ -23,11 +23,7 @@ builder.Services.AddApplicationServices();
 
 // Register middleware
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-    });
+builder.Services.AddControllers();  
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
