@@ -22,7 +22,7 @@ public class FoodsController : ControllerBase
 
     [HttpPost("add")]
     [Authorize(Policy = "AddFood")]
-    public async Task<IActionResult> Add([FromBody] AddFoodCommand addFoodQuery)
+    public async Task<IActionResult> Add([FromBody] AddFoodCommand addFoodQuery, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(addFoodQuery);
         return Ok(result);
@@ -30,18 +30,18 @@ public class FoodsController : ControllerBase
 
     [HttpPut("update")]
     [Authorize(Policy = "UpdateFood")]
-    public async Task<IActionResult> Update([FromBody] UpdateFoodCommand updateFoodQuery)
+    public async Task<IActionResult> Update([FromBody] UpdateFoodCommand updateFoodQuery, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(updateFoodQuery);
+        var result = await _mediator.Send(updateFoodQuery, cancellationToken);
         return Ok(result);
     }
 
     [HttpDelete("delete/{id}")]
     [Authorize(Policy = "DeleteFood")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         var deleteCompanyQuery = new DeleteFoodCommand(id);
-        var result = await _mediator.Send(deleteCompanyQuery);
+        var result = await _mediator.Send(deleteCompanyQuery,cancellationToken);
         return Ok(result);
     }
 
@@ -54,10 +54,10 @@ public class FoodsController : ControllerBase
     }
 
     [HttpGet("list")]   
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var query = new GetAllFoodsQuery();
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 }

@@ -23,49 +23,49 @@ public class CompaniesController : ControllerBase
 
     [HttpPost("add")]
     [Authorize(Policy = "AddCompany")]
-    public async Task<IActionResult> Add([FromBody] AddCompanyCommand addCompanyQuery) => Ok(await _mediator.Send(addCompanyQuery)); 
+    public async Task<IActionResult> Add([FromBody] AddCompanyCommand addCompanyQuery, CancellationToken cancellationToken) => Ok(await _mediator.Send(addCompanyQuery,cancellationToken)); 
 
     [HttpPut("update")]
     [Authorize(Policy = "UpdateCompany")]
-    public async Task<IActionResult> Update([FromBody] UpdateCompanyCommand updateCompanyQuery) => Ok(await _mediator.Send(updateCompanyQuery));
+    public async Task<IActionResult> Update([FromBody] UpdateCompanyCommand updateCompanyQuery, CancellationToken cancellationToken) => Ok(await _mediator.Send(updateCompanyQuery, cancellationToken));
     
     [HttpDelete("delete/{id}")]
     [Authorize(Policy = "DeleteCompany")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleteCompanyQuery = new DeleteCompanyCommand(id);
-        var result = await _mediator.Send(deleteCompanyQuery);
+        var result = await _mediator.Send(deleteCompanyQuery,cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("detail/{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
         var query = new GetCompanyByIdQuery(id);
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("list")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var query = new GetAllCompaniesQuery();
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 
     [HttpPost("filter-companies")]
-    public async Task<IActionResult> GetFilterNearbyCompanies([FromBody] GetFilterNearbyCompaniesQuery getNearbyCompaniesQuery)
+    public async Task<IActionResult> GetFilterNearbyCompanies([FromBody] GetFilterNearbyCompaniesQuery getNearbyCompaniesQuery, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(getNearbyCompaniesQuery);
+        var result = await _mediator.Send(getNearbyCompaniesQuery, cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("GetAllFilters")]
-    public async Task<IActionResult> GetAllFilters()
+    public async Task<IActionResult> GetAllFilters(CancellationToken cancellationToken)
     {
         var query = new GetAllFiltersQuery();
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 }

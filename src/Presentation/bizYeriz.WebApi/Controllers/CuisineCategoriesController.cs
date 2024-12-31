@@ -16,7 +16,7 @@ public class CuisineCategoriesController : ControllerBase
     }
 
     [HttpGet("list")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var query = new GetAllCuisineCategoriesQuery();
         var result = await _mediator.Send(query);

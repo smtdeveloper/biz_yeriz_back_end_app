@@ -13,18 +13,18 @@ public class AuthsController : BaseController
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand)
+    public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand, CancellationToken cancellationToken)
     {
         loginCommand.IpAddress = getIpAddress();
-        var result = await Mediator.Send(loginCommand);
+        var result = await Mediator.Send(loginCommand, cancellationToken);
         return Ok(result);
     }
 
     [HttpPost("customer-register")]       
-    public async Task<IActionResult> CustomerRegister([FromBody] RegisterCustomerCommand registerUserCommand)
+    public async Task<IActionResult> CustomerRegister([FromBody] RegisterCustomerCommand registerUserCommand, CancellationToken cancellationToken)
     {
         registerUserCommand.IpAddress = getIpAddress();
-        var result = await Mediator.Send(registerUserCommand);
+        var result = await Mediator.Send(registerUserCommand, cancellationToken);
         return Ok(result);
     }
 
