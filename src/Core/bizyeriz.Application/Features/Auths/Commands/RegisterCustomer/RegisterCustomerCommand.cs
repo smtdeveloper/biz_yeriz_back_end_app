@@ -9,5 +9,5 @@ public class RegisterCustomerCommand : IRequest<IDataResponse<RegisterCustomerCo
     public string? Gsm { get; set; }
     public string Password { get; set; }
     [JsonIgnore]
-    public string IpAddress { get; set; }
+    public string? IpAddress { get; set; }
 }
