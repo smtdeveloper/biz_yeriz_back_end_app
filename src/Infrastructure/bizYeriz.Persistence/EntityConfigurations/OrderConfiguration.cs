@@ -2,6 +2,7 @@
 using bizYeriz.Domain.Entities.OrderEntities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace bizYeriz.Persistence.EntityConfigurations;
+
 public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
@@ -23,7 +24,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder.HasOne(o => o.Company)
             .WithMany(c => c.Orders)
             .HasForeignKey(o => o.CompanyId)

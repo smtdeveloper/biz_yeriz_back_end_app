@@ -2,6 +2,7 @@
 using bizYeriz.Domain.Entities.CompanyEntities;
 using bizYeriz.Domain.Entities.CustomerEntities;
 using bizYeriz.Domain.Entities.FoodEntities;
+using bizYeriz.Domain.Entities.OrderEntities;
 using System.Reflection;
 
 namespace bizYeriz.Persistence.Context
@@ -30,6 +31,8 @@ namespace bizYeriz.Persistence.Context
         public DbSet<CompanyComment> CompanyComments { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<CompanyPaymentType> CompanyPaymentTypes { get; set; }              
+        public DbSet<FavoriteCompany> FavoriteCompanies{ get; set; }              
+        public DbSet<Order> Orders{ get; set; }              
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions, IConfiguration configuration)
                : base(dbContextOptions)
         {

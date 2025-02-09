@@ -4,7 +4,7 @@ public class Order : BaseEntity<int>
     public Guid UserId { get; set; }
     public Guid CompanyId { get; set; }
     public int CompanyCommentId { get; set; }
-    public OrderStatusType OrderStatus { get; set; }
+    public OrderStatusType OrderStatusType { get; set; }
     public string Excuse { get; set; } = string.Empty;
     public decimal TotalAmount { get; set; }
     public string PaymentMethod { get; set; } = default!; //Enum

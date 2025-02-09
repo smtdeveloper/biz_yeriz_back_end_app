@@ -275,7 +275,7 @@ namespace bizYeriz.Persistence.Migrations
                     CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
                     CompanyCommentId = table.Column<int>(type: "integer", nullable: false),
                     CustomerAddressId = table.Column<int>(type: "integer", nullable: false),
-                    OrderStatus = table.Column<string>(type: "text", nullable: false),
+                    OrderStatus = table.Column<string>(type: "integer", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "numeric", nullable: false),
                     PaymentMethod = table.Column<string>(type: "text", nullable: false),
                     IsPaid = table.Column<bool>(type: "boolean", nullable: false),

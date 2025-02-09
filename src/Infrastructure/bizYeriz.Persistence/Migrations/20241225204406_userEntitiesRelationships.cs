@@ -1512,7 +1512,7 @@ namespace bizYeriz.Persistence.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "OrderStatus",
                 table: "Order",
-                type: "text",
+                type: "integer",
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "integer");

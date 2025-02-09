@@ -878,7 +878,7 @@ namespace bizYeriz.Persistence.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("OrderStatus")
+                    b.Property<int>("OrderStatus")
                         .IsRequired()
                         .HasColumnType("text");
 

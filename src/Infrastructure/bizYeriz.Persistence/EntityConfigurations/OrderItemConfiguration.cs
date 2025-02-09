@@ -21,7 +21,7 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
 
         builder
             .HasOne(oi => oi.Food)
-            .WithMany(f => f.OrderItems)             
+            .WithMany(f => f.OrderItems)
             .HasForeignKey(oi => oi.FoodId)
             .OnDelete(DeleteBehavior.Cascade);
     }

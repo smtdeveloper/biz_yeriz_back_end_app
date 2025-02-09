@@ -21,7 +21,7 @@ public class FavoriteCompanyConfiguration : IEntityTypeConfiguration<FavoriteCom
 
         builder.HasOne(c => c.User)
             .WithMany(fc => fc.FavoriteCompanies)
-            .HasForeignKey(fc => fc.CompanyId)
+            .HasForeignKey(fc => fc.UserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

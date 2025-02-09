@@ -48,7 +48,7 @@ public class RegisterCustomerCommandHandlers : IRequestHandler<RegisterCustomerC
 
         HashingHelper.CreatePasswordHash(request.Password,passwordHash: out string passwordHash);
 
-        Guid customerRolId = Guid.Parse("98f4236e-da0e-4f3e-950c-09d111408083");
+        Guid customerRolId = Guid.Parse("312545cd-385a-4ce8-9925-a061dea9eb0d");
         string customerRolName = "Customer";
         User newUser = new()
         {

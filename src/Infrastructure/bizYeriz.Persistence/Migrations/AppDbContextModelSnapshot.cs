@@ -666,6 +666,8 @@ namespace bizYeriz.Persistence.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("FavoriteCompanies", (string)null);
                 });
 
@@ -1060,7 +1062,7 @@ namespace bizYeriz.Persistence.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("OrderStatus")
+                    b.Property<int>("OrderStatusType")
                         .HasColumnType("integer");
 
                     b.Property<string>("PaymentMethod")
@@ -1278,15 +1280,15 @@ namespace bizYeriz.Persistence.Migrations
 
             modelBuilder.Entity("bizYeriz.Domain.Entities.CompanyEntities.FavoriteCompany", b =>
                 {
-                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
+                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
                         .WithMany("FavoriteCompanies")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("bizYeriz.Domain.Entities.CompanyEntities.Company", "Company")
+                    b.HasOne("bizYeriz.Domain.Entities.AuthEntities.User", "User")
                         .WithMany("FavoriteCompanies")
-                        .HasForeignKey("CompanyId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
